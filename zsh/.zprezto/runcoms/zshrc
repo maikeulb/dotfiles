@@ -1,0 +1,66 @@
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+alias python='python3'
+
+# Executes commands at the start of an interactive session.
+PROJECT_HOME='/home/mike'
+VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+source /usr/local/bin/virtualenvwrapper.sh
+
+# make venv in project folder
+# source ~/.autoenv/activate.sh
+
+# require virutal environment
+export PIP_REQUIRE_VIRTUALENV=true
+
+gpip() {
+   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+
+#caching pakcages
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+# 256 colors
+[[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
+
+github-create() {
+  repo_name=$1
+
+  dir_name=`basename $(pwd)`
+
+  if [ "$repo_name" = "" ]; then
+    echo "Repo name (hit enter to use '$dir_name')?"
+    read repo_name
+  fi
+
+  if [ "$repo_name" = "" ]; then
+    repo_name=$dir_name
+  fi
+
+  username=`git config github.user`
+  if [ "$username" = "" ]; then
+    echo "Could not find username, run 'git config --global github.user <username>'"
+    invalid_credentials=1
+  fi
+
+  token=`git config github.token`
+  if [ "$token" = "" ]; then
+    echo "Could not find token, run 'git config --global github.token <token>'"
+    invalid_credentials=1
+  fi
+
+  echo -n "Creating Github repository '$repo_name' ..."
+  curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' > /dev/null 2>&1
+  echo " done."
+
+  echo -n "Pushing local code to remote ..."
+  git remote add origin git@github.com:$username/$repo_name.git > /dev/null 2>&1
+  git push -u origin master > /dev/null 2>&1
+  echo " done."
+}
