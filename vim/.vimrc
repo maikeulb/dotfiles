@@ -30,10 +30,9 @@ Plugin 'heavenshell/vim-quickrun-hook-unittest'
 Plugin 'simeji/winresizer'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'jeetsukumaran/vim-buffergator'
-"Plugin 'davidhalter/jedi-vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'junegunn/seoul256.vim'
-
+Plugin 'jpalardy/vim-slime'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -332,3 +331,11 @@ if &term =~ '^screen'
         " tmux knows the extended mouse mode
    set ttymouse=xterm2
 endif
+
+" vim-slime
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1
+
+" execute current buffer
+autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python %<CR>
+
