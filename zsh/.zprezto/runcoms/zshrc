@@ -10,7 +10,7 @@ alias python='python3'
 PROJECT_HOME='/home/mike'
 VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
+export PROJECT_HOME=$HOME
 source /usr/local/bin/virtualenvwrapper.sh
 
 # make venv in project folder
@@ -20,7 +20,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 export PIP_REQUIRE_VIRTUALENV=true
 
 gpip() {
-   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+  PIP_REQUIRE_VIRTUALENV="" pip "$@"
 }
 
 #caching pakcages
@@ -63,4 +63,9 @@ github-create() {
   git remote add origin git@github.com:$username/$repo_name.git > /dev/null 2>&1
   git push -u origin master > /dev/null 2>&1
   echo " done."
+}
+
+# view markdown in terminal
+rmd () {
+     pandoc $1 | lynx -stdin
 }
