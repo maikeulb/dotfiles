@@ -2,6 +2,30 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+
+"let g:rainbow_active = 0
+
+
+au syntax racket :RainbowParenthesesActivate
+au syntax racket :RainbowParenthesesLoadRound
+
+" Goya
+autocmd Filetype markdown call SetUpMk()
+function SetUpMk()
+    Goyo
+endfunction
+
+
+augroup markdown
+    autocmd Filetype markdown,mkd call SetUpMk()
+augroup END
+
+function! SetUpMk()
+    if !exists('#goyo')
+        Goyo
+    endif
+endfunction
+
 "set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -33,6 +57,13 @@ Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'junegunn/seoul256.vim'
 Plugin 'jpalardy/vim-slime'
+Plugin 'wlangstroth/vim-racket'
+Plugin 'tpope/vim-surround'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'guns/vim-sexp'
+Plugin 'tpope/vim-sexp-mappings-for-regular-people'
+Plugin 'tpope/vim-repeat'
+Plugin 'junegunn/goyo.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -339,3 +370,13 @@ let g:slime_python_ipython = 1
 " execute current buffer
 autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python %<CR>
 
+" lisp indent
+"
+autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
+
+  " By default vim will indent arguments after the function name
+  " but sometimes you want to only indent by 2 spaces similar to
+  " how DrRacket indents define. Set the `lispwords' variable to
+  " add function names that should have this type of indenting.
+
+set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
