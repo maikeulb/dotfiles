@@ -2,12 +2,16 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-
-"let g:rainbow_active = 0
-
-
+let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
 au syntax racket :RainbowParenthesesActivate
 au syntax racket :RainbowParenthesesLoadRound
+au BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
 
 " Goya
 autocmd Filetype markdown call SetUpMk()
@@ -64,6 +68,10 @@ Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-repeat'
 Plugin 'junegunn/goyo.vim'
+Plugin 'kovisoft/slimv'
+Plugin 'kana/vim-fakeclip'
+Plugin 'reedes/vim-pencil'
+Plugin 'wikitopian/hardmode'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -139,14 +147,15 @@ let g:syntastic_auto_loc_list=1
 let g:synatastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_signs=1
-let g:syntastic_python_python_exec='/path/to/python3'
+let g:syntastic_python_python_exec='/usr/bin/env python'
 let g:syntastic_loc_list_height=5
 let g:syntastic_mode_map = { 'mode': 'passive',
                           \ 'active_filetypes': [],
                           \ 'passive_filetypes': [] }
 let g:syntastic_auto_loc_list=1
 
-nnoremap <silent> fe :SyntasticCheck<CR>
+let mapleader = ","
+nnoremap <leader>fe :SyntasticCheck<CR>
 
 " code folding
 set foldmethod=indent
@@ -380,3 +389,8 @@ autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
   " add function names that should have this type of indenting.
 
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
+
+" Hard mode
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+
