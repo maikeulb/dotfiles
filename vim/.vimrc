@@ -1,8 +1,11 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 "Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
+"let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
 au syntax racket :RainbowParenthesesActivate
 au syntax racket :RainbowParenthesesLoadRound
 au BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
@@ -18,7 +21,6 @@ autocmd Filetype markdown call SetUpMk()
 function SetUpMk()
     Goyo
 endfunction
-
 
 augroup markdown
     autocmd Filetype markdown,mkd call SetUpMk()
@@ -47,7 +49,6 @@ Plugin 'jnurmine/Zenburn'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'thinca/vim-quickrun'
-Plugin 'benmills/vimux'
 Plugin 'The-NERD-Commenter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -68,7 +69,7 @@ Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-repeat'
 Plugin 'junegunn/goyo.vim'
-Plugin 'kovisoft/slimv'
+" Plugin 'kovisoft/slimv'
 Plugin 'kana/vim-fakeclip'
 Plugin 'reedes/vim-pencil'
 Plugin 'wikitopian/hardmode'
@@ -84,7 +85,6 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to
 " auto-approve removal
 "
-
 " show the matching part of the pair for [], {}, and ()
 set showmatch
 
@@ -125,9 +125,6 @@ set incsearch
 set ignorecase
 set smartcase
 
-" show matching part of pair
-set showmatch
-
 " enable all Python syntax highlighting features
 let python_highlight_all=1
 
@@ -152,7 +149,6 @@ let g:syntastic_loc_list_height=5
 let g:syntastic_mode_map = { 'mode': 'passive',
                           \ 'active_filetypes': [],
                           \ 'passive_filetypes': [] }
-let g:syntastic_auto_loc_list=1
 
 let mapleader = ","
 nnoremap <leader>fe :SyntasticCheck<CR>
@@ -216,12 +212,7 @@ set laststatus=2
 set t_Co=256
 
 " white space
-autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-
-" vimux
-let mapleader = ","
-nmap <leader>vq :VimuxCloseRunner<CR>
-nmap <leader>vp :VimuxPromptCommand<CR>
+" autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " quickrun
 let mapleader = ","
@@ -392,5 +383,5 @@ set lispwords+=public-method,override-method,private-method,syntax-case,syntax-r
 
 " Hard mode
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>

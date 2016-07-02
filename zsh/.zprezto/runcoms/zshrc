@@ -14,7 +14,7 @@ export PROJECT_HOME=$HOME
 source /usr/local/bin/virtualenvwrapper.sh
 
 # make venv in project folder
-# source ~/.autoenv/activate.sh
+source ~/.autoenv/activate.sh
 
 # require virutal environment
 export PIP_REQUIRE_VIRTUALENV=true
@@ -69,3 +69,7 @@ github-create() {
 rmd () {
      pandoc $1 | lynx -stdin
 }
+
+set -o vi
+set editing-mode vi
+bindkey jj vi-cmd-mode
