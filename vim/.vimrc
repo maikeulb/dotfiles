@@ -1,3 +1,13 @@
+" Modeline and Notes {
+ " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
+ " }
+
+ " Environment {
+     " Basics {
+     " }
+ " }
+
+
 scriptencoding utf-8
 set encoding=utf-8
 
@@ -43,7 +53,6 @@ Plugin 'Syntastic'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'nvie/vim-flake8'
-Plugin 'scrooloose/nerdtree'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'jnurmine/Zenburn'
 Plugin 'altercation/vim-colors-solarized'
@@ -73,7 +82,8 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'kana/vim-fakeclip'
 Plugin 'reedes/vim-pencil'
 Plugin 'wikitopian/hardmode'
-
+Plugin 'tpope/vim-vinegar'
+Plugin 'justinmk/vim-dirvish'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -166,26 +176,6 @@ let g:SimpylFold_fold_docstring=1
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 set laststatus=2
 
-" nerd tree
-let mapleader = ","
-nmap <leader>ne :NERDTree<CR>
-let g:NERDTreeDirArrows=0
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-function! s:CloseIfOnlyControlWinLeft()
-  if winnr("$") != 1
-    return
-  endif
-  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
-        \ || &buftype == 'quickfix'
-    q
-  endif
-endfunction
-augroup CloseIfOnlyControlWinLeft
-  au!
-  au BufEnter * call s:CloseIfOnlyControlWinLeft()
-augroup END
-
 " virtualenv support
 py << EOF
 import os
@@ -202,9 +192,6 @@ noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
 inoremap jj <Esc>
-
-" unicode encoding
-set encoding=utf-8
 
 " Powerline
 set rtp+=/usr/local/lib/python3.4/dist-packages/powerline/bindings/vttim/
@@ -243,7 +230,7 @@ noremap <c-n> :NumbersToggle<CR>
 " "      \     'outputter/buffer/into' : 1,
 "       \},
 "       \}
-" 
+
 "# augroup QuickRunUnitTest
 "#   autocmd!
 "#   autocmd BufWinEnter,BufNewFile *test.php setlocal filetype=php.unit
@@ -254,12 +241,8 @@ noremap <c-n> :NumbersToggle<CR>
 "#   autocmd BufWinEnter,BufNewFile *_test.go setlocal filetype=go.test
 "# augroup END
 "# let g:quickrun_config = {}
-"# let g:quickrun_config['php.unit']      = { 'command': 'testrunner', 'cmdopt': 'phpunit' }
 "# let g:quickrun_config['python.pytest'] = { 'command': 'py.test',    'cmdopt': '-v'      }
-"# let g:quickrun_config['ruby.rspec']    = { 'command': 'rspec',      'cmdopt': '-f d'    }
-"# let g:quickrun_config['ruby.minitest'] = { 'command': 'ruby'                            }
-"# let g:quickrun_config['go.test']       = { 'command': 'go',         'cmdopt': 'test -v' }
-"# 
+"#
 " If you want to start window resize mode by `Ctrl+T`
 let g:winresizer_start_key = '<C-T>'
 
@@ -371,7 +354,7 @@ let g:slime_python_ipython = 1
 autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python %<CR>
 
 " lisp indent
-"
+
 autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
 
   " By default vim will indent arguments after the function name
@@ -381,7 +364,30 @@ autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
 
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
 
-" Hard mode
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+"" Hard mode
+"" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+
+function ShowSpaces(...)
+  let @/='\v(\s+$)|( +\ze\t)'
+  let oldhlsearch=&hlsearch
+  if !a:0
+    let &hlsearch=!&hlsearch
+  else
+    let &hlsearch=a:1
+  end
+  return oldhlsearch
+endfunction
+
+function TrimSpaces() range
+  let oldhlsearch=ShowSpaces(1)
+  execute a:firstline.",".a:lastline."substitute ///gec"
+  let &hlsearch=oldhlsearch
+endfunction
+
+command -bar -nargs=? ShowSpaces call ShowSpaces(<args>)
+command -bar -nargs=0 -range=% TrimSpaces <line1>,<line2>call TrimSpaces()
+nnoremap <F12>     :ShowSpaces 1<CR>
+nnoremap <S-F12>   m`:TrimSpaces<CR>``
+vnoremap <S-F12>   :TrimSpaces<CR>
