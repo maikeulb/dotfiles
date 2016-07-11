@@ -65,6 +65,22 @@ github-create() {
   echo " done."
 }
 
+# startbitbucket - creates remote bitbucket repo and adds it as git remote to cwd
+function bitbucket-create {
+    echo 'Username?'
+    read username
+    echo 'Password?'
+    read -s password  # -s flag hides password text
+    echo 'Repo name?'
+    read reponame
+
+    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
+    git remote add origin git@bitbucket.org:$username/$reponame.git
+    git push -u origin --all
+    git push -u origin --tags
+}
+
+
 # view markdown in terminal
 rmd () {
      pandoc $1 | lynx -stdin
@@ -73,3 +89,45 @@ rmd () {
 set -o vi
 set editing-mode vi
 bindkey jj vi-cmd-mode
+
+# find dirty
+function unstaged_changes() {
+    worktree=${1%/*};
+    git --git-dir="$1" --work-tree="$worktree" diff-files --quiet --ignore-submodules --
+}
+
+function uncommited_changes() {
+    worktree=${1%/*};
+    git --git-dir="$1" --work-tree="$worktree" diff-index --cached --quiet HEAD --ignore-submodules --
+}
+
+function find-dirty () {
+    for gitdir in `find . -name .git`;
+    do
+        worktree=${gitdir%/*};
+        if ! unstaged_changes $gitdir
+        then
+            echo "unstaged     $gitdir"
+        fi
+
+        if ! uncommited_changes $gitdir
+        then
+            echo "uncommitted  $gitdir"
+        fi
+    done
+}
+
+# startbitbucket - creates remote bitbucket repo and adds it as git remote to cwd
+function startbitbucket {
+    echo 'Username?'
+    read username
+    echo 'Password?'
+    read -s password  # -s flag hides password text
+    echo 'Repo name?'
+    read reponame
+
+    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
+    git remote add origin git@bitbucket.org:$username/$reponame.git
+    git push -u origin --all
+    git push -u origin --tags
+}
