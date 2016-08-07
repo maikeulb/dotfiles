@@ -6,7 +6,6 @@ alias sz='source ~/.zshrc'
 alias ez='vim ~/.zshrc'
 alias ezp='vim ~/.zpreztorc'
 alias ev='vim ~/.vimrc'
-alias sv='source ~/.vimrc'
 
 alias h='history'
 alias remove='sudo apt-get --purge remove'
