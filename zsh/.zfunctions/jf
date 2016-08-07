@@ -1,0 +1,6 @@
+# Changes to directory containing selected file
+local file
+local dir
+file=$(fzf +m -q "$1")\
+    && dir=$(dirname "$file")
+[ -d "$dir" ] && pushd "$dir"
