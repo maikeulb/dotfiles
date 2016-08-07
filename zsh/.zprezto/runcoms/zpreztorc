@@ -33,59 +33,45 @@ zstyle ':prezto:load' pmodule \
   'utility' \
   'completion' \
   'prompt'\
+  'syntax-highlighting' \
   'history-substring-search' \
-  'git'
+  'git' \
+  'fasd' \
+  'tmux' \
+  'autosuggestions' \
 
 #
 # Autosuggestions
 #
 
+# Enable highlighting
+zstyle ':prezto:module:autosuggestions' color 'yes'
+
 # Set the query found color.
-zstyle ':prezto:module:autosuggestions:color' found ''
+zstyle ':prezto:module:autosuggestions:color' found 'fg=14'
 
 #
 # Editor
 #
 
 # Set the key mapping style to 'emacs' or 'vi'.
-zstyle ':prezto:module:editor' key-bindings 'vi'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Auto convert .... to ../..
-# zstyle ':prezto:module:editor' dot-expansion 'yes'
-
-#
-# Git
-#
-
-# Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
-zstyle ':prezto:module:git:status:ignore' submodules 'all'
-
-#
-# GNU Utility
-#
-
-# Set the command prefix on non-GNU systems.
-# zstyle ':prezto:module:gnu-utility' prefix 'g'
+zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 #
 # History Substring Search
 #
 
 # Set the query found color.
-# zstyle ':prezto:module:history-substring-search:color' found ''
+zstyle ':prezto:module:history-substring-search:color' found ''
 
 # Set the query not found color.
-# zstyle ':prezto:module:history-substring-search:color' not-found ''
+zstyle ':prezto:module:history-substring-search:color' not-found ''
 
 # Set the search globbing flags.
-# zstyle ':prezto:module:history-substring-search' globbing-flags ''
-
-#
-# Pacman
-#
-
-# Set the Pacman frontend.
-# zstyle ':prezto:module:pacman' frontend 'yaourt'
+zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
 #
 # Prompt
@@ -95,23 +81,6 @@ zstyle ':prezto:module:git:status:ignore' submodules 'all'
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
 zstyle ':prezto:module:prompt' theme 'nicoulaj'
-
-#
-# Ruby
-#
-
-# Auto switch the Ruby version on directory change.
-# zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
-
-#
-# Screen
-#
-
-# Auto start a session when Zsh is launched in a local terminal.
-# zstyle ':prezto:module:screen:auto-start' local 'yes'
-
-# Auto start a session when Zsh is launched in a SSH connection.
-# zstyle ':prezto:module:screen:auto-start' remote 'yes'
 
 #
 # SSH
@@ -124,21 +93,39 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
 # Syntax Highlighting
 #
 
+# Enable highlighting colors
+zstyle ':prezto:module:syntax-highlighting' color 'yes'
+
 # Set syntax highlighters.
 # By default, only the main highlighter is enabled.
-# zstyle ':prezto:module:syntax-highlighting' highlighters \
-#  'main' \
-#  'brackets' \
-#  'pattern' \
-#  'line' \
-#  'cursor' \
-#  'root'
+zstyle ':prezto:module:syntax-highlighting' highlighters \
+ 'main' \
+ 'brackets' \
+ 'pattern' \
+ 'line' \
+ 'cursor' \
+ 'root'
 #
-# Set syntax highlighting styles.
-# zstyle ':prezto:module:syntax-highlighting' styles \
-#  'builtin' 'bg=blue' \
-#  'command' 'bg=blue' \
-#  'function' 'bg=blue'
+# Set the syntax highlight styles.
+if [[ "$(tput colors)" == "256"  ]]; then
+     zstyle ':prezto:module:syntax-highlighting' styles \
+         'alias'                  'fg=26'               \
+         'builtin'                'fg=26'               \
+         'command'                'fg=26'               \
+         'commandseparator'       'fg=45'               \
+         'default'                'fg=45'               \
+         'double-hyphen-option'   'fg=39'               \
+         'double-quoted-argument' 'fg=45'               \
+         'function'               'fg=26'               \
+         'globbing'               'fg=39,bold'          \
+         'hashed-command'         'fg=26'               \
+         'history-expansion'      'fg=39'               \
+         'path'                   'fg=39'               \
+         'precommand'             'fg=36'               \
+         'reserved-word'          'fg=36'               \
+         'single-hyphen-option'   'fg=39'               \
+         'single-quoted-argument' 'fg=45'
+fi
 
 #
 # Terminal
@@ -158,10 +145,17 @@ zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 #
 
 # Auto start a session when Zsh is launched in a local terminal.
-# zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:auto-start' local 'yes'
 
 # Auto start a session when Zsh is launched in a SSH connection.
 # zstyle ':prezto:module:tmux:auto-start' remote 'yes'
 
-# Integrate with iTerm2.
-# zstyle ':prezto:module:tmux:iterm' integrate 'yes'
+#
+# Git
+#
+
+# The format of git-log output is configurable: brief, oneline, and medium
+zstyle ':prezto:module:git:log:context' format 'oneline'
+
+# Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
+zstyle ':prezto:module:git:status:ignore' submodules 'all'

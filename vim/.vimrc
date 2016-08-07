@@ -6,7 +6,18 @@
      " Basics {
      " }
  " }
+" set scrolloff
+set scrolloff=5
 
+" set clipboard
+set clipboard=unnamedplus
+
+" remaps
+let mapleader = "\<Space>"
+nnoremap <Leader>w :w<CR>
+
+"exerimental
+set ruler
 
 scriptencoding utf-8
 set encoding=utf-8
@@ -23,7 +34,7 @@ au BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
+  "  autocmd FileType text         call pencil#init()
 augroup END
 
 " Goya
@@ -54,22 +65,20 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'jnurmine/Zenburn' " review
+Plugin 'altercation/vim-colors-solarized' "review
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'thinca/vim-quickrun'
-Plugin 'The-NERD-Commenter'
 Plugin 'kien/ctrlp.vim'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'easymotion/vim-easymotion'
+Plugin 'tpope/vim-commentary'
 Plugin 'alfredodeza/pytest.vim'
-Plugin 'myusuf3/numbers.vim'
+Plugin 'myusuf3/numbers.vim' "review
 Plugin 'heavenshell/vim-quickrun-hook-unittest'
-Plugin 'simeji/winresizer'
-Plugin 'Shougo/vimproc.vim'
+Plugin 'simeji/winresizer' "review
+Plugin 'Shougo/vimproc.vim' "review
 Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'junegunn/seoul256.vim'
+Plugin 'jmcantrell/vim-virtualenv' "review
+Plugin 'junegunn/seoul256.vim' "review
 Plugin 'jpalardy/vim-slime'
 Plugin 'wlangstroth/vim-racket'
 Plugin 'tpope/vim-surround'
@@ -79,11 +88,21 @@ Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-repeat'
 Plugin 'junegunn/goyo.vim'
 " Plugin 'kovisoft/slimv'
-Plugin 'kana/vim-fakeclip'
+Plugin 'kana/vim-fakeclip' " review
 Plugin 'reedes/vim-pencil'
 Plugin 'wikitopian/hardmode'
 Plugin 'tpope/vim-vinegar'
 Plugin 'justinmk/vim-dirvish'
+Plugin 'tell-k/vim-autopep8'
+Plugin 'tell-k/vim-autoflake'
+Plugin 'justinmk/vim-sneak'
+Plugin 'wellle/targets.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'xolox/vim-notes'
+Plugin 'xolox/vim-misc'
+Plugin 'freitass/todo.txt-vim'
+Plugin 'ervandew/supertab'
+Plugin 'davidhalter/jedi'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -149,7 +168,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list=1
+let g:syntastic_always_populate_loc_list=0
 let g:syntastic_auto_loc_list=1
 let g:synatastic_check_on_open=1
 let g:syntastic_check_on_wq=0
@@ -160,7 +179,7 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                           \ 'active_filetypes': [],
                           \ 'passive_filetypes': [] }
 
-let mapleader = ","
+let mapleader = "\<Space>"
 nnoremap <leader>fe :SyntasticCheck<CR>
 
 " code folding
@@ -202,16 +221,13 @@ set t_Co=256
 " autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " quickrun
-let mapleader = ","
+let mapleader = "\<Space>"
 nmap <leader>qr :QuickRun<CR>
 let g:quickrun_config  = {
            \   "_" : {
            \   "outputter/buffer/split" : ":botright 8sp",
            \   },
            \}
-
-" nerdcommenter
-filetype plugin on
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
@@ -290,10 +306,6 @@ nmap <leader>bl :BuffergatorOpen<cr>
 " Shared bindings from Solution #1 from earlier
 nmap <leader>T :enew<cr>
 nmap <leader>bq :bp <BAR> bd #<cr>
-
-" jedi-vim
-
-let g:jedi#use_splits_not_buffers = "left"
 
 " colorscheme
 "set t_Co=256
@@ -415,3 +427,50 @@ function! XTermPasteBegin()
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" autopep8
+let mapleader = "\<Space>"
+nnoremap <leader>pp :Autopep8<CR>
+let g:autopep8_disable_show_diff=1
+
+let mapleader = "\<Space>"
+nnoremap <leader>ff :Autoflake<CR>
+let g:autoflake_disable_show_diff=1
+
+" vim.sneak
+nmap f <Plug>Sneak_s
+nmap F <Plug>Sneak_S
+xmap f <Plug>Sneak_s
+xmap F <Plug>Sneak_S
+omap f <Plug>Sneak_s
+omap F <Plug>Sneak_S
+
+" map explore
+let mapleader = "\<Space>"
+nnoremap <leader>ee :Explore<CR>
+
+" Shortcuts for moving between tabs.
+" Alt-j to move to the tab to the left
+noremap <A-j> gT
+" Alt-k to move to the tab to the right
+noremap <A-k> gt
+
+" Source vimrc
+nnoremap <leader>sv :source $MYVIMRC
+nnoremap <leader>ev :edit $MYVIMRC<cr>
+nnoremap <leader>td :edit ~/Dropbox/todo/todo.txt<CR>
+
+" insert space
+nnoremap ss i<space><esc>
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
+let g:jedi#popup_on_dot = 0
+"let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+
+" http://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim/1414845#1414845
+" https://www.reddit.com/r/vim/comments/2zky2t/how_to_make_custom_commands_for_different_file/
+" http://kdubois.net/2009/10/19/get-the-most-out-of-vim-with-filetype-detection/

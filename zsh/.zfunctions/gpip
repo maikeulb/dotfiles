@@ -1,0 +1,2 @@
+# Toggle PIP requirements for virtualenv
+PIP_REQUIRE_VIRTUALENV="" pip "$@"

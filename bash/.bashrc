@@ -131,3 +131,5 @@ POWERLINE_BASH_SELECT=1
 . /usr/local/lib/python3.4/dist-packages/powerline/bindings/bash/powerline.sh
 
 export PROJECT_HOME=$HOME
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

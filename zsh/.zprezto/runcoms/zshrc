@@ -1,133 +1,52 @@
-# Source Prezto.
+# Source Prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
-alias python='python3'
+# Source aliases
+[ -f ~/.zaliases ] && source ~/.zaliases
 
-# Executes commands at the start of an interactive session.
-PROJECT_HOME='/home/mike'
-VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME
-source /usr/local/bin/virtualenvwrapper.sh
+# Source fuzzyfinder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# make venv in project folder
+# Source Auto env
 source ~/.autoenv/activate.sh
 
-# require virutal environment
-export PIP_REQUIRE_VIRTUALENV=true
+# Update fpath and autoload custom functions
+fpath=($HOME/.zfunctions $fpath)
+autoload -U compaudit compinit
 
-gpip() {
-  PIP_REQUIRE_VIRTUALENV="" pip "$@"
+# Fasd/fzf functions
+# Jump to frequently used directories with tab completition
+j() {
+        local dir="$(fasd -ld "$@")"
+            [[ -d "$dir" ]] && pushd "$dir"
+        }
+
+# Sort directories by frecency, fzf to drill down, then pushd
+jj() {
+    local dir
+    dir=$(fasd -Rdl |\
+        sed "s:$HOME:~:" |\
+        fzf --no-sort +m -q "$*" |\
+        sed "s:~:$HOME:")\
+    && pushd "$dir"
 }
 
-#caching pakcages
-export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-
-# 256 colors
-[[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
-
-github-create() {
-  repo_name=$1
-
-  dir_name=`basename $(pwd)`
-
-  if [ "$repo_name" = "" ]; then
-    echo "Repo name (hit enter to use '$dir_name')?"
-    read repo_name
-  fi
-
-  if [ "$repo_name" = "" ]; then
-    repo_name=$dir_name
-  fi
-
-  username=`git config github.user`
-  if [ "$username" = "" ]; then
-    echo "Could not find username, run 'git config --global github.user <username>'"
-    invalid_credentials=1
-  fi
-
-  token=`git config github.token`
-  if [ "$token" = "" ]; then
-    echo "Could not find token, run 'git config --global github.token <token>'"
-    invalid_credentials=1
-  fi
-
-  echo -n "Creating Github repository '$repo_name' ..."
-  curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' > /dev/null 2>&1
-  echo " done."
-
-  echo -n "Pushing local code to remote ..."
-  git remote add origin git@github.com:$username/$repo_name.git > /dev/null 2>&1
-  git push -u origin master > /dev/null 2>&1
-  echo " done."
+# List directories using find
+jd() {
+    local dir
+    dir=$(find ${1:-*} -path '*/\.*'\
+        -prune -o -type d\
+        -print 2> /dev/null | fzf +m)
+    [ -d "$dir" ] && pushd "$dir"
 }
 
-# startbitbucket - creates remote bitbucket repo and adds it as git remote to cwd
-function bitbucket-create {
-    echo 'Username?'
-    read username
-    echo 'Password?'
-    read -s password  # -s flag hides password text
-    echo 'Repo name?'
-    read reponame
-
-    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
-    git remote add origin git@bitbucket.org:$username/$reponame.git
-    git push -u origin --all
-    git push -u origin --tags
-}
-
-
-# view markdown in terminal
-rmd () {
-     pandoc $1 | lynx -stdin
-}
-
-set -o vi
-set editing-mode vi
-bindkey jj vi-cmd-mode
-
-# find dirty
-function unstaged_changes() {
-    worktree=${1%/*};
-    git --git-dir="$1" --work-tree="$worktree" diff-files --quiet --ignore-submodules --
-}
-
-function uncommited_changes() {
-    worktree=${1%/*};
-    git --git-dir="$1" --work-tree="$worktree" diff-index --cached --quiet HEAD --ignore-submodules --
-}
-
-function find-dirty () {
-    for gitdir in `find . -name .git`;
-    do
-        worktree=${gitdir%/*};
-        if ! unstaged_changes $gitdir
-        then
-            echo "unstaged     $gitdir"
-        fi
-
-        if ! uncommited_changes $gitdir
-        then
-            echo "uncommitted  $gitdir"
-        fi
-    done
-}
-
-# startbitbucket - creates remote bitbucket repo and adds it as git remote to cwd
-function startbitbucket {
-    echo 'Username?'
-    read username
-    echo 'Password?'
-    read -s password  # -s flag hides password text
-    echo 'Repo name?'
-    read reponame
-
-    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
-    git remote add origin git@bitbucket.org:$username/$reponame.git
-    git push -u origin --all
-    git push -u origin --tags
+# Changes to directory containing selected file
+jf() {
+    local file
+    local dir
+    file=$(fzf +m -q "$1")\
+        && dir=$(dirname "$file")
+    [ -d "$dir" ] && pushd "$dir"
 }
