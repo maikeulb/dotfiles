@@ -1,11 +1,13 @@
 alias python='python3'
-alias td='vim /home/mike/Dropbox/todo/todo.txt'
+alias td='nvim /home/mike/Dropbox/todo/todo.txt'
 alias rm='echo "This is not the command you are looking for."; false'
+# alias vim='echo "This is not the command you are looking for."; false'
 alias t='/home/mike/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg'
 alias sz='source ~/.zshrc'
-alias ez='vim ~/.zshrc'
-alias ezp='vim ~/.zpreztorc'
+alias ez='nvim ~/.zshrc'
+alias ezp='nvim ~/.zpreztorc'
 alias ev='vim ~/.vimrc'
+alias envim='nvim ~/.config/nvim/init.vim'
 
 alias h='history'
 alias remove='sudo apt-get --purge remove'
@@ -22,3 +24,5 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 alias df='df -H'
 alias du='du -ch'
 alias fhere="find . -name "
+
+alias tmux="TERM=screen-256color-bce tmux"

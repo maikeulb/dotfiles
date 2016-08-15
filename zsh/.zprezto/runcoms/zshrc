@@ -1,17 +1,35 @@
-# Source Prezto
+# Modeline and Notes {
+# vim: set sw=4 ts=4 sts=4 et tw=79 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+# }
+
+
+# Source Prezto {
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+# }
 
-# Source aliases
+
+# Source Aliases {
 [ -f ~/.zaliases ] && source ~/.zaliases
+# }
 
-# Source fuzzyfinder
+
+# Source Fuzzyfinder {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# }
 
-# Source Auto env
+# Source K {
+[ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
+# }
+
+
+# Source Auto Env {
 source ~/.autoenv/activate.sh
+# }
 
-# Update fpath and autoload custom functions
-fpath=($HOME/.zfunctions $fpath)
+
+# Auotload Custom Functions {
+fpath=(~HOME/.zfunctions $fpath)
 autoload -U compaudit compinit
+# }
