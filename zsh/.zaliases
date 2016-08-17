@@ -1,7 +1,6 @@
 alias python='python3'
 alias td='nvim /home/mike/Dropbox/todo/todo.txt'
 alias rm='echo "This is not the command you are looking for."; false'
-# alias vim='echo "This is not the command you are looking for."; false'
 alias t='/home/mike/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg'
 alias sz='source ~/.zshrc'
 alias ez='nvim ~/.zshrc'
