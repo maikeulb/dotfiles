@@ -26,6 +26,4 @@ alias fhere="find . -name "
 
 alias tmux="TERM=screen-256color-bce tmux"
 alias v='f -t -e vim -b viminfo'
-alias n='nfasd -e nvim'
-
-
+alias n='f -e nvim' # quick opening files with nvim

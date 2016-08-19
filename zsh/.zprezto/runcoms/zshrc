@@ -57,3 +57,6 @@ eval "$(register-python-argcomplete-menu nfasd)"
 # stop shell from beeping for every complete
 # optional but highly recommended
 setopt NO_LIST_BEEP
+
+. /usr/share/autojump/autojump.sh
+

@@ -1,6 +1,6 @@
 "Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=79 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-" }
+":}
 
 "Environment {
     set nocompatible      " Use vim settings instead of vi settings
@@ -295,8 +295,16 @@ call plug#begin('~/.vim/bundle')
 
     " General {
    Plug 'bfredl/nvim-ipy'
+Plug 'svermeulen/vim-easyclip'
+" Plug 'jgdavey/tslime.vim'
+" Plug 'bling/vim-bufferline'
+" Plug 'julienr/vimux-pyutils'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'qpkorr/vim-bufkill'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'majutsushi/tagbar'
     Plug 'tpope/vim-fugitive'
-Plug 'jgors/vimux-ipy'
+" Plug 'jgors/vimux-ipy'
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-abolish'
 Plug 'edkolev/promptline.vim'
@@ -332,7 +340,6 @@ Plug 'janko-m/vim-test'
     Plug 'jpalardy/vim-slime'
     Plug 'wlangstroth/vim-racket'
 Plug 'kassio/neoterm'
-" Plug 'trotter/autojump.vim'
     " }
 
     " Lisp {
@@ -357,9 +364,6 @@ Plug 'kassio/neoterm'
     Plug 'ervandew/supertab'
     Plug 'terryma/vim-expand-region'
     Plug 'davidhalter/jedi'
-    " Plug 'Valloric/YouCompleteMe'
-    " Plug 'vim-airline/vim-airline-themes'
-    " Plug 'SirVer/ultisnips'
     Plug 'airblade/vim-gitgutter'
 "    Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet'
@@ -370,11 +374,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'neomake/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
-" Plug 'xolox/vim-easytags'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'wellle/tmux-complete.vim'
 Plug 'benmills/vimux'
-Plug 'julienr/vimux-pyutils'
 Plug 'airblade/vim-rooter'
 
 "vimux
@@ -936,8 +938,23 @@ map <silent> <c-s>   <Plug>(IPy-Run)
 map <silent> <c-c>   <Plug>(IPy-Terminate)
 
 map <Leader>vip :call VimuxIpy()<CR>
-vmap <silent> <Leader>e :python run_visual_code()<CR>
+" vmap <silent> <Leader>e :python run_visual_code()<CR>
 
 " ctags, upward search
 set tags=./tags;
 
+" autojump directories in vim
+" fasd vim files
+"
+let g:slime_target = "tmux"
+
+let g:slime_paste_file = "$HOME/.slime_paste"
+" or maybe...
+let g:slime_paste_file = tempname()
+"tslime
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
+
+" vim plugin for line delete except for CR
+"
