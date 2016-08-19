@@ -16,6 +16,8 @@
     scriptencoding utf-8        " Encoding that is written (script)
     set autoread                " automatically reload files changed outside of Vim
 
+
+
 " Enable omni completion. (Ctrl-X Ctrl-O)
 " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -37,14 +39,14 @@ set cot-=preview
 " "disable doc preview in omnicomplete
 
 
-    " Use + register for copy-paste
-    if has('clipboard')
-        if has('unnamedplus')
-            set clipboard=unnamed,unnamedplus
-        else
-            set clipboard=unnamed
-        endif
-    endif
+    " " Use + register for copy-paste
+    " if has('clipboard')
+    "     if has('unnamedplus')
+    "         set clipboard=unnamed,unnamedplus
+    "     else
+    "         set clipboard=unnamed
+    "     endif
+    " endif
 
     set shortmess+=filmnrxoOtT      " Abbrev messages (avoids 'hit enter')
     set spell                       " Spell checking on
@@ -55,9 +57,9 @@ set cot-=preview
     set noswapfile                  " No swap files.
     set history=1000                " Store a ton of history (default is 20)
 
-    " Always switch to the current file directory
-    autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-" }
+    " " Always switch to the current file directory
+    " autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+" " }
 
 
 " Vim UI {
@@ -269,15 +271,15 @@ set cot-=preview
 
     noremap <leader>bg :call ToggleBG()<CR>
 
-" Virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
+" " Virtualenv support
+" py << EOF
+" import os
+" import sys
+" if 'VIRTUAL_ENV' in os.environ:
+"     project_base_dir = os.environ['VIRTUAL_ENV']
+"     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"     execfile(activate_this, dict(__file__=activate_this))
+" EOF
 
 " }
 
@@ -292,18 +294,28 @@ call plug#begin('~/.vim/bundle')
 " Plugins {
 
     " General {
+   Plug 'bfredl/nvim-ipy'
     Plug 'tpope/vim-fugitive'
-    Plug 'Syntastic'
+Plug 'jgors/vimux-ipy'
+    Plug 'tpope/vim-eunuch'
+    Plug 'tpope/vim-abolish'
+Plug 'edkolev/promptline.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'idanarye/vim-merginal'
+Plug 'junegunn/gv.vim'
+Plug 'mattn/emmet-vim'
+Plug 'edkolev/tmuxline.vim'
+" Plug 'gregsexton/gitv'
+Plug 'paddle/jump.vim'
+    " Plug 'Syntastic'
     Plug 'tmhedberg/SimpylFold'
     Plug 'vim-scripts/indentpython.vim'
     Plug 'nvie/vim-flake8'
-
-    Plug 'vim-airline/vim-airline'
-    Plug 'powerline/fonts'
-    Plug 'jnurmine/Zenburn' " review
+    Plug 'tpope/vim-dispatch'
+    Plug 'sheerun/vim-polyglot'
+    " Plug 'vim-airline/vim-airline'
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'thinca/vim-quickrun'
-    Plug 'honza/vim-snippets'
+    " Plug 'honza/vim-snippets'
 Plug 'janko-m/vim-test'
 
     " }
@@ -313,8 +325,6 @@ Plug 'janko-m/vim-test'
     Plug 'tpope/vim-commentary'
     Plug 'alfredodeza/pytest.vim'
     Plug 'myusuf3/numbers.vim' "review
-    Plug 'heavenshell/vim-quickrun-hook-unittest'
-    Plug 'simeji/winresizer' "review
     Plug 'Shougo/vimproc' "review
     Plug 'jeetsukumaran/vim-buffergator'
     Plug 'jmcantrell/vim-virtualenv'
@@ -322,7 +332,7 @@ Plug 'janko-m/vim-test'
     Plug 'jpalardy/vim-slime'
     Plug 'wlangstroth/vim-racket'
 Plug 'kassio/neoterm'
-Plug 'alfredodeza/pytest.vim'
+" Plug 'trotter/autojump.vim'
     " }
 
     " Lisp {
@@ -334,7 +344,6 @@ Plug 'alfredodeza/pytest.vim'
     Plug 'junegunn/goyo.vim'
     " Plug 'kovisoft/slimv'
     Plug 'reedes/vim-pencil'
-    Plug 'wikitopian/hardmode'
     Plug 'tpope/vim-vinegar'
     Plug 'justinmk/vim-dirvish'
     Plug 'tell-k/vim-autopep8'
@@ -349,29 +358,27 @@ Plug 'alfredodeza/pytest.vim'
     Plug 'terryma/vim-expand-region'
     Plug 'davidhalter/jedi'
     " Plug 'Valloric/YouCompleteMe'
-    Plug 'vim-airline/vim-airline-themes'
+    " Plug 'vim-airline/vim-airline-themes'
     " Plug 'SirVer/ultisnips'
     Plug 'airblade/vim-gitgutter'
 "    Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'shougo/vimshell.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'Raimondi/delimitMate'
-    Plug 'benekastah/neomake'
+    Plug 'neomake/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
 " Plug 'xolox/vim-easytags'
-" Plug 'xolox/vim-misc'
-" Plug 'vim-scripts/TagHighlight'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'wellle/tmux-complete.vim'
 Plug 'benmills/vimux'
 Plug 'julienr/vimux-pyutils'
+Plug 'airblade/vim-rooter'
 
 "vimux
-afutocmd! BufWritePost * Neomake
+autocmd! BufWritePost * Neomake
 
 
 " "rope
@@ -849,10 +856,88 @@ let test#python#runner = 'pytest'
 " git hooks: lint and python runner, after save?
 " vimux, full appreciation?
 " test.vim, full apptretiation
-" undu, mini vcs
-" abolish
-" mru
-" dispatch
-" exchange
 " argtextobj
-" dispatch/makeau
+"
+" let neomake_verbose = 0
+" let g:neomake_open_list = 1
+" let g:neomake_javascript_enabled_makers = ['eslint']
+
+" let g:neomake_javascript_eslint_maker = {
+"     \ 'args': ['--no-color', '--format', 'compact', '--config', '~/.eslintrc.json'],
+"     \ 'errorformat': '%f: line %l\, col %c\, %m'
+"     \ }
+
+" Look for local eslint and if not use globally installed one
+" let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+" let g:neomake_javascript_eslint_exe=substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+" let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+autocmd! VimLeave * let g:neomake_verbose = 0
+
+" vim rooter
+let g:rooter_patterns = ['.git/']
+" let g:rooter_silent_chdir = 1
+" let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_change_directory_for_non_project_files = 'home'
+
+ " Z - cd to recent / frequent directories
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...)
+  let cmd = 'fasd -d -e printf'
+  for arg in a:000
+    let cmd = cmd . ' ' . arg
+  endfor
+  let path = system(cmd)
+  if isdirectory(path)
+    echo path
+    exec 'cd ' . path
+  endif
+endfunction
+
+" Put plugins and dictionaries in this dir (also on Windows)
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    let myUndoDir = expand(vimDir . '/undodir')
+    " Create dirs
+    call system('mkdir ' . vimDir)
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
+    set undofile
+endif
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
+
+"emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+"lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" Vimux
+ function! VimuxSlime()
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+ endfunction
+
+ " If text is selected, save it in the v buffer and send that buffer it to tmux
+ vmap <leader>vs "vy :call VimuxSlime()<CR>
+
+ " Select current paragraph and send it to tmux
+ nmap <leader>vs vip<LocalLeader>vs<CR><Paste>
+
+" nvim ipython
+let g:nvim_ipy_perform_mappings = 0
+map <silent> <c-s>   <Plug>(IPy-Run)
+map <silent> <c-c>   <Plug>(IPy-Terminate)
+
+map <Leader>vip :call VimuxIpy()<CR>
+vmap <silent> <Leader>e :python run_visual_code()<CR>
+
+" ctags, upward search
+set tags=./tags;
+

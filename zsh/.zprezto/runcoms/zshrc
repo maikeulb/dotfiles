@@ -51,3 +51,9 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load --verbose
 # }
+
+
+eval "$(register-python-argcomplete-menu nfasd)"
+# stop shell from beeping for every complete
+# optional but highly recommended
+setopt NO_LIST_BEEP

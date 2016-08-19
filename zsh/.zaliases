@@ -25,3 +25,7 @@ alias du='du -ch'
 alias fhere="find . -name "
 
 alias tmux="TERM=screen-256color-bce tmux"
+alias v='f -t -e vim -b viminfo'
+alias n='nfasd -e nvim'
+
+
