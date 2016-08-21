@@ -1,6 +1,6 @@
 "Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=79 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-":}
+
 
 "Environment {
     set nocompatible      " Use vim settings instead of vi settings
@@ -64,6 +64,7 @@ set cot-=preview
 
 " Vim UI {
     set backspace=indent,eol,start  " Backspace for dummies
+set relativenumber
     set number                      " Line numbers on
     set textwidth=79                " Set text-width
     set showmatch                   " Show matching brackets/parenthesis
@@ -73,6 +74,7 @@ set cot-=preview
     set smartcase                   " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
     set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set gdefault
     set scrolloff=5                 " Minimum lines to keep above and below cursor
     set foldenable                  " Auto fold code
     set colorcolumn=80
@@ -137,6 +139,8 @@ set cot-=preview
 
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
+    map <Leader>" <C-w>|
+    map <Leader>% <C-w>
 
     " Easier horizontal scrolling
     map zl zL
@@ -294,52 +298,50 @@ call plug#begin('~/.vim/bundle')
 " Plugins {
 
     " General {
-   Plug 'bfredl/nvim-ipy'
-Plug 'svermeulen/vim-easyclip'
-" Plug 'jgdavey/tslime.vim'
-" Plug 'bling/vim-bufferline'
-" Plug 'julienr/vimux-pyutils'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'qpkorr/vim-bufkill'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'majutsushi/tagbar'
-    Plug 'tpope/vim-fugitive'
-" Plug 'jgors/vimux-ipy'
+    Plug 'bfredl/nvim-ipy'
+    Plug 'svermeulen/vim-easyclip'
+Plug 'szw/vim-maximizer'
+Plug 'vim-airline/vim-airline-themes'
+    Plug 'ternjs/tern_for_vim'
+    Plug 'ramitos/jsctags'
+    Plug 'mbbill/undotree'
+    " Plug 'ivanov/vim-ipython' " depcricated in favor of nvim-ipy
+    " Plug 'bling/vim-bufferline' "depcricated
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'qpkorr/vim-bufkill'
+    Plug 'janko-m/vim-test' " review
+    Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'vim-airline/vim-airline'
+    " Plug 'kassio/neoterm' "review
+    Plug 'majutsushi/tagbar'
+    Plug 'tpope/vim-fugitive' "review last
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-abolish'
-Plug 'edkolev/promptline.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'idanarye/vim-merginal'
-Plug 'junegunn/gv.vim'
-Plug 'mattn/emmet-vim'
-Plug 'edkolev/tmuxline.vim'
-" Plug 'gregsexton/gitv'
-Plug 'paddle/jump.vim'
-    " Plug 'Syntastic'
+    Plug 'edkolev/promptline.vim'
+    Plug 'idanarye/vim-merginal' "review last
+    Plug 'junegunn/gv.vim'
+    Plug 'mattn/emmet-vim'
+    Plug 'edkolev/tmuxline.vim'
+    " Plug 'gregsexton/gitv' " depricated in favor of gv.vim
+    " Plug 'Syntastic' " depricated in favor of deoplete
     Plug 'tmhedberg/SimpylFold'
-    Plug 'vim-scripts/indentpython.vim'
     Plug 'nvie/vim-flake8'
     Plug 'tpope/vim-dispatch'
     Plug 'sheerun/vim-polyglot'
-    " Plug 'vim-airline/vim-airline'
     Plug 'christoomey/vim-tmux-navigator'
-    " Plug 'honza/vim-snippets'
-Plug 'janko-m/vim-test'
+    " Plug 'honza/vim-snippets' "depcricated in favor of neococmplete
 
     " }
 
     " Python {
-    Plug 'kien/ctrlp.vim'
     Plug 'tpope/vim-commentary'
     Plug 'alfredodeza/pytest.vim'
-    Plug 'myusuf3/numbers.vim' "review
-    Plug 'Shougo/vimproc' "review
+    " Plug 'Shougo/vimproc' "review/dependency
     Plug 'jeetsukumaran/vim-buffergator'
     Plug 'jmcantrell/vim-virtualenv'
     Plug 'junegunn/seoul256.vim'
-    Plug 'jpalardy/vim-slime'
+    " Plug 'jpalardy/vim-slime' "depricated in favor of vimux
     Plug 'wlangstroth/vim-racket'
-Plug 'kassio/neoterm'
     " }
 
     " Lisp {
@@ -349,7 +351,7 @@ Plug 'kassio/neoterm'
     Plug 'tpope/vim-sexp-mappings-for-regular-people'
     Plug 'tpope/vim-repeat'
     Plug 'junegunn/goyo.vim'
-    " Plug 'kovisoft/slimv'
+    " Plug 'kovisoft/slimv' "depcricated in favor of vimux
     Plug 'reedes/vim-pencil'
     Plug 'tpope/vim-vinegar'
     Plug 'justinmk/vim-dirvish'
@@ -361,23 +363,22 @@ Plug 'kassio/neoterm'
     Plug 'xolox/vim-notes'
     Plug 'xolox/vim-misc'
     Plug 'freitass/todo.txt-vim'
-    Plug 'ervandew/supertab'
-    Plug 'terryma/vim-expand-region'
+    " Plug 'ervandew/supertab'
     Plug 'davidhalter/jedi'
     Plug 'airblade/vim-gitgutter'
-"    Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    "    Plug 'Shougo/neocomplete.vim' "depricated in favor of deoplete
+    Plug 'Shougo/neosnippet'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'Raimondi/delimitMate'
     Plug 'neomake/neomake'
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-jedi'
-Plug 'tmux-plugins/vim-tmux'
-Plug 'wellle/tmux-complete.vim'
-Plug 'benmills/vimux'
-Plug 'airblade/vim-rooter'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'zchee/deoplete-jedi'
+    Plug 'tmux-plugins/vim-tmux'
+    Plug 'wellle/tmux-complete.vim'
+    Plug 'benmills/vimux'
+    Plug 'airblade/vim-rooter'
 
 "vimux
 autocmd! BufWritePost * Neomake
@@ -660,13 +661,30 @@ call plug#end()
 
     " Airline
     let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tmuxline#enabled = 1
+  let g:airline#extensions#promptline#enabled = 1
+let g:airline_inactive_collapse=1
+    let g:airline_section_y =""
+    let g:airline_section_z =""
+  let g:airline_detect_crypt=0
+
     set laststatus=2
-    let g:airline_theme='wombat'
+
+    let g:airline_theme='raven'
+
 
     " Don't show seperators
-    let g:airline_left_sep=''
-    let g:airline_right_sep=''
-    let g:airline_powerline_fonts = 1
+    let g:airline_left_sep=' '
+    let g:airline_right_sep=' '
+
+  let g:airline#extensions#default#section_truncate_width = {
+      \ 'b': 79,
+      \ 'x': 60,
+      \ 'y': 88,
+      \ 'z': 45,
+      \ 'warning': 80,
+      \ 'error': 80,
+      \ }
 
     " gitgutter
     set updatetime=250
@@ -915,10 +933,10 @@ set undoreload=10000        " number of lines to save for undo
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
-"lightline
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+" "lightline
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ }
 
 " Vimux
  function! VimuxSlime()
@@ -933,9 +951,10 @@ let g:lightline = {
  nmap <leader>vs vip<LocalLeader>vs<CR><Paste>
 
 " nvim ipython
-let g:nvim_ipy_perform_mappings = 0
+" let g:nvim_ipy_perform_mappings = 0
 map <silent> <c-s>   <Plug>(IPy-Run)
 map <silent> <c-c>   <Plug>(IPy-Terminate)
+map <silent> <c-h>   <Plug>(IPy-Complete)
 
 map <Leader>vip :call VimuxIpy()<CR>
 " vmap <silent> <Leader>e :python run_visual_code()<CR>
@@ -951,10 +970,68 @@ let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
 " or maybe...
 let g:slime_paste_file = tempname()
+
 "tslime
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
+let g:slime_default_config = {"socket_name": "default", "target_pane": "1.2"}
+let g:slime_dont_ask_default = 1
+
 
 " vim plugin for line delete except for CR
+
+" vim-test"
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
+let test#strategy = "neovim"
+
+" neoterm"
 "
+let g:neoterm_position = 'horizontal'
+let g:neoterm_automap_keys = ',tt'
+
+nnoremap <silent> ,tsf :TREPLSendFile<cr>
+nnoremap <silent> ,trs :TREPLSend<cr>
+vnoremap <silent> ,trs :TREPLSend<cr>
+let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
+
+" run set test lib
+nnoremap <silent> ,rt :call neoterm#test#run('all')<cr>
+nnoremap <silent> ,rf :call neoterm#test#run('file')<cr>
+nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
+nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
+
+" Useful maps
+" hide/close terminal
+nnoremap <silent> ,th :call neoterm#close()<cr>
+" clear terminal
+nnoremap <silent> ,tl :call neoterm#clear()<cr>
+" kills the current job (send a <c-c>)
+nnoremap <silent> ,tc :call neoterm#kill()<cr>
+
+" Git commands
+command! -nargs=+ Tg :T git <args>
+
+tnoremap <Leader>ee <C-\><C-n>
+
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+nnoremap <silent><c-z> :MaximizerToggle<CR>
+vnoremap <silent><c-z> :MaximizerToggle<CR>gv
+inoremap <silent><c-z> <C-o>:MaximizerToggle<CR>
+
+map Q <Nop>
+
+function! FindConflict()
+    try
+        /<<<<<<<
+    catch
+    endtry
+endfunction
+nnoremap \ :call FindConflict()<CR>
