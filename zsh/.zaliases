@@ -1,4 +1,4 @@
-alias python='python3'
+alias python='python4'
 alias td='nvim /home/mike/Dropbox/todo/todo.txt'
 alias rm='echo "This is not the command you are looking for."; false'
 alias t='/home/mike/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg'
@@ -24,6 +24,5 @@ alias df='df -H'
 alias du='du -ch'
 alias fhere="find . -name "
 
-alias tmux="TERM=screen-256color-bce tmux"
 alias v='f -t -e vim -b viminfo'
-alias n='f -e nvim' # quick opening files with nvim
+alias n='nfasd -e nvim'

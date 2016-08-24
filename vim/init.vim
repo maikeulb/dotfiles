@@ -1,53 +1,14 @@
-"Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=79 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-
-
-"Environment {
-    set nocompatible      " Use vim settings instead of vi settings
+" Modeline {
+" vim: foldmarker={,} foldlevel=0 foldmethod=marker
 " }
 
 
 " General {
     set background=dark         " Assume a dark background
-    syntax on                   " Syntax highlighting
-    set mouse=a                 " Automatically enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
-    set encoding=utf-8          " Encoding that is displayed
-    scriptencoding utf-8        " Encoding that is written (script)
-    set autoread                " automatically reload files changed outside of Vim
-
-
-
-" Enable omni completion. (Ctrl-X Ctrl-O)
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-" autocmd FileType c set omnifunc=ccomplete#Complete
-" autocmd FileType java set omnifunc=javacomplete#Complete
-
-" use syntax complete if nothing else available
-" if has("autocmd") && exists("+omnifunc")
-"   autocmd Filetype *
-              " \ if &omnifunc == "" |
-              " " \     setlocal omnifunc=syntaxcomplete#Complete |
-              " " \ endif
-" endif
-
-set cot-=preview
-" "disable doc preview in omnicomplete
-
-
-    " " Use + register for copy-paste
-    " if has('clipboard')
-    "     if has('unnamedplus')
-    "         set clipboard=unnamed,unnamedplus
-    "     else
-    "         set clipboard=unnamed
-    "     endif
-    " endif
-
+    set mouse=
+    set scrolloff=1
+    set sidescrolloff=5
+    set completeopt-=preview
     set shortmess+=filmnrxoOtT      " Abbrev messages (avoids 'hit enter')
     set spell                       " Spell checking on
     set hidden                      " Allow buffer switching without saving
@@ -55,37 +16,93 @@ set cot-=preview
     set iskeyword-=#                " '#' is an end of word designator
     set iskeyword-=-                " '-' is an end of word designator
     set noswapfile                  " No swap files.
-    set history=1000                " Store a ton of history (default is 20)
+    scriptencoding utf-8        " Encoding that is written (script)
+
+    " Enable omni completion. (Ctrl-X Ctrl-O)
+    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+    " autocmd FileType c set omnifunc=ccomplete#Complete
+    " autocmd FileType java set omnifunc=javacomplete#Complete
+
+    " use syntax complete if nothing else available
+    " if has("autocmd") && exists("+omnifunc")
+    "   autocmd Filetype *
+    " \ if &omnifunc == "" |
+    " " \     setlocal omnifunc=syntaxcomplete#Complete |
+    " " \ endif
+    " endif
 
     " " Always switch to the current file directory
     " autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-" " }
+    "
+    "
+    " The Silver Searcher {
+    if executable('ag')
+        " Use ag over grep
+        set grepprg=ag\ --nogroup\ --nocolor
+    endif
 
+    " bind \ (backward slash) to grep shortcut
+    command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+    nnoremap \ :Ag<SPACE>
+    " }
 
-" Vim UI {
-    set backspace=indent,eol,start  " Backspace for dummies
-set relativenumber
-    set number                      " Line numbers on
-    set textwidth=79                " Set text-width
-    set showmatch                   " Show matching brackets/parenthesis
-    set incsearch                   " Find as you type search
-    set winminheight=0              " Windows can be 0 line high
-    set ignorecase                  " Case insensitive search
-    set smartcase                   " Case sensitive when uc present
-    set wildmenu                    " Show list instead of just completing
-    set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-set gdefault
-    set scrolloff=5                 " Minimum lines to keep above and below cursor
-    set foldenable                  " Auto fold code
-    set colorcolumn=80
-    set fo-=t
-    highlight ColorColumn ctermbg=233
+    " Persistent Undo {
+    " Put plugins and dictionaries in this dir (also on Windows)
+    let vimDir = '$HOME/.vim'
+    let &runtimepath.=','.vimDir
+
+    " Keep undo history across sessions by storing it in a file
+    if has('persistent_undo')
+        let myUndoDir = expand(vimDir . '/undodir')
+        " Create dirs
+        call system('mkdir ' . vimDir)
+        call system('mkdir ' . myUndoDir)
+        let &undodir = myUndoDir
+        set undofile
+    endif
+    set undolevels=1000         " How many undos
+    set undoreload=10000        " number of lines to save for undo
+    " }
+
 " }
 
 
-" Formatting {
+" User Interface, Themes & Colors {
+
+    set relativenumber
+    set number                      " Line numbers on
+    set textwidth=79                " Set text-width
+    set showmatch                   " Show matching brackets/parenthesis
+    set winminheight=0              " Windows can be 0 line high
+    set ignorecase                  " Case insensitive search
+    set smartcase                   " Case sensitive when uc present
+    set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+    set gdefault
+    set foldenable                  " Auto fold code
+    set foldcolumn=2
+    set colorcolumn=80
+    set foldlevelstart=99
+    " set foldmethod=indent
+    set formatoptions-=t
+    highlight ColorColumn ctermbg=233
+
+    " Popup color.
+    highlight Pmenu ctermbg=8
+    highlight PmenuSel ctermbg=1
+    highlight PmenuSbar ctermbg=0
+
+    set fillchars+=vert:\
+    set completeopt=longest,menuone
+" }
+
+
+" Formatting and Editing {
+
      set nowrap                      " Do not wrap long lines
-     set autoindent                  " Indent at the same level of the previous line
      set shiftwidth=4                " Use indents of 4 spaces
      set expandtab                   " Tabs are spaces, not tabs
      set shiftround                  " See multiples of shiftround when using < or >
@@ -100,16 +117,31 @@ set gdefault
      autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
      autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
-
     " Disable autocomments
     autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
     " Set cursor to the first line when editing a git commit message
     autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+
+    " Smart Indent
+    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd BufRead *.py set nocindent
+    autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
+
+    " Python syntax highlighting features
+    let g:python_highlight_all=1
+
+
 " }
 
 
-" Key (re)Mappings {
+" Folding {
+
+" }
+
+
+" Mappings and Shortcuts {
+
     " Map leader to space
     let g:mapleader = "\<Space>"
 
@@ -150,6 +182,12 @@ set gdefault
     map <S-H> gT
     map <S-L> gt
 
+    " Disable EX mode
+    map Q <Nop>
+
+    " Exit terminal mode
+    tnoremap <Leader>ee <C-\><C-n>
+
     " Easier formatting for paragrpahs
     vmap Q gq
     nmap Q gqap
@@ -174,6 +212,12 @@ set gdefault
     " Easy insert
     nnoremap oo o<Esc>k
 
+    " Disable Backspace
+    nnoremap <backspace> <nop
+
+    " Delete all but last line
+    nnoremap od 0D
+
     " Yank from the cursor to the end of the line.
     nnoremap Y y$
 
@@ -191,10 +235,6 @@ set gdefault
     " Easier formatting
     nnoremap <silent> <leader>q gwip
 
-    " Backspace/enter to go to beginning/end of file.
-    nnoremap <BS> gg
-    nnoremap <CR> G
-
     " Easy escape
     inoremap jj <Esc>
 
@@ -207,7 +247,8 @@ set gdefault
 " }
 
 
-" Functions {
+" Helper Functions {
+
     " Automatically remove trailing whitespaces
     function! StripTrailingWhitespaces()
         let l:l = line(".")
@@ -217,27 +258,6 @@ set gdefault
     endfunction
 
     autocmd BufWritePre * :call StripTrailingWhitespaces()
-
-    " Display output of shell commands in a new window
-    function! s:RunShellCommand(cmdline)
-        botright new
-
-        setlocal buftype=nofile
-        setlocal bufhidden=delete
-        setlocal nobuflisted
-        setlocal noswapfile
-        setlocal nowrap
-        setlocal filetype=shell
-        setlocal syntax=shell
-
-        call setline(1, a:cmdline)
-        call setline(2, substitute(a:cmdline, '.', '=', 'g'))
-        execute 'silent $read !' . escape(a:cmdline, '%#')
-        setlocal nomodifiable
-        1
-    endfunction
-
-    command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
 
     " Automatically set/unset vim paste mode
     function! WrapForTmux(s)
@@ -262,155 +282,189 @@ set gdefault
 
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
-   " Trigger background dark/light
+    " Automatically find conflicts
+    function! FindConflict()
+        try
+            /<<<<<<<
+        catch
+        endtry
+    endfunction
+    nnoremap \ :call FindConflict()<CR>
 
-    function! ToggleBG()
-        let l:tbg = &background
-        if l:tbg == "dark"
-            set background=light
-        else
-            set background=dark
-        endif
+    " Display output of shell commands in a new window
+    function! s:RunShellCommand(cmdline)
+        botright new
+
+        setlocal buftype=nofile
+        setlocal bufhidden=delete
+        setlocal nobuflisted
+        setlocal noswapfile
+        setlocal nowrap
+        setlocal filetype=shell
+        setlocal syntax=shell
+
+        call setline(1, a:cmdline)
+        call setline(2, substitute(a:cmdline, '.', '=', 'g'))
+        execute 'silent $read !' . escape(a:cmdline, '%#')
+        setlocal nomodifiable
+        1
     endfunction
 
-    noremap <leader>bg :call ToggleBG()<CR>
+    command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
 
-" " Virtualenv support
-" py << EOF
-" import os
-" import sys
-" if 'VIRTUAL_ENV' in os.environ:
-"     project_base_dir = os.environ['VIRTUAL_ENV']
-"     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"     execfile(activate_this, dict(__file__=activate_this))
-" EOF
-
-" }
-
-
-" Environment {
-" Set the runtime path to include Vundle and initialize
-call plug#begin('~/.vim/bundle')
+    " Virtualenv support
+    " py << EOF
+    " import os
+    " import sys
+    " if 'VIRTUAL_ENV' in os.environ:
+    "     project_base_dir = os.environ['VIRTUAL_ENV']
+    "     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    "     execfile(activate_this, dict(__file__=activate_this))
+    " EOF
 
 " }
 
 
 " Plugins {
 
-    " General {
-    Plug 'bfredl/nvim-ipy'
-    Plug 'svermeulen/vim-easyclip'
-Plug 'szw/vim-maximizer'
-Plug 'vim-airline/vim-airline-themes'
-    Plug 'ternjs/tern_for_vim'
-    Plug 'ramitos/jsctags'
-    Plug 'mbbill/undotree'
-    " Plug 'ivanov/vim-ipython' " depcricated in favor of nvim-ipy
-    " Plug 'bling/vim-bufferline' "depcricated
-    Plug 'ludovicchabant/vim-gutentags'
-    Plug 'qpkorr/vim-bufkill'
-    Plug 'janko-m/vim-test' " review
-    Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'vim-airline/vim-airline'
-    " Plug 'kassio/neoterm' "review
-    Plug 'majutsushi/tagbar'
-    Plug 'tpope/vim-fugitive' "review last
-    Plug 'tpope/vim-eunuch'
-    Plug 'tpope/vim-abolish'
-    Plug 'edkolev/promptline.vim'
-    Plug 'idanarye/vim-merginal' "review last
-    Plug 'junegunn/gv.vim'
-    Plug 'mattn/emmet-vim'
-    Plug 'edkolev/tmuxline.vim'
-    " Plug 'gregsexton/gitv' " depricated in favor of gv.vim
-    " Plug 'Syntastic' " depricated in favor of deoplete
-    Plug 'tmhedberg/SimpylFold'
-    Plug 'nvie/vim-flake8'
-    Plug 'tpope/vim-dispatch'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'christoomey/vim-tmux-navigator'
-    " Plug 'honza/vim-snippets' "depcricated in favor of neococmplete
+    " Load Plugins {
+    call plug#begin('~/.vim/bundle')
 
+        " General {
+        Plug 'airblade/vim-rooter'
+        Plug 'tpope/vim-projectionist'
+        Plug 'svermeulen/vim-easyclip'
+        Plug 'kien/rainbow_parentheses.vim'
+        Plug 'junegunn/vim-easy-align'
+        " }
+
+        " Interface {
+        Plug 'junegunn/seoul256.vim'
+        Plug 'jeetsukumaran/vim-buffergator'
+        Plug 'tpope/vim-vinegar'
+        Plug 'airblade/vim-gitgutter'
+        Plug 'qpkorr/vim-bufkill'
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+        Plug 'mbbill/undotree'
+        Plug 'justinmk/vim-dirvish'
+        Plug 'Raimondi/delimitMate'
+        Plug 'tpope/vim-rsi'
+        "? autoformat
+        " }
+
+        " Integration {
+        Plug 'benmills/vimux'
+        Plug 'wellle/tmux-complete.vim'
+        Plug 'christoomey/vim-tmux-navigator'
+        Plug 'mileszs/ack.vim'
+        Plug 'junegunn/fzf.vim'
+        Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+        Plug 'janko-m/vim-test'
+        Plug 'tpope/vim-dispatch'
+        Plug 'tpope/vim-fugitive'
+        Plug 'idanarye/vim-merginal'
+        Plug 'junegunn/gv.vim'
+        Plug 'majutsushi/tagbar'
+        Plug 'ludovicchabant/vim-gutentags'
+        Plug 'janko-m/vim-test'
+        Plug 'kassio/neoterm'
+        Plug 'edkolev/tmuxline.vim'
+        Plug 'edkolev/promptline.vim'
+        " Plug 'kovisoft/slimv' "depcricated in favor of vimux
+        " Plug 'jpalardy/vim-slime' "depricated in favor of vimux
+        " Plug 'gregsexton/gitv' " depricated in favor of gv.vim
+        " }
+
+        " Completion & Lint {
+        Plug 'neomake/neomake'
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'Shougo/neosnippet'
+        Plug 'Shougo/neosnippet-snippets'
+        " Plug 'Shougo/neocomplete.vim' "depricated in favor of deoplete
+        " Plug 'Syntastic' " depricated in favor of deoplete
+        " Plug 'ervandew/supertab' "depricated in favor of deoplete
+        " }
+
+        " Language {
+        " General
+        Plug 'sheerun/vim-polyglot'
+
+        " Python
+        Plug 'bfredl/nvim-ipy'
+        Plug 'zchee/deoplete-jedi'
+        Plug 'davidhalter/jedi'
+        Plug 'davidhalter/jedi-vim'
+        Plug 'tmhedberg/SimpylFold'
+        Plug 'nvie/vim-flake8'
+        Plug 'tell-k/vim-autopep8'
+        Plug 'tell-k/vim-autoflake'
+        Plug 'alfredodeza/pytest.vim'
+        Plug 'jmcantrell/vim-virtualenv'
+        " Plug 'ivanov/vim-ipython' " depcricated in favor of nvim-ipy
+
+        " Javascript
+        Plug 'othree/javascript-libraries-syntax.vim'
+        Plug 'ramitos/jsctags'
+        Plug 'ternjs/tern_for_vim'
+        Plug 'moll/vim-node'
+        Plug 'maksimr/vim-jsbeautify'
+
+        " HTML/CSS
+        Plug 'mattn/emmet-vim'
+        Plug 'Valloric/MatchTagAlways'
+
+        " Racket
+        Plug 'wlangstroth/vim-racket'
+
+        " Vim
+        Plug 'Kuniwak/vint'
+        Plug 'syngan/vim-vimlint'
+
+        " Writing
+        Plug 'junegunn/goyo.vim'
+        Plug 'reedes/vim-pencil'
+        " Plug 'Notes
+        " }
+
+        " Commands {
+        Plug 'tpope/vim-abolish'
+        Plug 'guns/vim-sexp'
+        Plug 'tpope/vim-sexp-mappings-for-regular-people'
+        Plug 'szw/vim-maximizer'
+        Plug 'tpope/vim-unimpaired'
+        Plug 'tpope/vim-eunuch'
+        Plug 'wellle/targets.vim'
+        Plug 'tpope/vim-surround'
+        Plug 'tpope/vim-commentary'
+        Plug 'tpope/vim-repeat'
+        Plug 'AndrewRadev/sideways.vim'
+        "Plug Exchange
+        "Plug all textobv
+
+        " Other
+        Plug 'freitass/todo.txt-vim'
+        " }
+
+    call plug#end()
     " }
 
-    " Python {
-    Plug 'tpope/vim-commentary'
-    Plug 'alfredodeza/pytest.vim'
-    " Plug 'Shougo/vimproc' "review/dependency
-    Plug 'jeetsukumaran/vim-buffergator'
-    Plug 'jmcantrell/vim-virtualenv'
-    Plug 'junegunn/seoul256.vim'
-    " Plug 'jpalardy/vim-slime' "depricated in favor of vimux
-    Plug 'wlangstroth/vim-racket'
-    " }
+    " " Slimv {
+    " let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
+    " autocmd syntax racket :RainbowParenthesesActivate
+    " autocmd syntax racket :RainbowParenthesesLoadRound
+    " autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
+    " " }
 
-    " Lisp {
-    Plug 'tpope/vim-surround'
-    Plug 'kien/rainbow_parentheses.vim'
-    Plug 'guns/vim-sexp'
-    Plug 'tpope/vim-sexp-mappings-for-regular-people'
-    Plug 'tpope/vim-repeat'
-    Plug 'junegunn/goyo.vim'
-    " Plug 'kovisoft/slimv' "depcricated in favor of vimux
-    Plug 'reedes/vim-pencil'
-    Plug 'tpope/vim-vinegar'
-    Plug 'justinmk/vim-dirvish'
-    Plug 'tell-k/vim-autopep8'
-    Plug 'tell-k/vim-autoflake'
-    Plug 'justinmk/vim-sneak'
-    Plug 'wellle/targets.vim'
-    Plug 'mileszs/ack.vim'
-    Plug 'xolox/vim-notes'
-    Plug 'xolox/vim-misc'
-    Plug 'freitass/todo.txt-vim'
-    " Plug 'ervandew/supertab'
-    Plug 'davidhalter/jedi'
-    Plug 'airblade/vim-gitgutter'
-    "    Plug 'Shougo/neocomplete.vim' "depricated in favor of deoplete
-    Plug 'Shougo/neosnippet'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'junegunn/fzf.vim'
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'Raimondi/delimitMate'
-    Plug 'neomake/neomake'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'tmux-plugins/vim-tmux'
-    Plug 'wellle/tmux-complete.vim'
-    Plug 'benmills/vimux'
-    Plug 'airblade/vim-rooter'
-
-"vimux
-autocmd! BufWritePost * Neomake
-
-
-" "rope
-
-    " }
-
-call plug#end()
-
-"}
-
-
-" Plugins Config {
-
-    " enable all Python syntax highlighting features
-    let g:python_highlight_all=1
-
-    "let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
-    autocmd syntax racket :RainbowParenthesesActivate
-    autocmd syntax racket :RainbowParenthesesLoadRound
-    autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
-
+    " Vim-Pencil {
     augroup pencil
         autocmd!
         autocmd FileType markdown,mkd call pencil#init()
         " autocmd FileType text         call pencil#init()
     augroup END
+    " }
 
-
-    " Goya
+    " Goyo {
     autocmd Filetype markdown call SetUpMk()
     function SetUpMk()
         Goyo
@@ -425,115 +479,35 @@ call plug#end()
             Goyo
         endif
     endfunction
+    " }
 
+    " " Syntastic {
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
 
-    " smart indent
-    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-    autocmd BufRead *.py set nocindent
-    autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
+    " let g:syntastic_always_populate_loc_list=0
+    " let g:syntastic_auto_loc_list=1
+    " let g:synatastic_check_on_open=1
+    " let g:syntastic_check_on_wq=0
+    " let g:syntastic_enable_signs=1
+    " let g:syntastic_python_python_exec='/usr/bin/env python'
+    " let g:syntastic_loc_list_height=5
+    " let g:syntastic_mode_map = { 'mode': 'passive',
+    "             \ 'active_filetypes': [],
+    "             \ 'passive_filetypes': [] }
 
+    " nnoremap <leader>fe :SyntasticCheck<CR>
+    " " }
 
-    " Syntastic
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-
-    let g:syntastic_always_populate_loc_list=0
-    let g:syntastic_auto_loc_list=1
-    let g:synatastic_check_on_open=1
-    let g:syntastic_check_on_wq=0
-    let g:syntastic_enable_signs=1
-    let g:syntastic_python_python_exec='/usr/bin/env python'
-    let g:syntastic_loc_list_height=5
-    let g:syntastic_mode_map = { 'mode': 'passive',
-                \ 'active_filetypes': [],
-                \ 'passive_filetypes': [] }
-
-    nnoremap <leader>fe :SyntasticCheck<CR>
-
-
-    " code folding
-    " set foldmethod=indent
-
-
-    " simpylfold
+    " Simpylfold {
     let g:SimpylFold_docstring_preview=1
     let g:SimpylFold_fold_docstring=1
+    autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+    autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+    " }
 
-
-    " quickrun
-    nmap <leader>qr :QuickRun<CR>
-    let g:quickrun_config  = {
-                \   "_" : {
-                \   "outputter/buffer/split" : ":botright 8sp",
-                \   },
-                \}
-
-
-    " qr
-    " let g:quickrun_config = {
-    "       \   '_' : {
-    "       \     'outputter/buffer/split' : ':botright 8sp',
-    "      \     'outputter/buffer/into' : 1,
-    "       \},
-    "       \}
-
-    "# augroup QuickRunUnitTest
-    "#   autocmd!
-    "#   autocmd BufWinEnter,BufNewFile *test.php setlocal filetype=php.unit
-    "#   autocmd BufWinEnter,BufNewFile test_*.py setlocal filetype=python.pytest
-    "#   autocmd BufWinEnter,BufNewFile *.t       setlocal filetype=perl.unit
-    "#   autocmd BufWinEnter,BufNewFile *_spec.rb setlocal filetype=ruby.rspec
-    "#   autocmd BufWinEnter,BufNewFile *_test.rb setlocal filetype=ruby.minitest
-    "#   autocmd BufWinEnter,BufNewFile *_test.go setlocal filetype=go.test
-    "# augroup END
-    "# let g:quickrun_config = {}
-    "# let g:quickrun_config['python.pytest'] = { 'command': 'py.test',    'cmdopt': '-v'      }
-    "#
-    " If you want to start window resize mode by `Ctrl+T`
-    "let g:winresizer_start_key = '<C-T>'
-
-
-    " ctrlp
-    let g:ctrlp_map = '<c-p>'
-    let g:ctrlp_cmd = 'CtrlP'
-    let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
-    " Setup some default ignores
-    let g:ctrlp_custom_ignore = {
-                \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-                \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-                \}
-
-    " Use the nearest .git directory as the cwd
-    " This makes a lot of sense if you are working on a project that is in
-    " version control. It also supports works with .svn, .hg, .bzr.
-    let g:ctrlp_working_path_mode = 'r'
-
-    " Use a leader instead of the actual named binding
-    nmap <leader>p :CtrlP<cr>
-
-    " Easy bindings for its various modes
-    nmap <leader>bb :CtrlPBuffer<cr>
-    nmap <leader>bm :CtrlPMixed<cr>
-    nmap <leader>bs :CtrlPMRU<cr>
-
-
-    " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-    if executable('ag')
-        " Use Ag over Grep
-        set grepprg=ag\ --nogroup\ --nocolor
-
-        " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-        " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-        " ag is fast enough that CtrlP doesn't need to cache
-        let g:ctrlp_use_caching = 0
-    endif
-
-
-    " buffergator
+    " Buffergator {
     " Use the right side of the screen
     let g:buffergator_viewport_split_policy = 'R'
 
@@ -551,20 +525,9 @@ call plug#end()
 
     " View the entire list of buffers open
     nmap <leader>bl :BuffergatorOpen<cr>
+ " }
 
-    " Shared bindings from Solution #1 from earlier
-    nmap <leader>T :enew<cr>
-    nmap <leader>bq :bp <BAR> bd #<cr>
-
-    let g:slime_target = "tmux"
-    let g:slime_python_ipython = 1
-
-    " execute current buffer
-    autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python %<CR>
-
-
-    " lisp indent
-
+    " Lisp Indent {
     autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
 
     " By default vim will indent arguments after the function name
@@ -573,127 +536,105 @@ call plug#end()
     " add function names that should have this type of indenting.
 
     set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
+     " }
 
-
-    "" Hard mode
-    "" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-    nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-
-
-    " autopep8
+    " Autopep8 {
     nnoremap <leader>ap :Autopep8<CR>
     let g:autopep8_disable_show_diff=1
+    " }
 
+    " Autoflake {
     nnoremap <leader>af :Autoflake<CR>
     let g:autoflake_disable_show_diff=1
+    " }
 
-    " vim.sneak
+    " " Vim.Sneak {
     " nmap f <Plug>Sneak_s
     " nmap F <Plug>Sneak_S
     " xmap f <Plug>Sneak_s
     " xmap F <Plug>Sneak_S
     " omap f <Plug>Sneak_s
     " omap F <Plug>Sneak_S
+    " " }
 
-    " seoul256 (light):
-    "   Range:   252 (darkest) ~ 256 (lightest)
-    "   Default: 253
-    "let g:seoul256_light_background = 256
-    colo seoul256-light
-
-    " seoul256 (dark):
-    "   Range:   233 (darkest) ~ 239 (lightest)
-    "   Default: 237
-    "let g:seoul256_background = 234
+    " Seoul256 {
+    " Range:   233 (darkest) ~ 239 (lightest)
+    let g:seoul256_background = 234
     colo seoul256
+    " }
 
-
-    " Vim Expand region
+    " " Vim Expand region {
     vmap L <Plug>(expand_region_expand)
     vmap H <Plug>(expand_region_shrink)
+    " " }
 
-
-    " Config for YCM, Supertab, Ultisnips
+    " Jedi-Vim {
     let g:jedi#force_py_version = 3
     let g:jedi#completions_enabled = 1
     let g:jedi#auto_vim_configuration = 1
     let g:jedi#popup_select_first = 0
     let g:jedi#popup_on_dot = 0
+    " let g:jedi#use_tabs_not_buffers = 0
+    " let g:jedi#show_call_signatures = 2
+    " }
 
+    " YouCompleteMe {
     " let g:ycm_python_binary_path = 'python'
-
     " let g:ycm_complete_in_comments = 1
     " let g:ycm_complete_in_strings = 1
     " let g:ycm_dont_warn_on_startup = 0
     " let g:ycm_collect_identifiers_from_comments_and_strings = 1
     " let g:ycm_show_diagnostics_ui = 0
-
     " let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
     " let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-
     " let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
     " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    " let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+    " }
 
+    "SuperTab {
     " let g:SuperTabDefaultCompletionType    = '<C-n>'
     " let g:SuperTabClosePreviewOnPopupClose = 1
-
     " let g:SuperTabCrMapping                = 0
+    " }
 
+    "UltiSnips {
     " let g:UltiSnipsExpandTrigger           ="<cr>"
     " let g:UltiSnipsJumpForwardTrigger      ="<c-j>"
     " let g:UltiSnipsJumpBackwardTrigger     ="<c-k>"
-
     " let g:UltiSnipsJumpForwardTrigger = "<tab>"
     " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-    " let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-
     " nnoremap <leader>ue :UltiSnipsEdit<cr>
+    " }
 
-" let g:jedi#completions_enabled = 0
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#use_tabs_not_buffers = 0
-" let g:jedi#show_call_signatures = 2
-" let g:jedi#force_py_version = 3
-" let g:jedi#popup_select_first = 0
-
-
-
-    " Airline
+    " Airline {
     let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tmuxline#enabled = 1
-  let g:airline#extensions#promptline#enabled = 1
-let g:airline_inactive_collapse=1
+    let g:airline#extensions#tmuxline#enabled = 1
+    let g:airline#extensions#promptline#enabled = 1
+    let g:airline_inactive_collapse=1
     let g:airline_section_y =""
     let g:airline_section_z =""
-  let g:airline_detect_crypt=0
-
-    set laststatus=2
-
+    let g:airline_detect_crypt=0
     let g:airline_theme='raven'
 
-
-    " Don't show seperators
     let g:airline_left_sep=' '
     let g:airline_right_sep=' '
 
-  let g:airline#extensions#default#section_truncate_width = {
-      \ 'b': 79,
-      \ 'x': 60,
-      \ 'y': 88,
-      \ 'z': 45,
-      \ 'warning': 80,
-      \ 'error': 80,
-      \ }
+    let g:airline#extensions#default#section_truncate_width = {
+                \ 'b': 79,
+                \ 'x': 60,
+                \ 'y': 88,
+                \ 'z': 45,
+                \ 'warning': 80,
+                \ 'error': 80,
+                \ }
+    " }
 
-    " gitgutter
+    " GitGutter {
     set updatetime=250
     " }
 
-
-" neocomplete {
-
-    " Shell like behavior(not recommended).
+    " " Neo-Complete {
     " set completeopt+=longest
     " let g:neocomplete#enable_auto_select = 1
     " let g:neocomplete#disable_auto_complete = 1
@@ -708,79 +649,17 @@ let g:airline_inactive_collapse=1
 
     " always use completions from all buffers
     " if !exists('g:neocomplete#same_filetypes')
-      " let g:neocomplete#same_filetypes = {}
+    "   let g:neocomplete#same_filetypes = {}
     " endif
     " let g:neocomplete#same_filetypes._ = '_'
 
-    " Plugin key-mappings {
+    " inoremap <expr><C-g> neocomplete#undo_completion()
+    " inoremap <expr><C-l> neocomplete#complete_common_string()
+    " inoremap <expr><CR> neocomplete#complete_common_string()
 
-        " <C-k> Complete Snippet
-        " <C-k> Jump to next snippet point
-        imap <silent><expr><C-k> neosnippet#expandable() ?
-                    \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-                    \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
-        smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
-
-        " inoremap <expr><C-g> neocomplete#undo_completion()
-        " inoremap <expr><C-l> neocomplete#complete_common_string()
-        "inoremap <expr><CR> neocomplete#complete_common_string()
-
-        " <CR>: close popup
-        " <s-CR>: close popup and save indent.
-        " inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
-
-        " function! CleverCr()
-        "     if pumvisible()
-        "         if neosnippet#expandable()
-        "             let exp = "\<Plug>(neosnippet_expand)"
-        "             return exp . neocomplete#smart_close_popup()
-        "         else
-        "             return neocomplete#smart_close_popup()
-        "         endif
-        "     else
-        "         return "\<CR>"
-        "     endif
-        " endfunction
-
-        " <CR> close popup and save indent or expand snippet
-        " imap <expr> <CR> CleverCr()
-        " inoremap <expr><CR> neosnippet#expandable() ? neosnippet#mappings#expand_or_jump_impl() : pumvisible() ? neocomplete#close_popup() : "\<CR>"
-
-        " <C-h>, <BS>: close popup and delete backword char.
-        " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-        " inoremap <expr><C-y> neocomplete#smart_close_popup()
-
-        " <TAB>: completion.
-        inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-
-        " function! CleverTab()
-        "     if pumvisible()
-        "         return "\<C-n>"
-        "     endif
-        "     let substr = strpart(getline('.'), 0, col('.') - 1)
-        "     let substr = matchstr(substr, '[^ \t]*$')
-        "     if strlen(substr) == 0
-        "         " nothing to match on empty string
-        "         return "\<Tab>"
-        "     else
-        "         " existing text matching
-        "         if neosnippet#expandable_or_jumpable()
-        "             return "\<Plug>(neosnippet_expand_or_jump)"
-        "         else
-        "             return neocomplete#start_manual_complete()
-        "         endif
-        "     endif
-        " endfunction
-
-        " imap <expr> <Tab> CleverTab()
-
-    " For snippet_complete marker.
-    if has('conceal')
-      set conceallevel=2 concealcursor=i
-    endif
-
-    " }
+    " <CR>: close popup
+    " <s-CR>: close popup and save indent.
+    " inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
 
     " " Define dictionary.
     " let g:neocomplete#sources#dictionary#dictionaries = {
@@ -789,12 +668,19 @@ let g:airline_inactive_collapse=1
     "             \ 'scheme' : $HOME.'/.gosh_completions'
     "             \ }
 
+    " <CR> close popup and save indent or expand snippet
+    " imap <expr> <CR> CleverCr()
+    " inoremap <expr><CR> neosnippet#expandable() ? neosnippet#mappings#expand_or_jump_impl() : pumvisible() ? neocomplete#close_popup() : "\<CR>"
+
+    " <C-h>, <BS>: close popup and delete backword char.
+    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr><C-y> neocomplete#smart_close_popup()
+
     " " Define keyword.
     " if !exists('g:neocomplete#keyword_patterns')
     "     let g:neocomplete#keyword_patterns = {}
     " endif
     " let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
 
     " " Enable heavy omni completion.
     " if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -808,230 +694,167 @@ let g:airline_inactive_collapse=1
     " let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
     " " }
 
-" Popup color.
-hi Pmenu ctermbg=8
-hi PmenuSel ctermbg=1
-"Modeline and Notes {
-hi PmenuSbar ctermbg=0
+    " Neo-Snippet {
+    " <C-k> Complete Snippet
+    " <C-k> Jump to next snippet point
+    imap <silent><expr><C-k> neosnippet#expandable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+                \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
+    smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
 
-" fzf
-  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+    " For snippet_complete marker.
+    if has('conceal')
+        set conceallevel=2 concealcursor=i
+    endif
+    " }
 
-  nnoremap <silent> <leader><space> :Files<CR>
-  nnoremap <silent> <leader>a :Buffers<CR>
-  nnoremap <silent> <leader>A :Windows<CR>
-  nnoremap <silent> <leader>; :BLines<CR>
-  nnoremap <silent> <leader>o :BTags<CR>
-  nnoremap <silent> <leader>O :Tags<CR>
-  nnoremap <silent> <leader>? :History<CR>
-  nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-  nnoremap <silent> <leader>. :AgIn
+    " fzf.vim {
+    let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
-  nnoremap <silent> K :call SearchWordWithAg()<CR>
-  vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <leader>gl :Commits<CR>
-  nnoremap <silent> <leader>ga :BCommits<CR>
-  nnoremap <silent> <leader>ft :Filetypes<CR>
+    nnoremap <silent> <leader><space> :Files<CR>
+    nnoremap <silent> <leader>a :Buffers<CR>
+    nnoremap <silent> <leader>A :Windows<CR>
+    nnoremap <silent> <leader>; :BLines<CR>
+    nnoremap <silent> <leader>o :BTags<CR>
+    nnoremap <silent> <leader>O :Tags<CR>
+    nnoremap <silent> <leader>? :History<CR>
+    nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+    nnoremap <silent> <leader>. :AgIn
 
-  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-  imap <C-x><C-l> <plug>(fzf-complete-line)
+    nnoremap <silent> K :call SearchWordWithAg()<CR>
+    vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+    nnoremap <silent> <leader>gl :Commits<CR>
+    nnoremap <silent> <leader>ga :BCommits<CR>
+    nnoremap <silent> <leader>ft :Filetypes<CR>
 
-" }
+    imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+    imap <C-x><C-l> <plug>(fzf-complete-line)
+    " }
 
-" Neovim
+    " Deoplete {
+    let g:deoplete#enable_at_startup = 1
+    if !exists('g:deoplete#omni#input_patterns')
+        let g:deoplete#omni#input_patterns = {}
+    endif
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    " let g:deoplete#disable_auto_complete = 1
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+    " <TAB>: completion.
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+    " }
 
+    " Vimux {
+    nmap <leader>vp :VimuxPromptCommand<cr>
+    nmap <leader>vl :VimuxRunLastCommand<cr>
+    nmap <leader>vq :VimuxCloseRunner<cr>
+    nmap <leader>vx :VimuxInterruptRunner<cr>
+    let g:VimuxUseNearestPane = 0
 
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-" let g:deoplete#disable_auto_complete = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    function! VimuxSlime()
+        call VimuxSendText(@v)
+        call VimuxSendKeys("Enter")
+    endfunction
 
-" shortcut to fold all
-set nofoldenable
-"configuring neocomplete
-"formatting, todo
-"
-if has('nvim')
-    set fillchars+=vert:\
-    set completeopt=longest,menuone
-endif
+    autocmd! BufWritePost * Neomake
 
+    " If text is selected, save it in the v buffer and send that buffer it to tmux
+    vmap <leader>vs "vy :call VimuxSlime()<CR>
 
-"vimux
-"
-nmap <leader>vp :VimuxPromptCommand<cr>
-nmap <leader>vl :VimuxRunLastCommand<cr>
-nmap <leader>vq :VimuxCloseRunner<cr>
-nmap <leader>vx :VimuxInterruptRunner<cr>
-let g:VimuxUseNearestPane = 0
+    " Select current paragraph and send it to tmux
+    nmap <leader>vs vip<LocalLeader>vs<CR><Paste>
+    " }
 
-let test#strategy = "dispatch"
-let test#python#runner = 'pytest'
+    " Neomake {
+    " let neomake_verbose = 0
+    " let g:neomake_open_list = 1
+    " let g:neomake_javascript_enabled_makers = ['eslint']
+    " let g:neomake_javascript_eslint_maker = {
+    "     \ 'args': ['--no-color', '--format', 'compact', '--config', '~/.eslintrc.json'],
+    "     \ 'errorformat': '%f: line %l\, col %c\, %m'
+    "     \ }
 
-" git hooks: lint and python runner, after save?
-" vimux, full appreciation?
-" test.vim, full apptretiation
-" argtextobj
-"
-" let neomake_verbose = 0
-" let g:neomake_open_list = 1
-" let g:neomake_javascript_enabled_makers = ['eslint']
+    " Look for local eslint and if not use globally installed one
+    " let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+    " let g:neomake_javascript_eslint_exe=substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+    " let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+    " autocmd! VimLeave * let g:neomake_verbose = 0
+    " }
 
-" let g:neomake_javascript_eslint_maker = {
-"     \ 'args': ['--no-color', '--format', 'compact', '--config', '~/.eslintrc.json'],
-"     \ 'errorformat': '%f: line %l\, col %c\, %m'
-"     \ }
+    " Vim-Rooter {
+    let g:rooter_patterns = ['.git/']
+    " let g:rooter_silent_chdir = 1
+    " let g:rooter_change_directory_for_non_project_files = 'current'
+    let g:rooter_change_directory_for_non_project_files = 'home'
+    " }
 
-" Look for local eslint and if not use globally installed one
-" let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
-" let g:neomake_javascript_eslint_exe=substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-" let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
-autocmd! VimLeave * let g:neomake_verbose = 0
+    " Emmet-Vim {
+    let g:user_emmet_install_global = 0
+    autocmd FileType html,css EmmetInstall
+    " }
 
-" vim rooter
-let g:rooter_patterns = ['.git/']
-" let g:rooter_silent_chdir = 1
-" let g:rooter_change_directory_for_non_project_files = 'current'
-let g:rooter_change_directory_for_non_project_files = 'home'
+    " Nvim-IPython {
+    " let g:nvim_ipy_perform_mappings = 0
+    map <silent> <c-s>   <Plug>(IPy-Run)
+    map <silent> <c-c>   <Plug>(IPy-Terminate)
+    map <silent> <c-h>   <Plug>(IPy-Complete)
 
- " Z - cd to recent / frequent directories
-command! -nargs=* Z :call Z(<f-args>)
-function! Z(...)
-  let cmd = 'fasd -d -e printf'
-  for arg in a:000
-    let cmd = cmd . ' ' . arg
-  endfor
-  let path = system(cmd)
-  if isdirectory(path)
-    echo path
-    exec 'cd ' . path
-  endif
-endfunction
+    map <Leader>vip :call VimuxIpy()<CR>
+    " vmap <silent> <Leader>e :python run_visual_code()<CR>
+    " }
 
-" Put plugins and dictionaries in this dir (also on Windows)
-let vimDir = '$HOME/.vim'
-let &runtimepath.=','.vimDir
+    " Vim-Slime {
+    let g:slime_target = "tmux"
+    let g:slime_paste_file = "$HOME/.slime_paste"
+    let g:slime_python_ipython = 1
+    " }
 
-" Keep undo history across sessions by storing it in a file
-if has('persistent_undo')
-    let myUndoDir = expand(vimDir . '/undodir')
-    " Create dirs
-    call system('mkdir ' . vimDir)
-    call system('mkdir ' . myUndoDir)
-    let &undodir = myUndoDir
-    set undofile
-endif
-set undolevels=1000         " How many undos
-set undoreload=10000        " number of lines to save for undo
+    " Vim-Test {
+    nmap <silent> <leader>t :TestNearest<CR>
+    nmap <silent> <leader>T :TestFile<CR>
+    nmap <silent> <leader>a :TestSuite<CR>
+    nmap <silent> <leader>l :TestLast<CR>
+    nmap <silent> <leader>g :TestVisit<CR>
 
-"emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+    let test#strategy = "neovim"
+    let test#python#runner = 'pytest'
+    " }
 
-" "lightline
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ }
+    " Neoterm {
+    let g:neoterm_position = 'horizontal'
+    let g:neoterm_automap_keys = ',tt'
+    let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
 
-" Vimux
- function! VimuxSlime()
-  call VimuxSendText(@v)
-  call VimuxSendKeys("Enter")
- endfunction
+    nnoremap <silent> ,tsf :TREPLSendFile<cr>
+    nnoremap <silent> ,trs :TREPLSend<cr>
+    vnoremap <silent> ,trs :TREPLSend<cr>
 
- " If text is selected, save it in the v buffer and send that buffer it to tmux
- vmap <leader>vs "vy :call VimuxSlime()<CR>
+    nnoremap <silent> ,rt :call neoterm#test#run('all')<cr>
+    nnoremap <silent> ,rf :call neoterm#test#run('file')<cr>
+    nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
+    nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
 
- " Select current paragraph and send it to tmux
- nmap <leader>vs vip<LocalLeader>vs<CR><Paste>
+    nnoremap <silent> ,th :call neoterm#close()<cr>
+    nnoremap <silent> ,tl :call neoterm#clear()<cr>
+    nnoremap <silent> ,tc :call neoterm#kill()<cr>
+    " }
 
-" nvim ipython
-" let g:nvim_ipy_perform_mappings = 0
-map <silent> <c-s>   <Plug>(IPy-Run)
-map <silent> <c-c>   <Plug>(IPy-Terminate)
-map <silent> <c-h>   <Plug>(IPy-Complete)
+    " Vim-Node {
+    autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+    " }
 
-map <Leader>vip :call VimuxIpy()<CR>
-" vmap <silent> <Leader>e :python run_visual_code()<CR>
-
-" ctags, upward search
-set tags=./tags;
-
-" autojump directories in vim
-" fasd vim files
-"
-let g:slime_target = "tmux"
-
-let g:slime_paste_file = "$HOME/.slime_paste"
-" or maybe...
-let g:slime_paste_file = tempname()
-
-"tslime
-vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>NormalModeSendToTmux
-nmap <C-c>r <Plug>SetTmuxVars
-let g:slime_default_config = {"socket_name": "default", "target_pane": "1.2"}
-let g:slime_dont_ask_default = 1
-
-
-" vim plugin for line delete except for CR
-
-" vim-test"
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-
-let test#strategy = "neovim"
-
-" neoterm"
-"
-let g:neoterm_position = 'horizontal'
-let g:neoterm_automap_keys = ',tt'
-
-nnoremap <silent> ,tsf :TREPLSendFile<cr>
-nnoremap <silent> ,trs :TREPLSend<cr>
-vnoremap <silent> ,trs :TREPLSend<cr>
-let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
-
-" run set test lib
-nnoremap <silent> ,rt :call neoterm#test#run('all')<cr>
-nnoremap <silent> ,rf :call neoterm#test#run('file')<cr>
-nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
-nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
-
-" Useful maps
-" hide/close terminal
-nnoremap <silent> ,th :call neoterm#close()<cr>
-" clear terminal
-nnoremap <silent> ,tl :call neoterm#clear()<cr>
-" kills the current job (send a <c-c>)
-nnoremap <silent> ,tc :call neoterm#kill()<cr>
-
-" Git commands
-command! -nargs=+ Tg :T git <args>
-
-tnoremap <Leader>ee <C-\><C-n>
-
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
-
-nnoremap <silent><c-z> :MaximizerToggle<CR>
-vnoremap <silent><c-z> :MaximizerToggle<CR>gv
-inoremap <silent><c-z> <C-o>:MaximizerToggle<CR>
-
-map Q <Nop>
-
-function! FindConflict()
-    try
-        /<<<<<<<
-    catch
-    endtry
-endfunction
-nnoremap \ :call FindConflict()<CR>
+    " Vim-Maximizer {
+    nnoremap <silent><c-z> :MaximizerToggle<CR>
+    vnoremap <silent><c-z> :MaximizerToggle<CR>gv
+    inoremap <silent><c-z> <C-o>:MaximizerToggle<CR>
+    " }
+    "
+" textobj user
+" textobj comment
+" textobj-syntax
+" text-obj-quote
+" textobvj-url
+" all text objects
+" exchange.vim
+" vim-autoformat
