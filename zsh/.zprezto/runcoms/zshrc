@@ -58,6 +58,9 @@ alias n='f -e nvim'
 [ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
 # }
 
+# Source Auto Tmuxinator {
+[ -f ~/.bin/tmuxinator.zsh ] && source ~/.bin/tmuxinator.zsh
+# }
 
 # Autoload Custom Functions {
 fpath+=(~/.zfunctions)
