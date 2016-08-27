@@ -41,6 +41,10 @@ alias fhere="find . -name "
 
 alias tmux="TERM=screen-256color-bce tmux"
 alias n='f -e nvim'
+
+alias tml="tmux list-sessions"
+alias tma="tmux -2 attach -t $1"
+alias tmk="tmux kill-session -t $1"
 # }
 
 
@@ -68,3 +72,5 @@ autoload -U ~/.zfunctions/*(:t)
 # }
 
 eval "$(register-python-argcomplete-menu nfasd)"
+
+source ~/.bin/tmuxinator.zsh

@@ -17,6 +17,7 @@ set iskeyword-=-                " '-' is an end of word designator
 set noswapfile                  " No swap files.
 set gdefault
 scriptencoding utf-8        " Encoding that is written (script)
+let g:python3_host_prog = '/home/mike/venv/bin/python3'
 
 " Enable omni completion. (Ctrl-X Ctrl-O)
 " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -35,9 +36,6 @@ scriptencoding utf-8        " Encoding that is written (script)
 " " \ endif
 " endif
 
-" " Always switch to the current file directory
-" autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-"
 "
 " The Silver Searcher {
 if executable('ag')
@@ -70,27 +68,26 @@ highlight PmenuSbar ctermbg=0
 
 
 " Editing {
-
 set fileformat=unix             " Use Unix Fileformat
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set splitright                  " Puts new vsplit windows to the right of the current
 set splitbelow                  " Puts new split windows to the bottom of the current
 set completeopt-=preview
 
-" Show trailing whitespace
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-
 " Disable autocomments
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup autocomment
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
 
 " Set cursor to the first line when editing a git commit message
-autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+augroup cursor in git
+    autocmd!
+    autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+augroup END
 
 " Python syntax highlighting features
 let g:python_highlight_all=1
-
-
 " }
 
 
@@ -108,34 +105,33 @@ set winminheight=0              " Windows can be 0 line high
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 
 " Smart Indent
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd BufRead *.py set nocindent
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-
+augroup smart_indent
+    autocmd!
+    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd BufRead *.py set nocindent
+    autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
+augroup END
 " }
 
 
 " Folding {
 set foldenable                  " Auto fold code
-set foldcolumn=2
+set foldcolumn=0
 set colorcolumn=80
 set foldlevelstart=99
-" set foldmethod=indent
-
+set foldmethod=indent
 " }
 
 
 " Files {
-set foldenable                  " Auto fold code
-set foldcolumn=2
-set colorcolumn=80
-set foldlevelstart=99
-" set foldmethod=indent
-
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+set wildignore+=*.gif,*.jpg,*.png,*.log
 set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
+set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*
+set wildignore+=node_modules/*
 set wildignore+=*.swp,*~,._*
+set wildignore+=.DS_Store
 
 " Persistent Undo {
 " Put plugins and dictionaries in this dir (also on Windows)
@@ -163,33 +159,8 @@ set undoreload=10000        " number of lines to save for undo
 " Map leader to space
 let g:mapleader = "\<Space>"
 
-" " Make motions sensitive to wrapped lines
-" Same for 0, home, end, etc
-function! WrapRelativeMotion(key, ...)
-    let l:vis_sel=""
-    if a:0
-        let l:vis_sel="gv"
-    endif
-    if &wrap
-        execute "normal!" vis_sel . "g" . a:key
-    else
-        execute "normal!" vis_sel . a:key
-    endif
-endfunction
-
-map <leader>wc :wincmd q<cr>
-map <leader>wr <C-W>>
-map <leader>H              :wincmd H<cr>
-map <leader>K              :wincmd K<cr>
-map <leader>L              :wincmd L<cr>
-map <leader>J              :wincmd J<cr>
-
-nmap <left>  :3wincmd <<cr>
-nmap <right> :3wincmd ><cr>
-nmap <up>    :3wincmd +<cr>
-nmap <down>  :3wincmd -<cr>
-
-" Map g* keys in Normal, Operator-pending, and Visual+select noremap $ :call WrapRelativeMotion("$")<CR> noremap <End> :call WrapRelativeMotion("$")<CR> noremap 0 :call WrapRelativeMotion("0")<CR> noremap <Home> :call WrapRelativeMotion("0")<CR> noremap ^ :call WrapRelativeMotion("^")<CR> " Overwrite the operator pending $/<End> mappings from above " to force inclusive motion with :execute normal! onoremap $ v:call WrapRelativeMotion("$")<CR> onoremap <End> v:call WrapRelativeMotion("$")<CR> " Overwrite the Visual+select mode mappings from above " to ensure the correct vis_sel flag is passed to function vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR> vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR> vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR> vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR> vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR> endif
+" Switch between last two files
+nnoremap <leader><leader> <c-^>
 
 " Some helpers to edit mode
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
@@ -203,6 +174,14 @@ map <leader>E  :Explore
 map <Leader>= <C-w>=
 map <Leader>" <C-w>|
 map <Leader>% <C-w>
+
+" Always search regular regex
+nnoremap / /\v
+vnoremap / /\v
+cnoremap %s/ %smagic/
+cnoremap \>s/ \>smagic/
+nnoremap :g/ :g/\v
+nnoremap :g// :g//
 
 " Easier horizontal scrolling
 map zl zL
@@ -227,6 +206,10 @@ nmap Q gqap
 " noremap <Down> <nop>
 " noremap <Left> <nop>
 " noremap <Right> <nop>
+
+" Go to the next/previous buffer open
+nmap <leader>kk :bnext<cr>
+nmap <leader>jj :bprevious<cr>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap j gj
@@ -278,16 +261,18 @@ cmap cd. lcd %:p:h
 
 
 " Functions {
-
 " Automatically remove trailing whitespaces
 function! StripTrailingWhitespaces()
-    let l:l = line(".")
-    let l:c = col(".")
+    let l:l = line('.')
+    let l:c = col('.')
     %s/\s\+$//e
     call cursor(l, c)
 endfunction
 
-autocmd BufWritePre * :call StripTrailingWhitespaces()
+augroup white_space
+    autocmd!
+    autocmd BufWritePre * :call StripTrailingWhitespaces()
+augroup END
 
 " Automatically set/unset vim paste mode
 function! WrapForTmux(s)
@@ -307,19 +292,10 @@ let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 function! XTermPasteBegin()
     set pastetoggle=<Esc>[201~
     set paste
-    return ""
+    return ''
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-" Automatically find conflicts
-function! FindConflict()
-    try
-        /<<<<<<<
-    catch
-    endtry
-endfunction
-nnoremap \ :call FindConflict()<CR>
 
 " Display output of shell commands in a new window
 function! s:RunShellCommand(cmdline)
@@ -341,47 +317,59 @@ function! s:RunShellCommand(cmdline)
 endfunction
 
 command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
+
 function! WinMove(key)
-  let t:curwin = winnr()
-  exec "wincmd ".a:key
-  if (t:curwin == winnr()) "we havent moved
-    if (match(a:key,'[jk]')) "were we going up/down
-      wincmd v
-    else
-      wincmd s
+    let t:curwin = winnr()
+    exec 'wincmd '.a:key
+    if (t:curwin == winnr()) "we havent moved
+        if (match(a:key,'[jk]')) "were we going up/down
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec 'wincmd '.a:key
     endif
-    exec "wincmd ".a:key
-  endif
 endfunction
 
 map <leader>h              :call WinMove('h')<cr>
 map <leader>k              :call WinMove('k')<cr>
 map <leader>l              :call WinMove('l')<cr>
 map <leader>j              :call WinMove('j')<cr>
+
+map <leader>wc :wincmd q<cr>
+map <leader>wr <C-W>>
+map <leader>H              :wincmd H<cr>
+map <leader>K              :wincmd K<cr>
+map <leader>L              :wincmd L<cr>
+map <leader>J              :wincmd J<cr>
+
+nmap <left>  :3wincmd <<cr>
+nmap <right> :3wincmd ><cr>
+nmap <up>    :3wincmd +<cr>
+nmap <down>  :3wincmd -<cr>
 " }
 
 
 " Plugins {
 
 " Load Plugins {
-    call plug#begin('~/.vim/bundle')
+call plug#begin('~/.vim/bundle')
 
 " General {
-Plug 'airblade/vim-rooter' "review
+Plug 'airblade/vim-rooter' "review/maybe unnecessary
 Plug 'tpope/vim-projectionist'
-Plug 'int3/vim-extradite' "redundant
 Plug 'svermeulen/vim-easyclip'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'junegunn/vim-easy-align'
+Plug 'kien/rainbow_parentheses.vim', { 'for': 'racket' }
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 " }
 
 " Interface {
 Plug 'junegunn/seoul256.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'qpkorr/vim-bufkill'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'mbbill/undotree'
+Plug 'vim-airline/vim-airline' "review
+Plug 'vim-airline/vim-airline-themes' "maybe make custom
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'justinmk/vim-dirvish'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-rsi'
@@ -389,20 +377,19 @@ Plug 'tpope/vim-rsi'
 
 " Integration {
 Plug 'mtth/scratch.vim'
-Plug 'benmills/vimux'
+Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'wellle/tmux-complete.vim'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'mileszs/ack.vim' "maybe eliminate
+" Plug 'mileszs/ack.vim' "review / lazy load
 Plug 'junegunn/fzf.vim'
-Plug 'janko-m/vim-test'
-Plug 'tpope/vim-dispatch'
+Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
+Plug 'tpope/vim-dispatch' "review/ lazy load
+Plug 'vim-dispatch-neovim' "review
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'majutsushi/tagbar'
+" Plug 'tpope/vim-unimpaired' "review
+Plug 'majutsushi/tagbar', { 'on': ['Tagbar','TagbarToggle','TagbarOpenAutoClose'] }
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'kassio/neoterm'
-Plug 'edkolev/tmuxline.vim'
-Plug 'edkolev/promptline.vim'
+Plug 'kassio/neoterm', { 'on': ['TREPLSendFile', 'TREPLSend', 'Ttoggle'] }
 " Plug 'kovisoft/slimv' "depcricated in favor of vimux
 " }
 
@@ -423,42 +410,38 @@ Plug 'sheerun/vim-polyglot'
 
 " Python
 Plug 'tmhedberg/SimpylFold'
-Plug 'alfredodeza/pytest.vim' "review
-Plug 'jmcantrell/vim-virtualenv' "review
+Plug 'alfredodeza/pytest.vim', { 'for': 'python' }  "review
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' } "review
 
 " Javascript
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'ternjs/tern_for_vim'
-Plug 'moll/vim-node'
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
+Plug 'moll/vim-node', { 'for': 'javascript' }
 
 " HTML/CSS
-Plug 'mattn/emmet-vim'
-Plug 'Valloric/MatchTagAlways'
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
 
 " Racket
-Plug 'wlangstroth/vim-racket'
+Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
 
 " Writing
-Plug 'junegunn/goyo.vim'
-Plug 'reedes/vim-pencil'
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 " }
 
 " Commands {
 Plug 'tpope/vim-abolish'
-Plug 'guns/vim-sexp'
-Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'guns/vim-sexp', { 'for': 'racket' }
+Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
 Plug 'szw/vim-maximizer'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'AndrewRadev/sideways.vim'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'AndrewRadev/sideways.vim'
-Plug 'AndrewRadev/switch.vim'
-
-" Other
-Plug 'freitass/todo.txt-vim'
+Plug 'AndrewRadev/sideways.vim', { 'on': ['SidewaysLeft', 'SidewaysRight', 'SidewaysJumpLeft', 'SidewaysJumpRight'] }
+Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinSplit', 'SplitjoinJoin' ] }
+Plug 'AndrewRadev/switch.vim', { 'on': 'Switch'}
 " }
 
 call plug#end()
@@ -466,34 +449,38 @@ call plug#end()
 
 " " Slimv {
 " let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
-" autocmd syntax racket :RainbowParenthesesActivate
-" autocmd syntax racket :RainbowParenthesesLoadRound
-" autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
-" " }
+""}
 
-" Vim-Pencil {
-augroup pencil
-    autocmd!
-    autocmd FileType markdown,mkd call pencil#init()
-    " autocmd FileType text         call pencil#init()
-augroup END
+" Fugitive {
+" fugitive git bindings
+nnoremap <leader>ga :Git add %:p<CR><CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <leader>gp :Ggrep<Space>
+nnoremap <leader>gm :Gmove<Space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gps :Dispatch! git push<CR>
+nnoremap <leader>gpl :Dispatch! git pull<CR>
 " }
 
-" Goyo {
-autocmd Filetype markdown call SetUpMk()
-function SetUpMk()
-    Goyo
-endfunction
-
-augroup markdown
-    autocmd Filetype markdown,mkd call SetUpMk()
+" Markdown {
+augroup pencil
+    autocmd!
+    autocmd FileType markdown call pencil#init()
+    autocmd Filetype markdown call SetUpMk()
+    function! SetUpMk()
+        if !exists('#goyo')
+            Goyo
+        endif
+    endfunction
 augroup END
-
-function! SetUpMk()
-    if !exists('#goyo')
-        Goyo
-    endif
-endfunction
 " }
 
 " " Syntastic {
@@ -518,18 +505,14 @@ endfunction
 " Simpylfold {
 let g:SimpylFold_docstring_preview=1
 let g:SimpylFold_fold_docstring=1
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+augroup py
+    autocmd!
+    autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+    autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+augroup END
 " }
 
-" Go to the previous buffer open
-nmap <leader>jj :bprevious<cr>
-
-" Go to the next buffer open
-nmap <leader>kk :bnext<cr>
-
-" Lisp Indent {
-autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
+" Racket {
 
 " By default vim will indent arguments after the function name
 " but sometimes you want to only indent by 2 spaces similar to
@@ -537,25 +520,6 @@ autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
 " add function names that should have this type of indenting.
 
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
-" }
-
-" Autopep8 {
-nnoremap <leader>ap :Autopep8<CR>
-let g:autopep8_disable_show_diff=1
-" }
-
-" Autoflake {
-nnoremap <leader>af :Autoflake<CR>
-let g:autoflake_disable_show_diff=1
-" }
-
-" " Vim.Sneak {
-" nmap f <Plug>Sneak_s
-" nmap F <Plug>Sneak_S
-" xmap f <Plug>Sneak_s
-" xmap F <Plug>Sneak_S
-" omap f <Plug>Sneak_s
-" omap F <Plug>Sneak_S
 " " }
 
 " Seoul256 {
@@ -563,11 +527,6 @@ let g:autoflake_disable_show_diff=1
 let g:seoul256_background = 234
 colo seoul256
 " }
-
-" " Vim Expand region {
-vmap L <Plug>(expand_region_expand)
-vmap H <Plug>(expand_region_shrink)
-" " }
 
 " Jedi-Vim {
 let g:jedi#force_py_version = 3
@@ -593,13 +552,13 @@ let g:jedi#popup_on_dot = 0
 " let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 " }
 
-"SuperTab {
+" " SuperTab {
 " let g:SuperTabDefaultCompletionType    = '<C-n>'
 " let g:SuperTabClosePreviewOnPopupClose = 1
 " let g:SuperTabCrMapping                = 0
 " }
 
-"UltiSnips {
+" " UltiSnips {
 " let g:UltiSnipsExpandTrigger           ="<cr>"
 " let g:UltiSnipsJumpForwardTrigger      ="<c-j>"
 " let g:UltiSnipsJumpBackwardTrigger     ="<c-k>"
@@ -610,13 +569,13 @@ let g:jedi#popup_on_dot = 0
 
 " Airline {
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tmuxline#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#promptline#enabled = 1
 let g:airline_inactive_collapse=1
-let g:airline_section_y =""
-let g:airline_section_z =""
+let g:airline_section_y =''
+let g:airline_section_z =''
 let g:airline_detect_crypt=0
-let g:airline_theme='raven'
+let g:airline_theme='wombat'
 
 let g:airline_left_sep=' '
 let g:airline_right_sep=' '
@@ -634,66 +593,6 @@ let g:airline#extensions#default#section_truncate_width = {
 " GitGutter {
 set updatetime=250
 " }
-
-" " Neo-Complete {
-" set completeopt+=longest
-" let g:neocomplete#enable_auto_select = 1
-" let g:neocomplete#disable_auto_complete = 1
-" inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" let g:neocomplete#enable_at_startup = 1
-" let g:neocomplete#enable_smart_case = 1
-" let g:neocomplete#enable_auto_delimiter = 1
-" let g:neocomplete#max_list = 15
-" let g:neocomplete#force_overwrite_completefunc = 1
-" let g:neocomplete#enable_fuzzy_completion = 0
-
-" always use completions from all buffers
-" if !exists('g:neocomplete#same_filetypes')
-"   let g:neocomplete#same_filetypes = {}
-" endif
-" let g:neocomplete#same_filetypes._ = '_'
-
-" inoremap <expr><C-g> neocomplete#undo_completion()
-" inoremap <expr><C-l> neocomplete#complete_common_string()
-" inoremap <expr><CR> neocomplete#complete_common_string()
-
-" <CR>: close popup
-" <s-CR>: close popup and save indent.
-" inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
-
-" " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"             \ 'default' : '',
-"             \ 'vimshell' : $HOME.'/.vimshell_hist',
-"             \ 'scheme' : $HOME.'/.gosh_completions'
-"             \ }
-
-" <CR> close popup and save indent or expand snippet
-" imap <expr> <CR> CleverCr()
-" inoremap <expr><CR> neosnippet#expandable() ? neosnippet#mappings#expand_or_jump_impl() : pumvisible() ? neocomplete#close_popup() : "\<CR>"
-
-" <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y> neocomplete#smart_close_popup()
-
-" " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-"     let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" " Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-"     let g:neocomplete#sources#omni#input_patterns = {}
-" endif
-
-" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-" " }
 
 " Neo-Snippet {
 " <C-k> Complete Snippet
@@ -724,8 +623,8 @@ nnoremap <silent> <leader>. :AgIn
 
 nnoremap <silent> K :call SearchWordWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-nnoremap <silent> <leader>gl :Commits<CR>
-nnoremap <silent> <leader>ga :BCommits<CR>
+" nnoremap <silent> <leader>gl :Commits<CR>
+" nnoremap <silent> <leader>ga :BCommits<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
 
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
@@ -739,8 +638,9 @@ if !exists('g:deoplete#omni#input_patterns')
 endif
 
 " let g:deoplete#disable_auto_complete = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
+augroup deocomplete
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup END
 " <TAB>: completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
@@ -755,13 +655,14 @@ let g:VimuxUseNearestPane = 0
 
 function! VimuxSlime()
     call VimuxSendText(@v)
-    call VimuxSendKeys("Enter")
+    call VimuxSendKeys('Enter')
 endfunction
 
-autocmd! BufWritePost * Neomake
-autocmd! QuitPre * let g:neomake_verbose = 0
-
-
+augroup neomake
+    autocmd!
+    autocmd BufWritePost * Neomake
+    autocmd QuitPre * let g:neomake_verbose = 0
+augroup END
 " If text is selected, save it in the v buffer and send that buffer it to tmux
 vmap <leader>vs "vy :call VimuxSlime()<CR>
 
@@ -770,19 +671,19 @@ nmap <leader>vs vip<LocalLeader>vs<CR><Paste>
 " }
 
 " Neomake {
-" let neomake_verbose = 0
-" let g:neomake_open_list = 1
-" let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_javascript_eslint_maker = {
-"     \ 'args': ['--no-color', '--format', 'compact', '--config', '~/.eslintrc.json'],
-"     \ 'errorformat': '%f: line %l\, col %c\, %m'
-"     \ }
+let neomake_verbose = 0
+let g:neomake_open_list = 1
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_eslint_maker = {
+            \ 'args': ['--no-color', '--format', 'compact', '--config', '~/.eslintrc.json'],
+            \ 'errorformat': '%f: line %l\, col %c\, %m'
+            \ }
 
 " Look for local eslint and if not use globally installed one
-" let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
-" let g:neomake_javascript_eslint_exe=substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-" let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
-" autocmd! VimLeave * let g:neomake_verbose = 0
+let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+let g:neomake_javascript_eslint_exe=substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+autocmd! VimLeave * let g:neomake_verbose = 0
 " }
 
 " Vim-Rooter {
@@ -794,15 +695,9 @@ let g:rooter_change_directory_for_non_project_files = 'home'
 
 " Emmet-Vim {
 let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+autocmd FileType html,css EmmetInstall "is autocmd required if lazy loading?
 " }
-
-map <Leader>vip :call VimuxIpy()<CR>
-" vmap <silent> <Leader>e :python run_visual_code()<CR>
-" }
-
-" }
-
+"
 " Vim-Test {
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
@@ -810,31 +705,34 @@ nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tv :TestVisit<CR>
 
-let test#strategy = "neovim"
-let test#python#runner = 'pytest'
+let g:test#strategy = 'dispatch'
+let g:test#python#runner = 'pytest'
 " }
 
-" Neoterm {
+" Neoterm  {
 let g:neoterm_position = 'horizontal'
 let g:neoterm_automap_keys = ',tt'
 let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
+let g:neoterm_close_when_tests_succeed = 1
+set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
+set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
+set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
 
 nnoremap <silent> ,tsf :TREPLSendFile<cr>
 nnoremap <silent> ,trs :TREPLSend<cr>
 vnoremap <silent> ,trs :TREPLSend<cr>
-
+nnoremap <silent> ,to :Ttoggle<cr>
 nnoremap <silent> ,rt :call neoterm#test#run('all')<cr>
 nnoremap <silent> ,rf :call neoterm#test#run('file')<cr>
 nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
 nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
-
-nnoremap <silent> ,th :call neoterm#close()<cr>
-nnoremap <silent> ,tl :call neoterm#clear()<cr>
-nnoremap <silent> ,tc :call neoterm#kill()<cr>
 " }
 
-" Vim-Node {
-autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+" Autoformat {
+let g:autoformat_autoindent = 1
+let g:autoformat_retab = 1
+let g:autoformat_remove_trailing_spaces = 0
+let g:autoformat_verbosemode=0
 " }
 
 " Vim-Maximizer {
@@ -842,59 +740,8 @@ nnoremap <silent><c-z> :MaximizerToggle<CR>
 vnoremap <silent><c-z> :MaximizerToggle<CR>gv
 inoremap <silent><c-z> <C-o>:MaximizerToggle<CR>
 " }
-"
-" textobj user
-" textobj comment
-" textobj-syntax
-" text-obj-quote
-" textobvj-url
-" all text objects
-" exchange.vim
-" vim-autoformat
-"
 
-let g:python_version = '/usr/bin/python3.4m'
-
-" let g:python_version = matchstr(system("python --version 2>&1 | cut -d' ' -f2"), '^[0-9]')
-" let s:uname = system("echo -n \"$(uname)\"")
-" if !v:shell_error && s:uname == "Linux"
-"   let g:has_pyenv = matchstr(system("command -v pyenv >/dev/null 2>&1; echo $?"), '0')
-"   if g:has_pyenv =~ 0
-"       if g:python_version =~ 3
-"           let g:python_host_prog = "/usr/bin/python2"
-"       else
-"           let g:python3_host_prog = "/usr/bin/python3"
-"       endif
-"   endif
-" else
-"   let g:has_pyenv = matchstr(system("command -v pyenv >/dev/null 2>&1; echo $?"), '0')
-"   if g:has_pyenv =~ 0
-"       if g:python_version =~ 3
-"           let g:python_host_prog = "/usr/local/bin/python2"
-"       else
-"           let g:python3_host_prog = "/usr/local/bin/python3"
-"       endif
-"   endif
-" endif
-
-" Autoformat
-au BufWrite * :Autoformat
-let g:autoformat_autoindent = 0
-let g:autoformat_retab = 0
-let g:autoformat_remove_trailing_spaces = 0
- let g:autoformat_verbosemode=1
-
-" Always search regular regex
-nnoremap / /\v
-vnoremap / /\v
-
-" Switch between last two files
-nnoremap <leader><leader> <c-^>
-
-" Splitting and joining code blocks
-nnoremap sj :SplitjoinSplit<CR>
-nnoremap sk :SplitjoinJoin<CR>
-
+" Sideways {
 " Moving code sideways
 nnoremap s< :SidewaysLeft<CR>
 nnoremap s> :SidewaysRight<CR>
@@ -904,5 +751,44 @@ omap aa <Plug>SidewaysArgumentTextobjA
 xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
+" }
 
-let g:python3_host_prog = '/home/mike/venv/bin/python3'
+" Autogroups and autocommands {
+
+" Vim-Node
+augroup node
+    autocmd!
+    autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+augroup END
+
+" Autoformat
+augroup autoformat
+    autocmd!
+    autocmd BufWrite * :Autoformat
+augroup END
+
+" Splitjoin
+nnoremap sj :SplitjoinSplit<CR>
+nnoremap sk :SplitjoinJoin<CR>
+
+" Fugitive
+augroup fugitive
+    autocmd!
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+" Automatic resize
+augroup window_resize
+    autocmd!
+    autocmd VimResized * :wincmd =
+augroup END
+
+" Racket
+augroup racket
+    autocmd!
+    autocmd syntax racket :RainbowParenthesesActivate
+    autocmd syntax racket :RainbowParenthesesLoadRound
+    autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
+    autocmd filetype lisp,scheme setlocal equalprg=scmindent.rkt
+augroup END
+" }
