@@ -166,7 +166,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
-Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
+Plug 'tpope/vim-dispatch'  | Plug 'radenling/vim-dispatch-neovim'
 Plug 'tpope/vim-fugitive'
 Plug 'majutsushi/tagbar', { 'on': 'Tagbar' }
 Plug 'ludovicchabant/vim-gutentags'
@@ -223,7 +223,7 @@ call plug#end()
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
 
 " Scratch.vim
-let g:scratch_persistence_file=1
+let g:scratch_persistence_file = '.scratch.vim'
 
 " Seoul256
 " Range:   233 (darkest) ~ 239 (lightest)
@@ -351,13 +351,15 @@ let g:neomake_open_list = 0
 let g:user_emmet_install_global = 0
 
 " Vim-Test
-let g:test#strategy = 'neovim'
+let g:test#strategy = 'dispatch'
 let g:test#python#runner = 'pytest'
 
 " Neoterm
 let g:neoterm_position = 'horizontal'
 let g:neoterm_automap_keys = ',tt'
 let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
+let g:neoterm_run_tests_bg=1
+let g:neoterm_raise_when_tests_fail=1
 let g:neoterm_close_when_tests_succeed = 1
 set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
 set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
@@ -541,12 +543,12 @@ nnoremap <leader>ge  :Gedit<CR>
 nnoremap <leader>gr  :Gread<CR>
 nnoremap <leader>gw  :Gwrite<CR><CR>
 nnoremap <leader>gl  :silent! Glog<CR>:bot copen<CR>
-nnoremap <leader>gp  :Ggrep<Space>
+" nnoremap <leader>gg  :Ggrep<Space>
 nnoremap <leader>gm  :Gmove<Space>
 nnoremap <leader>gb  :Git branch<Space>
 nnoremap <leader>go  :Git checkout<Space>
-nnoremap <leader>gpush :Dispatch! git push<CR>
-nnoremap <leader>gpull :Dispatch! git pull<CR>
+nnoremap <leader>gp :Dispatch! git push<CR>
+nnoremap <leader>gu :Dispatch! git pull<CR>
 
 " window
 map <leader>h :call WinMove('h')<cr>
@@ -703,5 +705,3 @@ augroup END
 "
 let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'
 let g:dbext_default_profile='myDB'"
-
-
