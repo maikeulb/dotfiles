@@ -1,10 +1,4 @@
-" Modeline {
-" vim: foldmarker={,} foldlevel=0 foldmethod=marker
-" }
-
-
-" Settings{
-
+" Settings{{{
 " General
 set background=dark
 set mouse=
@@ -21,7 +15,7 @@ set gdefault
 set autowrite
 set lazyredraw
 set nohlsearch
-set synmaxcol=500
+set synmaxcol=250
 set showmatch
 set pumheight=15
 set ignorecase
@@ -31,26 +25,31 @@ set fileformat=unix
 set nojoinspaces
 set splitright
 set splitbelow
+set nomodeline
 set completeopt-=preview
+highlight ColorColumn ctermbg=233
 let g:python_highlight_all=1
 let g:python3_host_prog = '/home/mike/venv/bin/python3'
-highlight ColorColumn ctermbg=233
-scriptencoding utf-8
 
 "Formatting
 set relativenumber
 set number
 set nowrap
-set shiftwidth=4
+set formatoptions-=c
+set formatoptions-=r
+set formatoptions-=o
+
 set expandtab
 set shiftround
+set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set textwidth=79
+
 set winminheight=0
 set whichwrap=b,s,h,l,<,>,[,]
-set foldenable
 set colorcolumn=80
+
 set foldlevelstart=99
 set foldmethod=indent
 
@@ -78,10 +77,10 @@ endif
 
 set undolevels=1000
 set undoreload=10000
-" }
+" }}}
 
 
-" " Functions {
+" Functions {{{
 " " Smart paste mode
 " function! WrapForTmux(s)
 "     if !exists('$TMUX')
@@ -134,17 +133,17 @@ function! ToggleTerm()
 endfunction
 
 com! ToggleTerm call ToggleTerm()
-" }
+" }}}
 
 
-" Plugins {
-
-" Load Plugins {
+" Plugins {{{
+" Load Plugins {{{
 call plug#begin('~/.vim/bundle')
 
 " General
 Plug 'tpope/vim-projectionist'
 Plug 'svermeulen/vim-easyclip'
+Plug 'vim-scripts/dbext.vim'
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'racket' }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
@@ -197,22 +196,24 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " Commands
-Plug 'tpope/vim-abolish'
 Plug 'guns/vim-sexp', { 'for': 'racket' }
-Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
 Plug 'wellle/targets.vim'
+Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
+Plug 'rhysd/clever-f.vim'
+Plug 'tommcdo/vim-exchange'
 Plug 'AndrewRadev/sideways.vim', { 'on': ['SidewaysLeft', 'SidewaysRight', 'SidewaysJumpLeft', 'SidewaysJumpRight'] }
 Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinSplit', 'SplitjoinJoin' ] }
 Plug 'AndrewRadev/switch.vim', { 'on': 'Switch'}
-Plug 'rhysd/clever-f.vim'
 
 call plug#end()
-" }
+" }}}
 
-" Plugin Settings {
+" Plugin Settings {{{
 
 " Racket
 " By default vim will indent arguments after the function name
@@ -346,11 +347,6 @@ endfunction
 let g:neomake_verbose = 0
 let g:neomake_open_list = 0
 
-" Vim-Rooter
-" let g:rooter_patterns = ['.git/']
-" let g:rooter_silent_chdir = 1
-" let g:rooter_change_directory_for_non_project_files = 'current'
-
 " Emmet-Vim
 let g:user_emmet_install_global = 0
 
@@ -382,15 +378,16 @@ tnoremap <silent><c-z> :MaximizerToggle<cr>
 
 " Terminal Toggle
 nnoremap <m-t> :ToggleTerm<cr>
-" }
-" }
+" }}}
+" }}}
 
 
-" Mappings and Shortcuts {
+" Mappings and Shortcuts {{{
 let g:mapleader = "\<Space>"
 
 nnoremap ; :
-nnoremap <leader>; ;
+nnoremap : ;
+
 inoremap jj <Esc>
 nnoremap ,; @:<CR>
 nnoremap <backspace> <nop>
@@ -404,7 +401,7 @@ nnoremap Y y$
 nnoremap H 0
 nnoremap L $
 
-noremap Q @q
+nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
 nnoremap oo o<Esc>k
@@ -414,13 +411,14 @@ nnoremap ss i<space><esc>
 nnoremap <leader>* *``cgn
 nnoremap <leader># #``cgN
 
+nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
+
 nnoremap <leader>bd :BD<CR>
 nnoremap <Leader>bdd :BD!<CR>
 nnoremap <leader>w   :w<CR>
 nnoremap <leader>wq :wq<CR>
 
 nnoremap <leader><leader> <c-^>
-cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
 nnoremap <leader>ew :e %%
 nnoremap <leader>es :split %%
 nnoremap <leader>ev :vsplit %%
@@ -439,38 +437,40 @@ nnoremap <silent> <leader>tp  :tabprev<CR>
 nnoremap <silent> <leader>kk :bnext<cr>
 nnoremap <silent> <leader>jj :bprevious<cr>
 
+nnoremap <silent> <leader>q :botright copen 10<cr>
+nnoremap <silent> <leader>l :botright lopen 10<cr>
+
 tnoremap <silent>  <Leader>jj <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
 
-vnoremap < <gv
-vnoremap > >gv
+nnoremap <leader>ev :edit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
+nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
+nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
+xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
+xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
+
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+cmap w!! w !sudo tee % >/dev/null
+
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+
+" inoremap ,, <C-x><C-o><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
+" inoremap ,; <C-n><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
+" inoremap ,: <C-x><C-f><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
+" inoremap ,= <C-x><C-l><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
+"
 " nnoremap / /\v
 " vnoremap / /\v
 " cnoremap %s/ %smagic/
 " cnoremap \>s/ \>smagic/
 " nnoremap :g/ :g/\v
 " nnoremap :g// :g//
-
-nnoremap <leader>e :edit ~/.config/nvim/init.vim<cr>
-nnoremap <leader>s :source ~/.config/nvim/init.vim<cr>
-cmap w!! w !sudo tee % >/dev/null
-
-nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
-nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
-xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
-xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
-
-" inoremap ,, <C-x><C-o><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
-" inoremap ,; <C-n><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
-" inoremap ,: <C-x><C-f><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
-" inoremap ,= <C-x><C-l><C-r>=pumvisible() ? "\<lt>Down>\<lt>C-p>\<lt>Down>" : ""<CR>
-
-nnoremap <silent> <leader>q :botright copen 10<cr>
-nnoremap <silent> <leader>l :botright lopen 10<cr>
 
 " Sideways
 nnoremap s< :SidewaysLeft<CR>
@@ -481,8 +481,11 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
-" UnduTree
+" UndoTree
 nnoremap <leader>u :UndotreeToggle<cr>
+
+" Tag Bar
+nnoremap <leader>tb :TagbarToggle<CR>
 
 " Neoterm
 nnoremap <silent> <leader>tsf :TREPLSendFile<cr>
@@ -593,97 +596,63 @@ imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)"
             \: "\<TAB>"
-" }
+" }}}
 
 
-" Autogroups and autocommands {
-if has('autocmd')
+" Autogroups and autocommands {{{
+augroup General
+    autocmd!
+    autocmd BufWrite * :Autoformat
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd VimResized * :wincmd =
+    autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
+                \ q :cclose<cr>:lclose<cr>
+    autocmd WinEnter term://* startinsert
+    autocmd VimEnter * DBCompleteTables
+augroup END
 
-    " Vim-Node
-    augroup js_group
-        autocmd!
-        autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
-        autocmd FileType html,css EmmetInstall "is autocmd required if lazy loading?
-    augroup END
+augroup Javascript, html, css
+    autocmd!
+    autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+    autocmd FileType html,css EmmetInstall            autocmd filetype javascript nnoremap <leader>b Odebugger;<esc>
+    autocmd filetype javascript nnoremap <leader>b Odebugger;<esc>
+augroup END
 
-    " Autoformat
-    augroup autoformat_group
-        autocmd!
-        autocmd BufWrite * :Autoformat
-    augroup END
+augroup Rainbowlisp
+    autocmd!
+    " autocmd syntax racket RainbowParentheses
+    autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
+    autocmd FileType lisp,racket,clojure scheme setlocal RainbowParentheses
+    autocmd FileType lisp,racket,scheme setlocal equalprg=scmindent.rkt
+augroup END
 
-    " Fugitive
-    augroup fugitive_group
-        autocmd!
-        autocmd BufReadPost fugitive://* set bufhidden=delete
-    augroup END
+augroup Neomake
+    autocmd!
+    autocmd BufWritePost * Neomake
+    " autocmd QuitPre * let g:neomake_verbose = 0
+    " autocmd VimLeave * let g:neomake_verbose = 0
+augroup END
 
-    " Automatic resize
-    augroup window_resize_group
-        autocmd!
-        autocmd VimResized * :wincmd =
-    augroup END
+augroup Markdown
+    autocmd!
+    autocmd FileType markdown call pencil#init()
+    autocmd Filetype markdown call SetUpMk()
+    function! SetUpMk()
+        if !exists('#goyo')
+            Goyo
+        endif
+    endfunction
+augroup END
 
-    " Racket
-    augroup racket_group
-        autocmd!
-        autocmd syntax racket :RainbowParenthesesActivate
-        autocmd syntax racket :RainbowParenthesesLoadRound
-        autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
-        autocmd filetype listp, racket,scheme setlocal equalprg=scmindent.rkt
-    augroup END
+augroup Python
+    autocmd!
+    autocmd FileType python BracelessEnable +indent +fold
+    autocmd FileType python map <silent> <leader>ipdb oimport ipdb; ipdb.set_trace()<esc>
+augroup END
 
-    augroup rainbow_lisp
-        autocmd!
-        autocmd fileType lisp, racket,clojure,scheme RainbowParentheses
-    augroup END
-
-    " Neomake
-    augroup neomake_group
-        autocmd!
-        autocmd BufWritePost * Neomake
-        autocmd QuitPre * let g:neomake_verbose = 0
-        autocmd VimLeave * let g:neomake_verbose = 0
-    augroup END
-
-    " Disable autocomments
-    augroup autocomment_group
-        autocmd!
-        autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-    augroup END
-
-    " Set cursor to the first line when editing a git commit message
-    augroup git_group
-        autocmd!
-        autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-    augroup END
-
-    " Markdown
-    augroup pencil_group
-        autocmd!
-        autocmd FileType markdown call pencil#init()
-        autocmd Filetype markdown call SetUpMk()
-        function! SetUpMk()
-            if !exists('#goyo')
-                Goyo
-            endif
-        endfunction
-    augroup END
-
-    augroup py_group
-        autocmd!
-        " autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-        " autocmd BufRead *.py set nocindent
-        autocmd FileType python BracelessEnable +indent +fold
-    augroup END
-
-    augroup deocomplete_group
-        autocmd!
-        autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    augroup END
-endif
-
-augroup omnicompletion
+augroup Omnicompletion
     autocmd!
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -694,38 +663,45 @@ augroup omnicompletion
     autocmd FileType java set omnifunc=javacomplete#Complete
 augroup END
 
-augroup Deoplete_ternforvim
+augroup Deoplete_Ternforvim
     autocmd!
     autocmd FileType javascript setlocal omnifunc=tern#Complete
     autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 augroup END
 
-augroup quick_loc_list
-    autocmd! BufWinEnter quickfix nnoremap <silent> <buffer>
-                \ q :cclose<cr>:lclose<cr>
+augroup Working_Directory
+    autocmd!
+    autocmd BufLeave * let b:last_cwd = getcwd()
+    autocmd BufEnter * if exists('b:last_cwd')
+                \|   execute 'lcd' b:last_cwd
+                \| else
+                    \|   silent! Glcd
+                    \| endif
 augroup END
 
-autocmd! WinEnter term://* startinsert
+augroup FileType_Formatting
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=0 shiftround
+    autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 shiftround expandtab
+    autocmd FileType json setlocal tabstop=8 softtabstop=2 shiftwidth=2 formatoptions=tcq2l expandtab
+    autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType javascript setlocal includeexpr=v:fname.'.js'
+    autocmd FileType python setlocal tabstop=4 softtabstop=4 shfitwidth=4 shiftround expandtab
+    autocmd FileType html,xhtml setlocal tabstop=4 shiftwidth=4 shiftround noexpandtab
+    autocmd FileType zsh,bash setlocal foldmethod=marker noexpandtab
+augroup END
 
-autocmd BufLeave * let b:last_cwd = getcwd()
-autocmd BufEnter * if exists('b:last_cwd')
-            \|   execute 'lcd' b:last_cwd
-            \| else
-                \|   silent! Glcd
-                \| endif
+augroup FileType_Folding
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=0 shiftround
+    autocmd FileType json setlocal expandtab formatoptions=tcq2l foldmethod=syntax shiftround
+    autocmd FileType zsh,bash setlocal foldmethod=marker foldlevel=0
+    autocmd FileType html,xhtml setlocal foldmethod=syntax foldlevel=0
+    autocmd FileType css,less setlocal foldmethod=marker foldlevel=0
+augroup END
+"}}}
+"
+let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'
+let g:dbext_default_profile='myDB'"
 
-" augroup filetype_fold_settings
-"     autocmd FileType html setl foldmethod=marker ={,}| setl foldenable
-"     autocmd FileType vim setl foldmethod=marker | setl foldenable
-"     " vim: foldmarker={,} foldlevel=0 foldmethod=marker
-"     autocmd FileType sh,bash,zsh setl noexpandtab
-"     autocmd FileType zsh setl foldmethod=marker | setl foldenable
-" augroup END
-" }
 
-" Autocmd BufLeave * let b:last_cwd = getcwd()
-" Autocmd BufEnter * if exists('b:last_cwd')
-"                 \|   execute 'lcd' b:last_cwd
-"                 \| else
-"                 \|   silent! Glcd
-"                 \| endif
