@@ -1,16 +1,11 @@
-# Modeline and Notes {
-# vim: set foldmarker={,} foldlevel=0 foldmethod=marker
-# }
-
-
-# Source Prezto {
+# Source Prezto {{{
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
-# }
+# }}}
 
 
-# Source Aliases {
+# Source Aliases {{{
 alias python='python3'
 alias td='nvim /home/mike/Dropbox/todo/todo.txt'
 alias rm='echo "This is not the command you are looking for."; false'
@@ -18,8 +13,8 @@ alias t='/home/mike/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo
 alias ez='nvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ezp='nvim ~/.zpreztorc'
-alias ev='vim ~/.vimrc'
-alias et='vim ~/.tmux.conf'
+alias ev='nvim ~/.vimrc'
+alias et='nvim ~/.tmux.conf'
 alias st='source ~/.tmux.conf'
 alias envim='nvim ~/.config/nvim/init.vim'
 
@@ -45,32 +40,34 @@ alias n='f -e nvim'
 alias tml="tmux list-sessions"
 alias tma="tmux -2 attach -t $1"
 alias tmk="tmux kill-session -t $1"
-# }
+# }}}
 
 
-# Source Fuzzyfinder {
+# Source Plugins {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# }
-
-
-# Source K {
 [ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
-# }
-
-
-# Source Auto Env {
 [ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
-# }
+# [ -f ~/.bin/tmuxinator.zsh ] && source ~/.bin/tmuxinator.zsh
+# }}}
 
-# Source Auto Tmuxinator {
-[ -f ~/.bin/tmuxinator.zsh ] && source ~/.bin/tmuxinator.zsh
-# }
 
-# Autoload Custom Functions {
+# Autoload Custom Functions {{{
 fpath+=(~/.zfunctions)
 autoload -U ~/.zfunctions/*(:t)
-# }
+# }}}
+
 
 eval "$(register-python-argcomplete-menu nfasd)"
 
-source ~/.bin/tmuxinator.zsh
+
+source ~/.zplug/init.zsh
+zplug "arzzen/calc.plugin.zsh"
+
+if ! zplug check --verbose; then
+	printf "Install? [y/N]: "
+	if read -q; then
+		echo; zplug install
+	fi
+fi
+
+zplug load --verbose

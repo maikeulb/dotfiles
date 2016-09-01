@@ -2,6 +2,8 @@
 " General
 set background=dark
 set mouse=
+set title
+
 set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
@@ -79,30 +81,30 @@ set undolevels=1000
 set undoreload=10000
 " }}}
 
-
 " Functions {{{
-" " Smart paste mode
-" function! WrapForTmux(s)
-"     if !exists('$TMUX')
-"         return a:s
-"     endif
+" Smart paste mode
 
-" let l:tmux_start = "\<Esc>Ptmux;"
-" let l:tmux_end = "\<Esc>\\"
+function! WrapForTmux(s)
+    if !exists('$TMUX')
+        return a:s
+    endif
 
-"     return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
-" endfunction
+    let l:tmux_start = "\<Esc>Ptmux;"
+    let l:tmux_end = "\<Esc>\\"
 
-" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+    return l:tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . l:tmux_end
+endfunction
 
-" function! XTermPasteBegin()
-"     set pastetoggle=<Esc>[201~
-"     set paste
-"     return ''
-" endfunction
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
-" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+function! XTermPasteBegin()
+    set pastetoggle=<Esc>[201~
+    set paste
+    return ''
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " Smart windows
 function! WinMove(key)
@@ -132,18 +134,35 @@ function! ToggleTerm()
     endtry
 endfunction
 
+function! ToggleQuickFix()
+    if exists("g:qwindow")
+        lclose
+        unlet g:qwindow
+    else
+        try
+            lopen 10
+            let g:qwindow = 1
+        catch
+            echo "No Errors found!"
+        endtry
+    endif
+endfunction
+
+nmap <script> <silent> <leader>qf :call ToggleQuickFix()<CR>
+
 com! ToggleTerm call ToggleTerm()
 " }}}
 
 
 " Plugins {{{
+
 " Load Plugins {{{
 call plug#begin('~/.vim/bundle')
 
 " General
 Plug 'tpope/vim-projectionist'
 Plug 'svermeulen/vim-easyclip'
-Plug 'vim-scripts/dbext.vim'
+Plug 'vim-scripts/dbext.vim' "practice
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'racket' }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
@@ -159,7 +178,7 @@ Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-rsi'
 
 " Integration
-Plug 'mtth/scratch.vim'
+Plug 'freitass/todo.txt-vim'
 Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'wellle/tmux-complete.vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -167,12 +186,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
 Plug 'tpope/vim-dispatch'  | Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-fugitive'
-Plug 'majutsushi/tagbar', { 'on': 'Tagbar' }
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-fugitive' "practice
+Plug 'majutsushi/tagbar', { 'on': 'Tagbar' } "review
+Plug 'ludovicchabant/vim-gutentags' "review
 Plug 'kassio/neoterm'
 " Plug 'kovisoft/slimv'
-Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold' "review
 
 " Completion & Lint
 Plug 'Chiel92/vim-autoformat'
@@ -193,22 +212,22 @@ Plug 'mattn/emmet-vim', { 'for': 'html' }
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'tmux-plugins/vim-tmux'
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+Plug 'chrisbra/vim-zsh'
 
 " Commands
 Plug 'guns/vim-sexp', { 'for': 'racket' }
-Plug 'wellle/targets.vim'
+Plug 'wellle/targets.vim' " review/practice
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'rhysd/clever-f.vim'
 Plug 'tommcdo/vim-exchange'
-Plug 'AndrewRadev/sideways.vim', { 'on': ['SidewaysLeft', 'SidewaysRight', 'SidewaysJumpLeft', 'SidewaysJumpRight'] }
-Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinSplit', 'SplitjoinJoin' ] }
-Plug 'AndrewRadev/switch.vim', { 'on': 'Switch'}
+
+Plug 'rhysd/clever-f.vim'
 
 call plug#end()
 " }}}
@@ -222,8 +241,9 @@ call plug#end()
 " add function names that should have this type of indenting.
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
 
-" Scratch.vim
-let g:scratch_persistence_file = '.scratch.vim'
+"Dbext
+let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'
+let g:dbext_default_profile='myDB'"
 
 " Seoul256
 " Range:   233 (darkest) ~ 239 (lightest)
@@ -335,6 +355,38 @@ function! SearchWithAgInDirectory(...)
 endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
+fu! QuickfixToggle()
+    if gettabvar(tabpagenr(), 'quickfix_window', 0)
+        if t:quickfix_window == winnr()
+            " jump back to the previous window if inside the quickfix
+            " window
+            wincmd p
+        endif
+        cclose
+        let t:quickfix_window = 0
+    else
+        copen
+        let t:quickfix_window = winnr()
+    endif
+endfu
+nnoremap <silent> <space>q :call QuickfixToggle()<cr>
+
+fu! LocationListToggle()
+    if getwinvar(winnr(), 'locationlist_window', 0)
+        lclose
+        let w:locationlist_window = 0
+    else
+        " prevent errors on empty loclist
+        if !empty(getloclist(0))
+            lopen
+            let w:locationlist_window = 1
+        else
+            echomsg "LocList is empty"
+        endif
+    endif
+endfu
+nnoremap <silent> <space>l :call LocationListToggle()<cr>
+
 " Vimux
 let g:VimuxUseNearestPane = 0
 
@@ -407,8 +459,9 @@ nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
 nnoremap oo o<Esc>k
+nnoremap OO O<Esc>
+nnoremap ss i<space><esc>h
 nnoremap od 0D
-nnoremap ss i<space><esc>
 
 nnoremap <leader>* *``cgn
 nnoremap <leader># #``cgN
@@ -417,8 +470,9 @@ nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 
 nnoremap <leader>bd :BD<CR>
 nnoremap <Leader>bdd :BD!<CR>
-nnoremap <leader>w   :w<CR>
 nnoremap <leader>wq :wq<CR>
+nnoremap <leader>w   :w<CR>
+nnoremap <leader>ws :w<CR>:so %<CR>
 
 nnoremap <leader><leader> <c-^>
 nnoremap <leader>ew :e %%
@@ -434,10 +488,10 @@ nnoremap <leader>cn :cnext<CR>
 nnoremap <leader>cp :cprevious<CR>
 
 nnoremap <silent> <leader>tn  :tabnext<CR>
+nnoremap <silent> <leader>jj :bprevious<cr>
 nnoremap <silent> <leader>tp  :tabprev<CR>
 
 nnoremap <silent> <leader>kk :bnext<cr>
-nnoremap <silent> <leader>jj :bprevious<cr>
 
 nnoremap <silent> <leader>q :botright copen 10<cr>
 nnoremap <silent> <leader>l :botright lopen 10<cr>
@@ -450,6 +504,8 @@ tnoremap <C-l> <C-\><C-n><C-w>l
 
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>sz :source /home/mike/.zshrc<cr>
+nnoremap <leader>td :edit /home/mike/Dropbox/todo/todo.txt<cr>
 
 nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
 nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
@@ -457,7 +513,6 @@ xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
 xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
-cmap w!! w !sudo tee % >/dev/null
 
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
@@ -474,14 +529,6 @@ cnoremap <C-p> <Up>
 " nnoremap :g/ :g/\v
 " nnoremap :g// :g//
 
-" Sideways
-nnoremap s< :SidewaysLeft<CR>
-nnoremap s> :SidewaysRight<CR>
-
-omap aa <Plug>SidewaysArgumentTextobjA
-xmap aa <Plug>SidewaysArgumentTextobjA
-omap ia <Plug>SidewaysArgumentTextobjI
-xmap ia <Plug>SidewaysArgumentTextobjI
 
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<cr>
@@ -577,8 +624,8 @@ nmap ga <Plug>(EasyAlign)
 
 " Deoplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -612,7 +659,7 @@ augroup General
     autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
                 \ q :cclose<cr>:lclose<cr>
     autocmd WinEnter term://* startinsert
-    autocmd VimEnter * DBCompleteTables
+    " autocmd VimEnter * DBCompleteTables
 augroup END
 
 augroup Javascript, html, css
@@ -624,7 +671,7 @@ augroup END
 
 augroup Rainbowlisp
     autocmd!
-    " autocmd syntax racket RainbowParentheses
+    autocmd syntax racket RainbowParentheses
     autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
     autocmd FileType lisp,racket,clojure scheme setlocal RainbowParentheses
     autocmd FileType lisp,racket,scheme setlocal equalprg=scmindent.rkt
@@ -633,8 +680,8 @@ augroup END
 augroup Neomake
     autocmd!
     autocmd BufWritePost * Neomake
-    " autocmd QuitPre * let g:neomake_verbose = 0
-    " autocmd VimLeave * let g:neomake_verbose = 0
+    autocmd QuitPre * let g:neomake_verbose = 0
+    autocmd VimLeave * let g:neomake_verbose = 0
 augroup END
 
 augroup Markdown
@@ -690,7 +737,7 @@ augroup FileType_Formatting
     autocmd FileType javascript setlocal includeexpr=v:fname.'.js'
     autocmd FileType python setlocal tabstop=4 softtabstop=4 shfitwidth=4 shiftround expandtab
     autocmd FileType html,xhtml setlocal tabstop=4 shiftwidth=4 shiftround noexpandtab
-    autocmd FileType zsh,bash setlocal foldmethod=marker noexpandtab
+    " autocmd FileType zsh,bash,tmux setlocal foldmethod=marker expandtab
 augroup END
 
 augroup FileType_Folding
@@ -700,8 +747,6 @@ augroup FileType_Folding
     autocmd FileType zsh,bash setlocal foldmethod=marker foldlevel=0
     autocmd FileType html,xhtml setlocal foldmethod=syntax foldlevel=0
     autocmd FileType css,less setlocal foldmethod=marker foldlevel=0
+    autocmd FileType zsh,bash,tmux setlocal foldmethod=marker
 augroup END
 "}}}
-"
-let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'
-let g:dbext_default_profile='myDB'"
