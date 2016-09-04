@@ -1,131 +1,124 @@
-# Modeline and Notes {
-# vim: set sw=4 ts=4 sts=4 et tw=79 foldmarker={,} foldlevel=0 foldmethod=marker spell:
-# }
-
-
 # Sets Prezto options.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
+# General {{{
 
-# General {
 # Set case-sensitivity for completion, history lookup, etc.
-# zstyle ':prezto:*:*' case-sensitive 'yes'
+zstyle ':prezto:*:*' case-sensitive 'no'
 
 # Color output (auto set to 'no' on dumb terminals).
-    zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:*:*' color 'yes'
 
 # Set the Zsh modules to load (man zshmodules).
 # zstyle ':prezto:load' zmodule 'attr' 'stat'
 
 # Set the Zsh functions to load (man zshcontrib).
-        zstyle ':prezto:load' zfunction 'zargs' 'zmv'
+zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 
 # Set the Prezto modules to load (browse modules).
 # The order matters.
-        zstyle ':prezto:load' pmodule \
-        'environment' \
-        'terminal' \
-        'editor' \
-        'history' \
-        'directory' \
-        'spectrum' \
-        'utility' \
-        'completion' \
-        'prompt'\
-        'syntax-highlighting' \
-        'history-substring-search' \
-        'git' \
-        'fasd' \
-        'tmux' \
-        'autosuggestions' \
-# }
+zstyle ':prezto:load' pmodule \
+    'environment' \
+    'terminal' \
+    'editor' \
+    'history' \
+    'directory' \
+    'spectrum' \
+    'utility' \
+    'completion' \
+    'prompt'\
+    'syntax-highlighting' \
+    'history-substring-search' \
+    'git' \
+    'fasd' \
+    'tmux' \
+    'autosuggestions' \
+    # }}}
 
 
-# Autosuggestions {
+# Autosuggestions {{{
 # Enable highlighting
-    zstyle ':prezto:module:autosuggestions' color 'yes'
+zstyle ':prezto:module:autosuggestions' color 'yes'
 
 # Set the query found color.
-        zstyle ':prezto:module:autosuggestions:color' found 'fg=8'
-# }
+zstyle ':prezto:module:autosuggestions:color' found 'fg=8'
+# }}}
 
 
-# Editor {
+# Editor {{{
 # Set the key mapping style to 'emacs' or 'vi'.
-    zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Auto convert .... to ../..
-        zstyle ':prezto:module:editor' dot-expansion 'yes'
-# }
+zstyle ':prezto:module:editor' dot-expansion 'yes'
+# }}}
 
 
-# History Substring Search {
+# History Substring Search {{{
+
 # Set the query found color.
-    zstyle ':prezto:module:history-substring-search:color' found ''
+zstyle ':prezto:module:history-substring-search:color' found ''
 
 # Set the query not found color.
-        zstyle ':prezto:module:history-substring-search:color' not-found ''
+zstyle ':prezto:module:history-substring-search:color' not-found ''
 
 # Set the search globbing flags.
-        zstyle ':prezto:module:history-substring-search' globbing-flags ''
-# }
+zstyle ':prezto:module:history-substring-search' globbing-flags ''
+
+# }}}
 
 
-# Prompt {
+# Prompt {{{
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-    zstyle ':prezto:module:prompt' theme 'nicoulaj'
-# }
+zstyle ':prezto:module:prompt' theme 'nicoulaj'
+# }}}
 
 
-# SSH {
+# SSH {{{
 # Set the SSH identities to load into the agent.
-    zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
-# }
+zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
+# }}}
 
 
-# Syntax Highlighting {
+# Syntax Highlighting {{{
 # Enable highlighting colors
-    zstyle ':prezto:module:syntax-highlighting' color 'yes'
+zstyle ':prezto:module:syntax-highlighting' color 'yes'
 
 # Set syntax highlighters.
 # By default, only the main highlighter is enabled.
-        zstyle ':prezto:module:syntax-highlighting' highlighters \
-        'main' \
-        'brackets' \
-        'pattern' \
-        'line' \
-        'cursor' \
-        'root'
-#
+zstyle ':prezto:module:syntax-highlighting' highlighters \
+    'main' \
+    'brackets' \
+    'pattern' \
+    'line' \
+    'cursor' \
+    'root'
+
 # Set the syntax highlight styles.
-        if [[ "$(tput colors)" == "256"  ]]; then
-            zstyle ':prezto:module:syntax-highlighting' styles \
-                'alias'                  'fg=26'               \
-                'builtin'                'fg=26'               \
-                'command'                'fg=26'               \
-                'commandseparator'       'fg=45'               \
-                'default'                'fg=45'               \
-                'double-hyphen-option'   'fg=39'               \
-                'double-quoted-argument' 'fg=45'               \
-                'function'               'fg=26'               \
-                'globbing'               'fg=39,bold'          \
-                'hashed-command'         'fg=26'               \
-                'history-expansion'      'fg=39'               \
-                'path'                   'fg=39'               \
-                'precommand'             'fg=36'               \
-                'reserved-word'          'fg=36'               \
-                'single-hyphen-option'   'fg=39'               \
-                'single-quoted-argument' 'fg=45'
-                fi
-# }
+if [[ "$(tput colors)" == "256"  ]]; then
+    zstyle ':prezto:module:syntax-highlighting' styles \
+        'alias'                  'fg=26'               \
+        'builtin'                'fg=26'               \
+        'command'                'fg=26'               \
+        'commandseparator'       'fg=45'               \
+        'default'                'fg=45'               \
+        'double-hyphen-option'   'fg=39'               \
+        'double-quoted-argument' 'fg=45'               \
+        'function'               'fg=26'               \
+        'globbing'               'fg=39,bold'          \
+        'hashed-command'         'fg=26'               \
+        'history-expansion'      'fg=39'               \
+        'path'                   'fg=39'               \
+        'precommand'             'fg=36'               \
+        'reserved-word'          'fg=36'               \
+        'single-hyphen-option'   'fg=39'               \
+        'single-quoted-argument' 'fg=45'
+fi
+# }}}
 
 
-# Terminal {
+# Terminal {{{
 # Auto set the tab and window titles.
 # zstyle ':prezto:module:terminal' auto-title 'no'
 
@@ -134,22 +127,22 @@
 
 # Set the tab title format.
 # zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
-# }
+# }}}
 
 
-# Tmux {
+# Tmux {{{
 # Auto start a session when Zsh is launched in a local terminal.
-# zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:auto-start' local 'yes'
 
 # Auto start a session when Zsh is launched in a SSH connection.
 # zstyle ':prezto:module:tmux:auto-start' remote 'yes'
-# }
+# }}}
 
 
-# Git {
+# Git {{{
 # The format of git-log output is configurable: brief, oneline, and medium
-    zstyle ':prezto:module:git:log:context' format 'oneline'
+zstyle ':prezto:module:git:log:context' format 'brief'
 
 # Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
-        zstyle ':prezto:module:git:status:ignore' submodules 'all'
-# }
+zstyle ':prezto:module:git:status:ignore' submodules 'all'
+# }}}

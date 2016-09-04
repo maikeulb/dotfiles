@@ -1,6 +1,6 @@
 # Source Prezto {{{
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 # }}}
 
@@ -17,6 +17,7 @@ alias ev='nvim ~/.vimrc'
 alias et='nvim ~/.tmux.conf'
 alias st='source ~/.tmux.conf'
 alias envim='nvim ~/.config/nvim/init.vim'
+alias cdg='cd $(git rev-parse --show-toplevel)'
 
 alias h='history'
 alias remove='sudo apt-get --purge remove'
@@ -40,6 +41,9 @@ alias n='f -e nvim'
 alias tml="tmux list-sessions"
 alias tma="tmux -2 attach -t $1"
 alias tmk="tmux kill-session -t $1"
+
+# alias tagit='ctags -R --exclude=.git --exclude=log *'
+
 # }}}
 
 
@@ -47,27 +51,23 @@ alias tmk="tmux kill-session -t $1"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
 [ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
-# [ -f ~/.bin/tmuxinator.zsh ] && source ~/.bin/tmuxinator.zsh
+# [ -f ~/.enhancd/init.sh ] &&  source ~/.enhancd/init.sh
+
 # }}}
 
 
 # Autoload Custom Functions {{{
 fpath+=(~/.zfunctions)
 autoload -U ~/.zfunctions/*(:t)
+
 # }}}
 
 
 eval "$(register-python-argcomplete-menu nfasd)"
 
+# Plugins {{{
 
-source ~/.zplug/init.zsh
-zplug "arzzen/calc.plugin.zsh"
+# # }}}
+# }}}
 
-if ! zplug check --verbose; then
-	printf "Install? [y/N]: "
-	if read -q; then
-		echo; zplug install
-	fi
-fi
-
-zplug load --verbose
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

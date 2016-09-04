@@ -31,7 +31,7 @@ set nomodeline
 set completeopt-=preview
 highlight ColorColumn ctermbg=233
 let g:python_highlight_all=1
-let g:python3_host_prog = '/home/mike/venv/bin/python3'
+let g:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
 
 "Formatting
 set relativenumber
@@ -178,7 +178,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-rsi'
 
-" Integration
+Integration
 Plug 'freitass/todo.txt-vim'
 Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'wellle/tmux-complete.vim'
@@ -193,7 +193,7 @@ Plug 'ludovicchabant/vim-gutentags' "review
 Plug 'kassio/neoterm'
 " Plug 'kovisoft/slimv'
 Plug 'Konfekt/FastFold' "review
-
+Plug 'wting/gitsessions.vim'
 " Completion & Lint
 Plug 'Chiel92/vim-autoformat'
 Plug 'neomake/neomake'
@@ -206,6 +206,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tweekmonster/braceless.vim', { 'for': 'python' }
 Plug 'alfredodeza/pytest.vim', { 'for': 'python' }  "review
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' } "review
+Plug 'jmcantrell/vim-virtualenv'
 Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
 Plug 'moll/vim-node', { 'for': 'javascript' }
@@ -216,6 +217,7 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'tmux-plugins/vim-tmux'
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'chrisbra/vim-zsh'
+Plug 'hynek/vim-python-pep8-indent'
 
 " Commands
 Plug 'guns/vim-sexp', { 'for': 'racket' }
@@ -248,7 +250,7 @@ let g:dbext_default_profile='myDB'"
 
 " Seoul256
 " Range:   233 (darkest) ~ 239 (lightest)
-let g:seoul256_background = 234
+let g:seoul256_background = 233
 colo seoul256
 
 " Clever-F
@@ -443,6 +445,9 @@ let g:mapleader = "\<Space>"
 nnoremap ; :
 nnoremap : ;
 
+nnoremap n nzz
+nnoremap N Nzz
+
 inoremap jj <Esc>
 nnoremap ,; @:<CR>
 nnoremap <backspace> <nop>
@@ -452,7 +457,7 @@ nnoremap j gj
 nnoremap k gk
 
 nnoremap Y y$
-
+nnoremap D d$
 nnoremap H 0
 nnoremap L $
 
@@ -627,12 +632,12 @@ nmap ga <Plug>(EasyAlign)
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort
-    return deoplete#close_popup()
-endfunction
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function() abort
+"     return deoplete#close_popup()
+" endfunction
 
 " Neosnippet
 " imap <silent><expr><C-k> neosnippet#expandable() ?
@@ -650,6 +655,8 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 
 " Autogroups and autocommands {{{
+au BufRead,BufNewFile *.zpreztorc setfiletype zsh
+
 augroup General
     autocmd!
     autocmd BufWrite * :Autoformat
@@ -731,23 +738,50 @@ augroup END
 
 augroup FileType_Formatting
     autocmd!
-    autocmd FileType vim setlocal foldmethod=marker foldlevel=0 shiftround
+    autocmd BufNewFile,BufRead *.zpreztorc set filetype=zsh
+    autocmd FileType vim setlocal tabstop=4 softtabstop=4 shiftwidth=4 shiftround expandtab
     autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 shiftround expandtab
     autocmd FileType json setlocal tabstop=8 softtabstop=2 shiftwidth=2 formatoptions=tcq2l expandtab
     autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType javascript setlocal includeexpr=v:fname.'.js'
-    autocmd FileType python setlocal tabstop=4 softtabstop=4 shfitwidth=4 shiftround expandtab
+    autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 shiftround expandtab
     autocmd FileType html,xhtml setlocal tabstop=4 shiftwidth=4 shiftround noexpandtab
-    " autocmd FileType zsh,bash,tmux setlocal foldmethod=marker expandtab
+    autocmd FileType zsh,bash,tmux, setlocal tabstop=4 softtabstop=4 shiftwidth=4 shiftround expandtab nocindent
 augroup END
 
 augroup FileType_Folding
     autocmd!
-    autocmd FileType vim setlocal foldmethod=marker foldlevel=0 shiftround
-    autocmd FileType json setlocal expandtab formatoptions=tcq2l foldmethod=syntax shiftround
+    autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+    autocmd FileType json setlocal expandtab formatoptions=tcq2l foldmethod=syntax
     autocmd FileType zsh,bash setlocal foldmethod=marker foldlevel=0
     autocmd FileType html,xhtml setlocal foldmethod=syntax foldlevel=0
     autocmd FileType css,less setlocal foldmethod=marker foldlevel=0
-    autocmd FileType zsh,bash,tmux setlocal foldmethod=marker
+    autocmd FileType zsh,bash,tmux, setlocal foldmethod=marker
 augroup END
 "}}}
+
+
+" augroup ft_javascript
+"     au!
+
+" au FileType javascript setlocal foldmethod=marker
+" au FileType javascript setlocal foldmarker={,}
+" au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+
+" " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+" " positioned inside of them AND the following code doesn't get unfolded.
+" au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+" " }
+
+" " Prettify a hunk of JSON with <localleader>p
+" au FileType javascript nnoremap <buffer> <localleader>p ^vg_:!python -m json.tool<cr>
+" au FileType javascript vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
+" augroup END
+
+""" vim-virtualenv
+let g:virtualenv_auto_activate = 1
+let g:virtualenv_stl_format = '[%n]'
+let g:virtualenv_directory = $WORKON_HOME
+
+
+
