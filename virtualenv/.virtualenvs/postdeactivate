@@ -1,0 +1,8 @@
+#!/usr/bin/zsh
+# This hook is sourced after every virtualenv is deactivated.
+
+# Override cd to go to the venv root
+cd () {
+    autoenv_cd "$@"
+}
+

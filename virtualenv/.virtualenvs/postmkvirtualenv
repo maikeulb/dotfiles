@@ -1,0 +1,52 @@
+#!/usr/bin/zsh
+# This hook is sourced after a new virtualenv is activated.
+
+# Create a directory named after the virtual environment as a subdirectory of
+# the current working directory, then cd into it.
+parent="$PWD"
+envname="$(basename $VIRTUAL_ENV)"
+envdir="$parent/$envname"
+
+postactivate=$VIRTUAL_ENV/bin/postactivate
+
+echo "cd $envdir"             >> $postactivate
+echo                          >> $postactivate
+
+if [ ! -e $envdir ]; then
+    mkdir -p $envdir
+fi
+
+cd $envdir
+
+# Write a postactivate hook into the newly created virtual environment
+postactivate=$VIRTUAL_ENV/bin/postactivate
+
+echo "cd $envdir"             >> $postactivate
+
+# Create a .env file at the base of the new virtualenv
+PROJECT_NAME=$(echo "$VIRTUAL_ENV" | awk -F '/' '{print $NF}')
+ENV_CONF=~/$PROJECT_NAME/.env
+
+cat <<EOF > "$ENV_CONF"
+
+venv="\$PROJECT_NAME"
+currentvenv=""
+
+if [[ \$VIRTUAL_ENV != "" ]]
+then
+    # Strip out the path and just leave the env name
+    currentvenv="\${VIRTUAL_ENV##*/}"
+fi
+
+if [[ "\$currentvenv" != "\$venv" ]]
+then
+    echo "Switching to environment: \$venv"
+    workon \$venv
+    #else
+    #  echo "Already on environment \$venv"
+fi
+EOF
+
+# Pre-install unit test tools in the new virtualenv
+pip install pytest pytest-cov
+echo "installing pytest"
