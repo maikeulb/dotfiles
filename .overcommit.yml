@@ -46,58 +46,59 @@ CommitMsg:
       # editor is displayed. These hooks are ideal for syntax checkers, linters, and
       # other checks that you want to run before you allow a commit object to be
       # created.
-    PreCommit:
-      ALL:
-        problem_on_unmodified_line: report
+
+PreCommit:
+  ALL:
+    problem_on_unmodified_line: report
     requires_files: true
     required: false
     quiet: false
 
-    AuthorEmail:
-      enabled: true
+  AuthorEmail:
+    enabled: true
     description: 'Check author email'
     requires_files: false
     required: true
     quiet: false
     pattern: '^[^@]+@.*$'
 
-    AuthorName:
-      enabled: true
+  AuthorName:
+    enabled: true
     description: 'Check for author name'
     requires_files: false
     required: true
     quiet: false
 
-    Mdl:
-      enabled: true
+  Mdl:
+    enabled: true
     description: 'Analyze with mdl'
     required_executable: 'mdl'
     install_command: 'gem install mdl'
     include: '**/*.md'
 
-    Pep257:
-      enabled: true
+  Pep257:
+    enabled: true
     description: 'Analyze docstrings with pep257'
     required_executable: 'pep257'
     install_command: 'pip install pep257'
     include: '**/*.py'
 
-    Pep8:
-      enabled: true
+  Pep8:
+    enabled: true
     description: 'Analyze with pep8'
     required_executable: 'pep8'
     install_command: 'pip install pep8'
     include: '**/*.py'
 
-    Pyflakes:
-      enabled: true
+  Pyflakes:
+    enabled: true
     description: 'Analyze with pyflakes'
     required_executable: 'pyflakes'
     install_command: 'pip install pyflakes'
     include: '**/*.py'
 
-    Pylint:
-      enabled: true
+  Pylint:
+    enabled: true
     description: 'Analyze with Pylint'
     required_executable: 'pylint'
     install_command: 'pip install pylint'
@@ -107,28 +108,28 @@ CommitMsg:
       - '--persistent=n'
     include: '**/*.py'
 
-    PythonFlake8:
-      enabled: true
+  PythonFlake8:
+    enabled: true
     description: 'Analyze with flake8'
     required_executable: 'flake8'
     install_command: 'pip install flake8'
     include: '**/*.py'
 
-    ShellCheck:
-      enabled: true
+  ShellCheck:
+    enabled: true
     description: 'Analyze with ShellCheck'
     required_executable: 'shellcheck'
     flags: ['--format=gcc']
     include: '**/*.sh'
 
-    TrailingWhitespace:
-      enabled: true
+  TrailingWhitespace:
+    enabled: true
     description: 'Check for trailing whitespace'
     required_executable: 'grep'
     flags: ['-IHn', "[ \t]$"]
 
-    Vint:
-      enabled: true
+  Vint:
+    enabled: true
     description: 'Analyze with Vint'
     required_executable: 'vint'
     install_command: 'pip install vim-vint'
@@ -138,8 +139,8 @@ CommitMsg:
       - '**/*init.vim'
 
 
-    YamlSyntax:
-      enabled: true
+  YamlSyntax:
+    enabled: true
     description: 'Check YAML syntax'
     required_library: 'yaml'
     include:
