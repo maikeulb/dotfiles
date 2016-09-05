@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 # This hook is sourced after every virtualenv is activated.
-
+PROJECT_NAME=$(echo "$VIRTUAL_ENV" | awk -F '/' '{print $NF}')
 # Override cd to go to the venv root
 cd () {
     if (( $# == 0 ))

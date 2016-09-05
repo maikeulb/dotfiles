@@ -56,6 +56,7 @@
 <leader>gc	vim/init.vim	/^nnoremap <leader>gc  :Gcommit -v -q<CR>$/;"	m
 <leader>gd	vim/init.vim	/^nnoremap <leader>gd  :Gdiff<CR>$/;"	m
 <leader>ge	vim/init.vim	/^nnoremap <leader>ge  :Gedit<CR>$/;"	m
+<leader>gg	vim/init.vim	/^nnoremap <leader>gg  :Ggrep<Space>$/;"	m
 <leader>gl	vim/init.vim	/^nnoremap <leader>gl  :silent! Glog<CR>:bot copen<CR>$/;"	m
 <leader>gm	vim/init.vim	/^nnoremap <leader>gm  :Gmove<Space>$/;"	m
 <leader>go	vim/init.vim	/^nnoremap <leader>go  :Git checkout<Space>$/;"	m
@@ -113,6 +114,7 @@
 <space>q	vim/init.vim	/^nnoremap <silent> <space>q :call QuickfixToggle()<cr>$/;"	m
 <up>	vim/init.vim	/^nmap <up>    :3wincmd +<cr>$/;"	m
 AgIn	vim/init.vim	/^command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)$/;"	c
+D	vim/init.vim	/^nnoremap D d\$$/;"	m
 Deoplete_Ternforvim	vim/init.vim	/^augroup Deoplete_Ternforvim$/;"	a
 FileType_Folding	vim/init.vim	/^augroup FileType_Folding$/;"	a
 FileType_Formatting	vim/init.vim	/^augroup FileType_Formatting$/;"	a
@@ -122,7 +124,7 @@ Javascript	vim/init.vim	/^augroup Javascript, html, css$/;"	a
 K	vim/init.vim	/^nnoremap <silent> K :call SearchWordWithAg()<CR>$/;"	m
 K	vim/init.vim	/^vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>$/;"	m
 L	vim/init.vim	/^nnoremap L \$$/;"	m
-LocationListToggle	vim/init.vim	/^fu! LocationListToggle()$/;"	f
+LocationListToggle	vim/init.vim	/^function! LocationListToggle()$/;"	f
 Markdown	vim/init.vim	/^augroup Markdown$/;"	a
 N	vim/init.vim	/^nnoremap N Nzz$/;"	m
 Neomake	vim/init.vim	/^augroup Neomake$/;"	a
@@ -131,7 +133,7 @@ Omnicompletion	vim/init.vim	/^augroup Omnicompletion$/;"	a
 Python	vim/init.vim	/^augroup Python$/;"	a
 Q	vim/init.vim	/^nnoremap Q @q$/;"	m
 Q	vim/init.vim	/^vnoremap Q :norm @q<cr>$/;"	m
-QuickfixToggle	vim/init.vim	/^fu! QuickfixToggle()$/;"	f
+QuickfixToggle	vim/init.vim	/^function! QuickfixToggle()$/;"	f
 Rainbowlisp	vim/init.vim	/^augroup Rainbowlisp$/;"	a
 SearchVisualSelectionWithAg	vim/init.vim	/^function! SearchVisualSelectionWithAg() range$/;"	f
 SearchWithAgInDirectory	vim/init.vim	/^function! SearchWithAgInDirectory(...)$/;"	f
@@ -162,8 +164,6 @@ g:autoformat_remove_trailing_spaces	vim/init.vim	/^let g:autoformat_remove_trail
 g:autoformat_retab	vim/init.vim	/^let g:autoformat_retab = 1$/;"	v
 g:autoformat_verbosemode	vim/init.vim	/^let g:autoformat_verbosemode=0$/;"	v
 g:clever_f_fix_key_direction	vim/init.vim	/^let g:clever_f_fix_key_direction=1$/;"	v
-g:dbext_default_profile	vim/init.vim	/^let g:dbext_default_profile='myDB'"$/;"	v
-g:dbext_default_profile_myDB	vim/init.vim	/^let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'$/;"	v
 g:deoplete#enable_at_startup	vim/init.vim	/^let g:deoplete#enable_at_startup = 1$/;"	v
 g:deoplete#omni#input_patterns	vim/init.vim	/^    let g:deoplete#omni#input_patterns = {}$/;"	v
 g:deoplete#sources#jedi#enable_cache	vim/init.vim	/^let g:deoplete#sources#jedi#enable_cache = 1$/;"	v
@@ -178,7 +178,7 @@ g:neoterm_position	vim/init.vim	/^let g:neoterm_position = 'horizontal'$/;"	v
 g:neoterm_raise_when_tests_fail	vim/init.vim	/^let g:neoterm_raise_when_tests_fail=1$/;"	v
 g:neoterm_repl_python	vim/init.vim	/^let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'$/;"	v
 g:neoterm_run_tests_bg	vim/init.vim	/^let g:neoterm_run_tests_bg=1$/;"	v
-g:python3_host_prog	vim/init.vim	/^let g:python3_host_prog = '\/home\/mike\/venv\/bin\/python3'$/;"	v
+g:python3_host_prog	vim/init.vim	/^let g:python3_host_prog = '\/home\/mike\/.virtualenvs\/.neovim\/bin\/python3'$/;"	v
 g:python_highlight_all	vim/init.vim	/^let g:python_highlight_all=1$/;"	v
 g:seoul256_background	vim/init.vim	/^let g:seoul256_background = 233$/;"	v
 g:tern_show_argument_hints	vim/init.vim	/^let g:tern_show_argument_hints = 'on_hold'$/;"	v
@@ -187,10 +187,11 @@ g:test#python#runner	vim/init.vim	/^let g:test#python#runner = 'pytest'$/;"	v
 g:test#strategy	vim/init.vim	/^let g:test#strategy = 'dispatch'$/;"	v
 g:user_emmet_install_global	vim/init.vim	/^let g:user_emmet_install_global = 0$/;"	v
 g:vimDir	vim/init.vim	/^let g:vimDir = '$HOME\/.vim'$/;"	v
+g:virtualenv_auto_activate	vim/init.vim	/^let g:virtualenv_auto_activate = 1$/;"	v
+g:virtualenv_directory	vim/init.vim	/^let g:virtualenv_directory = $WORKON_HOME$/;"	v
+g:virtualenv_stl_format	vim/init.vim	/^let g:virtualenv_stl_format = '[%n]'$/;"	v
 ga	vim/init.vim	/^nmap ga <Plug>(EasyAlign)$/;"	m
-j	vim/init.vim	/^nnoremap j gj$/;"	m
 jj	vim/init.vim	/^inoremap jj <Esc>$/;"	m
-k	vim/init.vim	/^nnoremap k gk$/;"	m
 myUndoDir	vim/init.vim	/^    let myUndoDir = expand(vimDir . '\/undodir')$/;"	v
 my_cr_function	vim/init.vim	/^function! s:my_cr_function() abort$/;"	f
 n	vim/init.vim	/^nnoremap n nzz$/;"	m

@@ -3,7 +3,6 @@
 set background=dark
 set mouse=
 set title
-
 set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
@@ -83,8 +82,39 @@ set undoreload=10000
 
 
 " Functions {{{
-" Smart paste mode
+function! LocationListToggle()
+    if getwinvar(winnr(), 'locationlist_window', 0)
+        lclose
+        let w:locationlist_window = 0
+    else
+        " prevent errors on empty loclist
+        if !empty(getloclist(0))
+            lopen
+            let w:locationlist_window = 1
+        else
+            echomsg "LocList is empty"
+        endif
+    endif
+endfu
+nnoremap <silent> <space>l :call LocationListToggle()<cr>
 
+function! QuickfixToggle()
+    if gettabvar(tabpagenr(), 'quickfix_window', 0)
+        if t:quickfix_window == winnr()
+            " jump back to the previous window if inside the quickfix
+            " window
+            wincmd p
+        endif
+        cclose
+        let t:quickfix_window = 0
+    else
+        copen
+        let t:quickfix_window = winnr()
+    endif
+endfu
+nnoremap <silent> <space>q :call QuickfixToggle()<cr>
+
+" Smart paste mode
 function! WrapForTmux(s)
     if !exists('$TMUX')
         return a:s
@@ -150,7 +180,6 @@ function! ToggleQuickFix()
 endfunction
 
 nmap <script> <silent> <leader>qf :call ToggleQuickFix()<CR>
-
 com! ToggleTerm call ToggleTerm()
 " }}}
 
@@ -163,7 +192,6 @@ call plug#begin('~/.vim/bundle')
 " General
 Plug 'tpope/vim-projectionist'
 Plug 'svermeulen/vim-easyclip'
-Plug 'vim-scripts/dbext.vim' "practice
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'racket' }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
@@ -176,24 +204,21 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'justinmk/vim-dirvish'
 Plug 'Raimondi/delimitMate'
 Plug 'szw/vim-maximizer'
-Plug 'tpope/vim-rsi'
 
-Integration
+" Integration
 Plug 'freitass/todo.txt-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar', { 'on': 'Tagbar' }
+Plug 'ludovicchabant/vim-gutentags'
+" Plug 'kovisoft/slimv'
+Plug 'Konfekt/FastFold' "review
 Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'wellle/tmux-complete.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
-Plug 'tpope/vim-dispatch'  | Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-fugitive' "practice
-Plug 'majutsushi/tagbar', { 'on': 'Tagbar' } "review
-Plug 'ludovicchabant/vim-gutentags' "review
 Plug 'kassio/neoterm'
-" Plug 'kovisoft/slimv'
-Plug 'Konfekt/FastFold' "review
-Plug 'wting/gitsessions.vim'
+Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
+
 " Completion & Lint
 Plug 'Chiel92/vim-autoformat'
 Plug 'neomake/neomake'
@@ -222,14 +247,16 @@ Plug 'hynek/vim-python-pep8-indent'
 " Commands
 Plug 'guns/vim-sexp', { 'for': 'racket' }
 Plug 'wellle/targets.vim' " review/practice
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'tommcdo/vim-exchange'
-
+Plug 'tpope/vim-dispatch'  | Plug 'radenling/vim-dispatch-neovim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rsi'
 Plug 'rhysd/clever-f.vim'
 
 call plug#end()
@@ -244,54 +271,18 @@ call plug#end()
 " add function names that should have this type of indenting.
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
 
-"Dbext
-let g:dbext_default_profile_myDB='type=pgsql:host=localhost:user=myUser:dsnname=myDB:dbname=myDB:passwd=myPassword'
-let g:dbext_default_profile='myDB'"
-
 " Seoul256
 " Range:   233 (darkest) ~ 239 (lightest)
 let g:seoul256_background = 233
 colo seoul256
 
+" Vim-virtualenv
+let g:virtualenv_auto_activate = 1
+let g:virtualenv_stl_format = '[%n]'
+let g:virtualenv_directory = $WORKON_HOME
+
 " Clever-F
 let g:clever_f_fix_key_direction=1
-
-" " Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list=0
-" let g:syntastic_auto_loc_list=1
-" let g:synatastic_check_on_open=1
-" let g:syntastic_check_on_wq=0
-" let g:syntastic_enable_signs=1
-" let g:syntastic_python_python_exec='/usr/bin/env python'
-" let g:syntastic_loc_list_height=5
-" let g:syntastic_mode_map = { 'mode': 'passive',
-"             \ 'active_filetypes': [],
-"             \ 'passive_filetypes': [] }
-
-" " Jedi-Vim
-" let g:jedi#force_py_version = 3
-" let g:jedi#completions_enabled = 1
-" let g:jedi#auto_vim_configuration = 1
-" let g:jedi#popup_select_first = 0
-" let g:jedi#popup_on_dot = 0
-" " let g:jedi#use_tabs_not_buffers = 0
-" " let g:jedi#show_call_signatures = 2
-
-" " SuperTab
-" let g:SuperTabDefaultCompletionType    = '<C-n>'
-" let g:SuperTabClosePreviewOnPopupClose = 1
-" let g:SuperTabCrMapping                = 0
-
-" " UltiSnips
-" let g:UltiSnipsExpandTrigger           ="<cr>"
-" let g:UltiSnipsJumpForwardTrigger      ="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger     ="<c-k>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " " Slimv
 " let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
@@ -358,38 +349,6 @@ function! SearchWithAgInDirectory(...)
 endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
-fu! QuickfixToggle()
-    if gettabvar(tabpagenr(), 'quickfix_window', 0)
-        if t:quickfix_window == winnr()
-            " jump back to the previous window if inside the quickfix
-            " window
-            wincmd p
-        endif
-        cclose
-        let t:quickfix_window = 0
-    else
-        copen
-        let t:quickfix_window = winnr()
-    endif
-endfu
-nnoremap <silent> <space>q :call QuickfixToggle()<cr>
-
-fu! LocationListToggle()
-    if getwinvar(winnr(), 'locationlist_window', 0)
-        lclose
-        let w:locationlist_window = 0
-    else
-        " prevent errors on empty loclist
-        if !empty(getloclist(0))
-            lopen
-            let w:locationlist_window = 1
-        else
-            echomsg "LocList is empty"
-        endif
-    endif
-endfu
-nnoremap <silent> <space>l :call LocationListToggle()<cr>
-
 " Vimux
 let g:VimuxUseNearestPane = 0
 
@@ -425,9 +384,6 @@ let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
 let g:autoformat_verbosemode=0
-" let g:formatters_python = ['yapf']
-" let g:formatdef_yapf = 1
-" let g:formatter_yapf_style = 'pep8'
 
 " Vim-Maximizer
 nnoremap <silent><c-z> :MaximizerToggle<CR>
@@ -445,16 +401,13 @@ let g:mapleader = "\<Space>"
 nnoremap ; :
 nnoremap : ;
 
-nnoremap n nzz
-nnoremap N Nzz
-
 inoremap jj <Esc>
 nnoremap ,; @:<CR>
 nnoremap <backspace> <nop>
 nnoremap <Leader>= <C-w>=
 
-nnoremap j gj
-nnoremap k gk
+nnoremap n nzz
+nnoremap N Nzz
 
 nnoremap Y y$
 nnoremap D d$
@@ -535,7 +488,6 @@ cnoremap <C-p> <Up>
 " nnoremap :g/ :g/\v
 " nnoremap :g// :g//
 
-
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<cr>
 
@@ -596,7 +548,7 @@ nnoremap <leader>ge  :Gedit<CR>
 nnoremap <leader>gr  :Gread<CR>
 nnoremap <leader>gw  :Gwrite<CR><CR>
 nnoremap <leader>gl  :silent! Glog<CR>:bot copen<CR>
-" nnoremap <leader>gg  :Ggrep<Space>
+nnoremap <leader>gg  :Ggrep<Space>
 nnoremap <leader>gm  :Gmove<Space>
 nnoremap <leader>gb  :Git branch<Space>
 nnoremap <leader>go  :Git checkout<Space>
@@ -632,12 +584,12 @@ nmap ga <Plug>(EasyAlign)
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function() abort
-"     return deoplete#close_popup()
-" endfunction
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+    return deoplete#close_popup()
+endfunction
 
 " Neosnippet
 " imap <silent><expr><C-k> neosnippet#expandable() ?
@@ -655,8 +607,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 
 " Autogroups and autocommands {{{
-au BufRead,BufNewFile *.zpreztorc setfiletype zsh
-
 augroup General
     autocmd!
     autocmd BufWrite * :Autoformat
@@ -759,29 +709,3 @@ augroup FileType_Folding
     autocmd FileType zsh,bash,tmux, setlocal foldmethod=marker
 augroup END
 "}}}
-
-
-" augroup ft_javascript
-"     au!
-
-" au FileType javascript setlocal foldmethod=marker
-" au FileType javascript setlocal foldmarker={,}
-" au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-
-" " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-" " positioned inside of them AND the following code doesn't get unfolded.
-" au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
-" " }
-
-" " Prettify a hunk of JSON with <localleader>p
-" au FileType javascript nnoremap <buffer> <localleader>p ^vg_:!python -m json.tool<cr>
-" au FileType javascript vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
-" augroup END
-
-""" vim-virtualenv
-let g:virtualenv_auto_activate = 1
-let g:virtualenv_stl_format = '[%n]'
-let g:virtualenv_directory = $WORKON_HOME
-
-
-
