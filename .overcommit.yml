@@ -7,10 +7,11 @@ verify_signatures: false
   # Hooks that are run against every commit message after a user has written it.
   # These hooks are useful for enforcing policies on commit messages written for a
   # project.
+
 CommitMsg:
   ALL:
     requires_files: false
-    quiet: true
+    quiet: false
 
   CapitalizedSubject:
     enabled: true
@@ -19,7 +20,7 @@ CommitMsg:
   EmptyMessage:
     enabled: true
     description: 'Check for empty commit message'
-    quiet: true
+    quiet: false
 
   SingleLineSubject:
     enabled: true
@@ -57,7 +58,7 @@ CommitMsg:
     description: 'Check author email'
     requires_files: false
     required: true
-    quiet: true
+    quiet: false
     pattern: '^[^@]+@.*$'
 
     AuthorName:
@@ -65,10 +66,10 @@ CommitMsg:
     description: 'Check for author name'
     requires_files: false
     required: true
-    quiet: true
+    quiet: false
 
     Mdl:
-      enabled: false
+      enabled: true
     description: 'Analyze with mdl'
     required_executable: 'mdl'
     install_command: 'gem install mdl'
@@ -134,6 +135,8 @@ CommitMsg:
     include:
       - '**/*.vim'
       - '**/*.vimrc'
+      - '**/*init.vim'
+
 
     YamlSyntax:
       enabled: true
