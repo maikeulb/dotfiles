@@ -5,58 +5,137 @@ fi
 # }}}
 
 
+# Plugins {{{
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.alias-tips/alias-tips.plugin.zsh ] && source ~/.alias-tips/alias-tips.plugin.zsh
+[ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
+[ -f ~/.fzf-extras/fzf-extras.zsh ] && source ~/.fzf-extras/fzf-extras.zsh
+
+[ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
+[ -f ~/src/todo.txt_cli-2.9/todo_completion ] && source ~/src/todo.txt_cli-2.9/todo_completion
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+eval "$(fasd --init auto)"
+# }}}
+
+
+# Functions {{{
+function cless () {
+    pygmentize -gf terminal "$1" | less -R
+}
+
+# Write to requirements with pip
+function pipr() {
+ if [ "$1" == "install" ]; then
+    pip $1 $2
+    pip freeze | grep -i $2 >> requirements.txt
+    echo ok, added $2 as:
+    tail -n1 requirements.txt
+ fi
+ if [ "$1" == "uninstall" ]; then
+    echo y | pip $1 $2 >> .pipremoved
+    grep -i "successfully uninstalled" .pipremoved | grep -o -i $2 >> requirements.removed
+    cp requirements.txt requirements.bak
+    tail -n1 requirements.removed | xargs -I{}  grep -v {} requirements.bak > requirements.txt
+    echo ok, removed:
+    tail -n1 requirements.removed
+    rm .pipremoved >/dev/nul
+ fi
+}
+
+# Scratch directory
+function new-scratch {
+  cur_dir="$HOME/scratch"
+  new_dir="$HOME/tmp/scratch-`date +'%s'`"
+  mkdir -p $new_dir
+  ln -nfs $new_dir $cur_dir
+  cd $cur_dir
+  echo "New scratch dir ready for grinding ;>"
+}
+
+# todo.txt
+function t() {
+  if [ $# -eq 0 ]; then
+    todo.sh ls
+  else
+    todo.sh $*
+  fi
+}
+
+# Interactive directory selection
+unalias zz
+function zz() {
+    local dir
+    dir=$(fasd -Rdl |\
+        sed "s:$HOME:~:" |\
+        fzf --no-sort +m -q "$*" |\
+        sed "s:~:$HOME:")\
+    && pushd "$dir"
+}
+
+# Interactive directory selection with find to list subdirectories.
+function zd() {
+    local dir
+    dir=$(find ${1:-*} -path '*/\.*'\
+        -prune -o -type d\
+        -print 2> /dev/null | fzf +m)
+    [ -d "$dir" ] && pushd "$dir"
+}
+
+# Interactive directory selection of selected file
+function zf() {
+    local file
+    local dir
+    file=$(fzf +m -q "$1")\
+        && dir=$(dirname "$file")
+    [ -d "$dir" ] && pushd "$dir"
+}
+# }}}
+
+
 # Aliases {{{
 alias python='python3'
-alias td='nvim /home/mike/Dropbox/todo/todo.txt'
+
 alias rm='echo "This is not the command you are looking for."; false'
-alias t='/home/mike/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg'
+alias cdg='cd $(git rev-parse --show-toplevel)'
+
+alias etd='nvim /home/mike/Dropbox/todo/todo.txt'
 alias ez='nvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ezp='nvim ~/.zpreztorc'
 alias ev='nvim ~/.vimrc'
 alias et='nvim ~/.tmux.conf'
-alias envim='nvim ~/.config/nvim/init.vim'
-alias cdg='cd $(git rev-parse --show-toplevel)'
+alias en='nvim ~/.config/nvim/init.vim'
+alias eg='nvim ~/.gitconfig'
 
-alias h='history'
-alias remove='sudo apt-get --purge remove'
-alias mkhttp="python -m http.server"
 alias json="python -m json.tool"
-#alias nginxreload='sudo /usr/local/nginx/sbin/nginx -s reload'
-#alias nginxtest='sudo /usr/local/nginx/sbin/nginx -t'
-
-alias meminfo='free -m -l -t'
-alias psmem='ps auxf | sort -nr -k 4'
-alias psmem10='ps auxf | sort -nr -k 4 | head -10'
-alias pscpu='ps auxf | sort -nr -k 3'
-alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
-alias df='df -H'
-alias du='du -ch'
+alias tagit='ctags -R --exclude=.git --exclude=log *'
 alias fhere="find . -name "
 
+alias fs='. fzf-fs'
 alias tmux="TERM=screen-256color-bce tmux"
-alias n='f -e nvim'
+alias mktmp='mktmpenv --no-cd'
 
-alias tagit='ctags -R --exclude=.git --exclude=log *'
+alias z='fasd_cd -d'
+alias n='fasd -f -e nvim'
+
+alias -g H='| head'
+alias -g T='| tail'
+alias -g A='| ag'
+alias -g L="| less"
+alias -g F="| fzf"
+
+bindkey '^X^A' fasd-complete    # C-x C-a to do fasd-complete (files and directories)
+bindkey '^X^F' fasd-complete-f  # C-x C-f to do fasd-complete-f (only files)
+bindkey '^X^D' fasd-complete-d  # C-x C-d to do fasd-complete-d (only directories)
+
+alias create_flask_project='cookiecutter https://github.com/sloria/cookiecutter-flask.git'
+alias create_python_project='cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git'
+
+alias ns="new-scratch $HOME"
+
+alias t='/home/mike/src/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg'
+alias ta="/home/mike/src/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg add '$*'"
+alias tc="/home/mike/src/todo.txt_cli-2.9/todo.sh -d /home/mike/todo.txt_cli-2.9/todo.cfg do '$*'"
+alias tls='t ls'
 # }}}
-
-
-# Plugins {{{
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
-[ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
-# [ -f ~/.enhancd/init.sh ] &&  source ~/.enhancd/init.sh
-# }}}
-
-
-# Custom Functions {{{
-fpath+=(~/.zfunctions)
-autoload -U ~/.zfunctions/*(:t)
-# }}}
-
-
-# Plugins {{{
-eval "$(register-python-argcomplete-menu nfasd)"
-# }}}
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

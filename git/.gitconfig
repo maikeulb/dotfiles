@@ -1,0 +1,117 @@
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore-global
+    pager = diff-so-fancy | less --tabs=4 -RFX
+
+[user]
+    name = Michael Barnes
+    email = michael.sergio.barnes@gmail.com
+
+[push]
+    default = simple
+
+[init]
+    templatedir = ~/.git-templates
+
+[color]
+    ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = red
+
+[branch]
+    autosetuprebase = always
+
+[merge]
+  tool = vimdiff
+
+[mergetool]
+  prompt = true
+
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[difftool]
+  prompt = false
+
+[diff]
+  compactionHeuristic = true
+  tool = vimdiff
+
+[rerere]
+    enabled = true
+
+[include]
+    path = ~/.githubconfig
+
+[alias]
+    # abbrevs
+    ad = add
+    ci = commit
+    br = branch
+    co = checkout
+    pl = pull
+    pr = pull --rebase
+    ps = push
+    fe = fetch
+    df = diff
+    gdf = difftool
+    gdfc = difftool --cached
+    mg = merge
+    gmg = mergetool
+    st = status
+    lp = log -p
+
+    # status
+    bl = branch -av
+    vu = ls-files -u                    #view unmerged files
+    ls-ignored = ls-files --exclude-standard --ignored --others
+
+    # diffing
+    d1 = diff HEAD^1..
+    dfc = diff --cached
+    wd1 = diff --word-diff=color HEAD^1.. #word-diff from last commit
+    wdf = diff --word-diff=color          #word-diff
+    wdfc = diff --word-diff=color --cached # word-diff cached
+
+    # logs
+    l1 = log --max-count=1                   # last commit
+    l5 = log --max-count=5                   # last 5 commits
+    l5o = log --pretty=oneline --max-count=5 # last 5 commits onelined
+    slog = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset | %s %Cgreen%cr%Creset %C(bold blue)[%an]%Creset' --date=relative --no-merges --abbrev-commit
+    stats = shortlog -s -n -e --no-merges
+    tree = log --graph --pretty=oneline --decorate --color --abbrev-commit
+    tree-all = log --graph --pretty=oneline --decorate --color --abbrev-commit --all
+    pc = log -p HEAD@{1}..  # pulled changes
+
+    # new commands
+    in = incoming
+    out = outgoing
+    addr = addremove
+    zip = !git archive -o $(basename $(readlink -e .)).zip HEAD
+
+    # amending
+    amend = commit --amend -C HEAD
+    amendc = commit --amend
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[diff-so-fancy]
+    stripLeadingSymbols = true

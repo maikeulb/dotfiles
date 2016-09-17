@@ -3,6 +3,5 @@
 
 # Override cd to go to the venv root
 cd () {
-    autoenv_cd "$@"
+    autoenv_cd "$@" &> /dev/null
 }
-
