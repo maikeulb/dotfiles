@@ -14,8 +14,6 @@
 <C-n>	vim/init.vim	/^cnoremap <C-n> <Down>$/;"	m
 <C-p>	vim/init.vim	/^cnoremap <C-p> <Up>$/;"	m
 <C-p>	vim/init.vim	/^nnoremap <silent> <C-p>       :Files<CR>$/;"	m
-<C-x><C-f>	vim/init.vim	/^imap <C-x><C-f> <plug>(fzf-complete-file-ag)$/;"	m
-<C-x><C-l>	vim/init.vim	/^imap <C-x><C-l> <plug>(fzf-complete-line)$/;"	m
 <CR>	vim/init.vim	/^inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\\<CR>"$/;"	m
 <Esc>[200~	vim/init.vim	/^inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()$/;"	m
 <Leader>=	vim/init.vim	/^nnoremap <Leader>= <C-w>=$/;"	m
@@ -26,6 +24,10 @@
 <M-p>	vim/init.vim	/^nnoremap <silent> <M-p>       :Files $PROJECT_HOME<CR>$/;"	m
 <backspace>	vim/init.vim	/^nnoremap <backspace> <nop>$/;"	m
 <c-o>	vim/init.vim	/^nnoremap <c-o> <c-o>zz$/;"	m
+<c-x><c-f>	vim/init.vim	/^imap <c-x><c-f> <plug>(fzf-complete-path)$/;"	m
+<c-x><c-j>	vim/init.vim	/^imap <c-x><c-j> <plug>(fzf-complete-file-ag)$/;"	m
+<c-x><c-k>	vim/init.vim	/^imap <c-x><c-k> <plug>(fzf-complete-word)$/;"	m
+<c-x><c-l>	vim/init.vim	/^imap <c-x><c-l> <plug>(fzf-complete-line)$/;"	m
 <c-z>	vim/init.vim	/^nnoremap <silent><c-z> :MaximizerToggle<CR>$/;"	m
 <down>	vim/init.vim	/^nmap <down>  :3wincmd -<CR>$/;"	m
 <leader>	vim/init.vim	/^nnoremap <leader> <Down> :<C-u>silent! move+<CR>==$/;"	m
@@ -35,6 +37,8 @@
 <leader>.	vim/init.vim	/^nnoremap <silent> <leader>.   :AgIn$/;"	m
 <leader>/	vim/init.vim	/^nnoremap <silent> <leader>\/   :execute 'Ag ' . input('Ag\/')<CR>$/;"	m
 <leader><leader>	vim/init.vim	/^nnoremap <leader><leader> <c-^>$/;"	m
+<leader><tab>	vim/init.vim	/^nmap <leader><tab> <plug>(fzf-maps-n)$/;"	m
+<leader><tab>	vim/init.vim	/^omap <leader><tab> <plug>(fzf-maps-o)$/;"	m
 <leader>C	vim/init.vim	/^nnoremap <silent> <leader>C   :Commands<CR>$/;"	m
 <leader>D	vim/init.vim	/^nnoremap <leader>D :Directory $PROJECT_HOME<CR>$/;"	m
 <leader>H	vim/init.vim	/^map <leader>H :wincmd H<CR>$/;"	m
@@ -88,14 +92,14 @@
 <leader>sp	vim/init.vim	/^nnoremap <leader>sp [s$/;"	m
 <leader>sv	vim/init.vim	/^nnoremap <leader>sv :source $MYVIMRC<CR>$/;"	m
 <leader>sz	vim/init.vim	/^nnoremap <leader>sz :source \/home\/mike\/.zshrc<CR>$/;"	m
+<leader>t	vim/init.vim	/^nnoremap <silent> <leader>t  :tabnext<CR>$/;"	m
+<leader>t	vim/init.vim	/^nnoremap <silent> <leader>t  :tabprev<CR>$/;"	m
 <leader>tb	vim/init.vim	/^nnoremap <leader>tb :TagbarToggle<CR>$/;"	m
 <leader>td	vim/init.vim	/^nnoremap <leader>td :edit \/home\/mike\/Dropbox\/todo\/todo.txt<CR>$/;"	m
 <leader>te	vim/init.vim	/^nnoremap <leader>te :TerminalToggle<CR>$/;"	m
 <leader>tf	vim/init.vim	/^nmap <silent> <leader>tf :TestFile<CR>$/;"	m
 <leader>tl	vim/init.vim	/^nmap <silent> <leader>tl :TestLast<CR>$/;"	m
 <leader>tn	vim/init.vim	/^nmap <silent> <leader>tn :TestNearest<CR>$/;"	m
-<leader>tn	vim/init.vim	/^nnoremap <silent> <leader>tn  :tabnext<CR>$/;"	m
-<leader>tp	vim/init.vim	/^nnoremap <silent> <leader>tp  :tabprev<CR>$/;"	m
 <leader>ts	vim/init.vim	/^nmap <silent> <leader>ts :TestSuite<CR>$/;"	m
 <leader>tsf	vim/init.vim	/^nnoremap <silent> <leader>tsf :TREPLSendFile<CR>$/;"	m
 <leader>tsl	vim/init.vim	/^nnoremap <silent> <leader>tsl :TREPLSend<CR>$/;"	m
@@ -118,6 +122,7 @@
 <right>	vim/init.vim	/^nmap <right> :3wincmd ><CR>$/;"	m
 <up>	vim/init.vim	/^nmap <up>    :3wincmd +<CR>$/;"	m
 AgIn	vim/init.vim	/^command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)$/;"	c
+Configgroup	vim/init.vim	/^augroup Configgroup$/;"	a
 D	vim/init.vim	/^nnoremap D d\$$/;"	m
 Directory	vim/init.vim	/^command! -nargs=+ -complete=dir Directory call Directory(<f-args>)$/;"	c
 Directory	vim/init.vim	/^function! Directory(directory)$/;"	f
@@ -126,6 +131,7 @@ FileType_Folding	vim/init.vim	/^augroup FileType_Folding$/;"	a
 FileType_Markdown	vim/init.vim	/^augroup FileType_Markdown$/;"	a
 FileType_Omnicompletion	vim/init.vim	/^augroup FileType_Omnicompletion$/;"	a
 FileType_Python	vim/init.vim	/^augroup FileType_Python$/;"	a
+FileType_gitcommit	vim/init.vim	/^augroup FileType_gitcommit$/;"	a
 Filetype_Javascript_html_css	vim/init.vim	/^augroup Filetype_Javascript_html_css$/;"	a
 Filetype_Racket	vim/init.vim	/^augroup Filetype_Racket$/;"	a
 General	vim/init.vim	/^augroup General$/;"	a
@@ -145,7 +151,6 @@ QuickfixToggle	vim/init.vim	/^function! QuickfixToggle()$/;"	f
 SearchVisualSelectionWithAg	vim/init.vim	/^function! SearchVisualSelectionWithAg() range$/;"	f
 SearchWithAgInDirectory	vim/init.vim	/^function! SearchWithAgInDirectory(...)$/;"	f
 SearchWordWithAg	vim/init.vim	/^function! SearchWordWithAg()$/;"	f
-SetUpMk	vim/init.vim	/^    function! SetUpMk()$/;"	f
 TerminalToggle	vim/init.vim	/^command! TerminalToggle call TerminalToggle()$/;"	c
 TerminalToggle	vim/init.vim	/^function! TerminalToggle()$/;"	f
 VimuxSlime	vim/init.vim	/^function! VimuxSlime()$/;"	f
@@ -156,7 +161,6 @@ XTermPasteBegin	vim/init.vim	/^function! XTermPasteBegin()$/;"	f
 Y	vim/init.vim	/^nnoremap Y y\$$/;"	m
 Z	vim/init.vim	/^command! -nargs=* Z call Z(<f-args>)$/;"	c
 Z	vim/init.vim	/^function! Z(...)$/;"	f
-configgroup	vim/init.vim	/^augroup configgroup$/;"	a
 g,	vim/init.vim	/^nnoremap g, g,zz$/;"	m
 g:UltiSnipsEditSplit	vim/init.vim	/^let g:UltiSnipsEditSplit="vertical"$/;"	v
 g:UltiSnipsExpandTrigger	vim/init.vim	/^let g:UltiSnipsExpandTrigger="<tab>"$/;"	v
@@ -218,5 +222,5 @@ n	vim/init.vim	/^nnoremap n nzz$/;"	m
 od	vim/init.vim	/^nnoremap od 0D$/;"	m
 oo	vim/init.vim	/^nnoremap oo o<Esc>k$/;"	m
 s:termbuf	vim/init.vim	/^let s:termbuf = 0$/;"	v
-ss	vim/init.vim	/^nnoremap ss i<space><Esc>h$/;"	m
+ss	vim/init.vim	/^nnoremap ss a<space><Esc>h$/;"	m
 todo	vim/init.vim	/^augroup todo.txt$/;"	a

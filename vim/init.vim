@@ -89,16 +89,14 @@ endif
 " Mappings {{{
 let g:mapleader = "\<Space>"
 
+nnoremap <backspace> <nop>
+nnoremap <S> <nop>
+
 nnoremap ; :
 nnoremap : ;
 
 nnoremap g; g;zz
 nnoremap g, g,zz
-nnoremap <c-o> <c-o>zz
-
-nnoremap ,; @:<CR>
-nnoremap <backspace> <nop>
-nnoremap <Leader>= <C-w>=
 
 nnoremap n nzz
 nnoremap N Nzz
@@ -112,9 +110,12 @@ nnoremap L $
 nnoremap Q @q
 vnoremap Q :norm @q<CR>
 
+nnoremap ,; @:<CR>
+
 nnoremap oo o<Esc>k
 nnoremap OO O<Esc>
-nnoremap ss i<space><Esc>h
+nnoremap ss a<space><Esc>h
+nnoremap SS i<space><Esc>h
 nnoremap od 0D
 
 nnoremap <leader>* *``cgn
@@ -122,13 +123,14 @@ nnoremap <leader># #``cgN
 
 nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 
-nnoremap <leader>bd :BD<CR>
-nnoremap <Leader>bdd :BD!<CR>
-nnoremap <leader>wq :wq<CR>
-nnoremap <leader>w   :w<CR>
-nnoremap <leader>ws :w<CR>:so %<CR>
-
 nnoremap <leader><leader> <c-^>
+
+nnoremap <leader>bd  :BD<CR>
+nnoremap <Leader>bdd :BD!<CR>
+nnoremap <leader>wq  :wq<CR>
+nnoremap <leader>w   :w<CR>
+nnoremap <leader>ws  :w<CR>:so %<CR>
+
 nnoremap <leader>ew :e %%
 nnoremap <leader>es :split %%
 nnoremap <leader>ev :vsplit %%
@@ -142,18 +144,18 @@ nnoremap <silent> <leader>cn :cnext<CR>
 nnoremap <silent> <leader>cp :cprevious<CR>
 nnoremap <silent> <leader>jj :bprevious<CR>
 nnoremap <silent> <leader>kk :bnext<CR>
-nnoremap <silent> <leader>tn  :tabnext<CR>
-nnoremap <silent> <leader>tp  :tabprev<CR>
+nnoremap <silent> <leader>t  :tabnext<CR>
+nnoremap <silent> <leader>t  :tabprev<CR>
 
-nnoremap <leader>ev :edit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>ez :edit /home/mike/.zshrc<CR>
-nnoremap <leader>sz :source /home/mike/.zshrc<CR>
-nnoremap <leader>td :edit /home/mike/Dropbox/todo/todo.txt<CR>
+nnoremap <leader>ev  :edit $MYVIMRC<CR>
+nnoremap <leader>sv  :source $MYVIMRC<CR>
+nnoremap <leader>ez  :edit /home/mike/.zshrc<CR>
+nnoremap <leader>sz  :source /home/mike/.zshrc<CR>
+nnoremap <leader>etd :edit /home/mike/Dropbox/todo/todo.txt<CR>
 
 inoremap jj <Esc>
 
-tnoremap <silent>  <Leader>jj <C-\><C-n>
+tnoremap <silent> <Esc> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
@@ -463,11 +465,16 @@ nnoremap <silent> <leader>T   :Tags<CR>
 nnoremap <silent> <leader>bT  :BTags<CR>
 nnoremap <silent> <leader>/   :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>.   :AgIn
-nnoremap <silent> K           :call SearchWordWithAg()<CR>
 nnoremap <silent> <leader>gC  :Commits<CR>
 nnoremap <silent> <leader>bgC :BCommits<CR>
-imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-imap <C-x><C-l> <plug>(fzf-complete-line)
+nnoremap <silent> K           :call SearchWordWithAg()<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " TagBar
 nnoremap <leader>tb :TagbarToggle<CR>
@@ -484,7 +491,6 @@ nmap <silent> <leader>vp :VimuxPromptCommand<CR>
 nmap <silent> <leader>vl :VimuxRunLastCommand<CR>
 nmap <silent> <leader>vq :VimuxCloseRunner<CR>
 nmap <silent> <leader>vx :VimuxInterruptRunner<CR>
-
 vmap <silent> <leader>vs "vy :call VimuxSlime()<CR>
 nmap <silent> <leader>vs vip<LocalLeader>vs<CR><Paste>
 
@@ -601,25 +607,45 @@ nnoremap <leader>gu  :Dispatch! git pull<CR>
 
 augroup General
     autocmd!
+    autocmd WinEnter term://* startinsert
     autocmd VimEnter * if isdirectory(expand("<amatch>")) | exe 'FZF! '.expand("<amatch>") | endif
-    autocmd BufWrite * :Autoformat
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-    autocmd VimResized * :wincmd =
-    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
                 \ q :cclose<CR>:lclose<CR>
-    autocmd WinEnter term://* startinsert
+    autocmd BufWrite * :Autoformat
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    autocmd VimResized * :wincmd =
 augroup END
 
 augroup Working_Directory
     autocmd!
+    autocmd BufEnter *
+               \ if exists('b:last_cwd') |
+               \     execute 'lcd' b:last_cwd |
+               \ else |
+               \     silent! Glcd |
+               \ endif
     autocmd BufLeave * let b:last_cwd = getcwd()
-    autocmd BufEnter * if exists('b:last_cwd')
-                \|   execute 'lcd' b:last_cwd
-                \| else
-                    \|   silent! Glcd
-                    \| endif
+augroup END
+
+augroup Neomake
+    autocmd!
+    autocmd BufWritePost * Neomake
+    autocmd QuitPre * let g:neomake_verbose = 0
+    autocmd VimLeave * let g:neomake_verbose = 0
+augroup END
+
+augroup Configgroup
+    autocmd!
+    autocmd BufReadPost *
+               \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+               \     exe "normal! g`\"" |
+               \ endif
+augroup END
+
+augroup todo.txt
+    autocmd!
+    autocmd BufWritePre todo.txt silent! %s/x*\s*\([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\)\s//
 augroup END
 
 augroup FileType_Folding
@@ -642,6 +668,11 @@ augroup FileType_Omnicompletion
     autocmd FileType java set omnifunc=javacomplete#Complete
 augroup END
 
+augroup FileType_gitcommit
+    autocmd!
+    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+augroup END
+
 augroup FileType_Python
     autocmd!
     autocmd FileType python BracelessEnable +indent +fold
@@ -650,27 +681,22 @@ augroup END
 
 augroup Filetype_Javascript_html_css
     autocmd!
-    autocmd FileType html,css EmmetInstall
     autocmd Filetype javascript nnoremap <leader>b Odebugger;<Esc>
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
     autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
+    autocmd FileType javascript setlocal omnifunc=tern#Complete
+    autocmd FileType html,css EmmetInstall
 augroup END
 
 augroup Filetype_Racket
     autocmd!
-    autocmd FileType lisp,racket RainbowParentheses
     autocmd FileType lisp,racket setlocal equalprg=scmindent.rkt
+    autocmd FileType lisp,racket RainbowParentheses
 augroup END
 
 augroup FileType_Markdown
     autocmd!
     autocmd FileType markdown call pencil#init()
-    autocmd Filetype markdown call SetUpMk()
-    function! SetUpMk()
-        if !exists('#goyo')
-            Goyo
-        endif
-    endfunction
+    autocmd Filetype markdown call Goyo
 augroup END
 
 augroup FileType_Dirvish
@@ -680,25 +706,5 @@ augroup FileType_Dirvish
     autocmd FileType dirvish call fugitive#detect(@%)
     autocmd FileType dirvish setlocal nospell
     autocmd FileType dirvish execute ':sort r /[^\/]$/'
-augroup END
-
-augroup Neomake
-    autocmd!
-    autocmd BufWritePost * Neomake
-    autocmd QuitPre * let g:neomake_verbose = 0
-    autocmd VimLeave * let g:neomake_verbose = 0
-augroup END
-
-augroup configgroup
-    autocmd!
-    autocmd BufReadPost *
-                \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal! g`\"" |
-                \ endif
-augroup END
-
-augroup todo.txt
-    autocmd!
-    autocmd BufWritePre todo.txt silent! %s/x*\s*\([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\)\s//
 augroup END
 "}}}
