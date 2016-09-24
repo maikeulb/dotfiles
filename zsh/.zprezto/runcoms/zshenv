@@ -22,14 +22,20 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 # Add RVM to PATH for scripting
 export GEM_HOME=$HOME/.gem
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=$PATH:$HOME/.rvm/bin
 
 # Add Local PIP to PATH
-export PATH="$PATH:$HOME/.local/bin"
+export PATH=$PATH:$HOME/.local/bin
 
 # Add $Home/bin to PATH
-export PATH="$PATH:$HOME/bin"
+export PATH=$PATH:$HOME/bin
 
-# Add fzf_browser to PATH
-export PATH=${PATH}:$HOME/.fzf_browser
+# Add GOPATH to Path
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
+# Add git-extra-commands to Path
+export PATH=$PATH:$HOME/src/git-extra-commands/bin
+
+# Add hub to Path
+export PATH=$PATH:$HOME/src/hub-linux-386-2.2.6/bin/

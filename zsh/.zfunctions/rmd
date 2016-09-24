@@ -1,2 +1,0 @@
-# View markdown in terminal
-pandoc $1 | w3m -stdin

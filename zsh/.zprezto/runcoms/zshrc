@@ -23,7 +23,7 @@ alias eg='nvim ~/.gitconfig'
 alias json="python -m json.tool"
 alias tagit='ctags -R --exclude=.git --exclude=log *'
 
-alias tmux="TERM=screen-256color-bce tmux"
+# alias tmux="TERM=screen-256color-bce tmux"
 alias mktmp='mktmpenv --no-cd'
 alias fs='. fzf-fs'
 bindkey "^y" _fuzzybrowse_zsh_insert_output
@@ -36,6 +36,8 @@ alias -g F="| fzf"
 
 alias create_flask_project='cookiecutter https://github.com/sloria/cookiecutter-flask.git'
 alias create_python_project='cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git'
+
+alias -g P='| path-extractor | fzf | read filename; [ ! -z $filename ] && nvim $filename'
 # }}}
 
 
@@ -86,8 +88,7 @@ function t() {
 }
 
 # Interactive directory selection
-unalias zz
-function zz() {
+function zs() {
     local dir
     dir=$(fasd -Rdl |\
         sed "s:$HOME:~:" |\
@@ -125,6 +126,7 @@ function zf() {
 [ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
 [ -f ~/src/todo.txt_cli-2.9/todo_completion ] && source ~/src/todo.txt_cli-2.9/todo_completion
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+fpath=($HOME/.zsh-completions/src $fpath)
 
 # fasd
 eval "$(fasd --init auto)"

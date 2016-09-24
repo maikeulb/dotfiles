@@ -1,2 +1,0 @@
-# Require `pip freeze` for installation
-pip install $@ && pip freeze > requirements.txt

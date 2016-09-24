@@ -138,8 +138,8 @@ nnoremap <leader>sn ]s
 nnoremap <leader>sp [s
 nnoremap <leader>sc ea<C-X><C-S>
 
-nnoremap <leader>cn :cnext<CR>
-nnoremap <leader>cp :cprevious<CR>
+nnoremap <silent> <leader>cn :cnext<CR>
+nnoremap <silent> <leader>cp :cprevious<CR>
 nnoremap <silent> <leader>jj :bprevious<CR>
 nnoremap <silent> <leader>kk :bnext<CR>
 nnoremap <silent> <leader>tn  :tabnext<CR>
@@ -165,8 +165,8 @@ cnoremap <C-p> <Up>
 " }}}
 
 
-"o Functions {{{
-" Toggle Locationlist
+" Functions {{{
+" LocationList Toggle
 function! LocationListToggle()
     if getwinvar(winnr(), 'locationlist_window', 0)
         lclose
@@ -183,9 +183,9 @@ function! LocationListToggle()
 endfunction
 
 command! LocationListToggle call LocationListToggle()
-nnoremap <silent> <space>lo :LocationListToggle<CR>
+nnoremap <silent> <leader>lo :LocationListToggle<CR>
 
-" Toggle Quickfix
+" Quickfix Toggle
 function! QuickfixToggle()
     if gettabvar(tabpagenr(), 'quickfix_window', 0)
         if t:quickfix_window == winnr()
@@ -202,11 +202,11 @@ function! QuickfixToggle()
 endfunction
 
 command! QuickfixToggle call QuickfixToggle()
-nnoremap <silent> <space>qo :QuickfixToggle<CR>
+nnoremap <silent> <leader>qf :QuickfixToggle<CR>
 
-" Terminal toggle
+" Terminal Toggle
 let s:termbuf = 0
-function! ToggleTerm()
+function! TerminalToggle()
     botright 10 split
     try
         exe 'buffer' . s:termbuf
@@ -214,12 +214,74 @@ function! ToggleTerm()
     catch
         terminal
         let s:termbuf=bufnr('%')
-        tnoremap <buffer> <m-t>  <C-\><C-n>:close<CR>
+        tnoremap <buffer> <leader>te  <C-\><C-n>:close<CR>
     endtry
 endfunction
 
-command! ToggleTerm call ToggleTerm()
-nnoremap <m-t> :ToggleTerm<CR>
+command! TerminalToggle call TerminalToggle()
+nnoremap <leader>te :TerminalToggle<CR>
+
+" Smart windows
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec 'wincmd '.a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec 'wincmd '.a:key
+    endif
+endfunction
+
+map <leader>h :call WinMove('h')<CR>
+map <leader>k :call WinMove('k')<CR>
+map <leader>l :call WinMove('l')<CR>
+map <leader>j :call WinMove('j')<CR>
+map <leader>wc :wincmd q<CR>
+map <leader>wr <C-W>>
+map <leader>H :wincmd H<CR>
+map <leader>K :wincmd K<CR>
+map <leader>L :wincmd L<CR>
+map <leader>J :wincmd J<CR>
+nmap <left>  :3wincmd <<CR>
+nmap <right> :3wincmd ><CR>
+nmap <up>    :3wincmd +<CR>
+nmap <down>  :3wincmd -<CR>
+nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
+nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
+xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
+xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
+
+" Z - cd to recent / frequent directories
+function! Z(...)
+    let cmd = 'fasd -d -e printf'
+    for arg in a:000
+        let cmd = cmd . ' ' . arg
+    endfor
+    let path = system(cmd)
+    if isdirectory(path)
+        echo path
+        exec 'cd ' . path
+    endif
+endfunction
+
+command! -nargs=* Z call Z(<f-args>)
+
+" Find a directory
+function! Directory(directory)
+    let directory = expand(a:directory)
+    let command = 'tree -i -f -d "'.directory.'"'
+    call fzf#run({
+                \ 'source': command,
+                \ 'sink': 'Dirvish',
+                \ 'options': '+e'
+                \ })
+endfunction
+
+command! -nargs=+ -complete=dir Directory call Directory(<f-args>)
+nnoremap <leader>D :Directory $PROJECT_HOME<CR>
 
 " Smart paste mode
 function! WrapForTmux(s)
@@ -241,58 +303,6 @@ function! XTermPasteBegin()
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-" Smart windows
-function! WinMove(key)
-    let t:curwin = winnr()
-    exec 'wincmd '.a:key
-    if (t:curwin == winnr())
-        if (match(a:key,'[jk]'))
-            wincmd v
-        else
-            wincmd s
-        endif
-        exec 'wincmd '.a:key
-    endif
-endfunction
-map <leader>h :call WinMove('h')<CR>
-
-map <leader>k :call WinMove('k')<CR>
-map <leader>l :call WinMove('l')<CR>
-map <leader>j :call WinMove('j')<CR>
-
-map <leader>wc :wincmd q<CR>
-map <leader>wr <C-W>>
-
-map <leader>H :wincmd H<CR>
-map <leader>K :wincmd K<CR>
-map <leader>L :wincmd L<CR>
-map <leader>J :wincmd J<CR>
-
-nmap <left>  :3wincmd <<CR>
-nmap <right> :3wincmd ><CR>
-nmap <up>    :3wincmd +<CR>
-nmap <down>  :3wincmd -<CR>
-
-nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
-nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
-xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
-xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
-
-" Z - cd to recent / frequent directories
-function! Z(...)
-    let cmd = 'fasd -d -e printf'
-    for arg in a:000
-        let cmd = cmd . ' ' . arg
-    endfor
-    let path = system(cmd)
-    if isdirectory(path)
-        echo path
-        exec 'cd ' . path
-    endif
-endfunction
-
-command! -nargs=* Z :call Z(<f-args>)
 " }}}
 
 
@@ -312,7 +322,6 @@ Plug 'szw/vim-maximizer'
 Plug 'othree/eregex.vim'
 Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-projectionist'
-Plug 'mattsacks/vim-fuzzee'
 
 " Integration
 Plug 'rhysd/clever-f.vim'
@@ -346,6 +355,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'moll/vim-node'
 Plug 'mattn/emmet-vim'
+Plug 'avakhov/vim-yaml'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'tweekmonster/braceless.vim'
 Plug 'hynek/vim-python-pep8-indent'
@@ -390,8 +400,9 @@ let g:airline_left_sep=' '
 let g:airline_right_sep=' '
 
 " Dirvish
+nnoremap <silent>-   :Dirvish<CR>
+nnoremap <leader>d   :Dirvish<CR>
 nnoremap <leader>dp  :Dirvish $PROJECT_HOME<CR>
-nnoremap <leader>dd  :Dirvish<CR>
 
 " Vim-Maximizer
 nnoremap <silent><c-z> :MaximizerToggle<CR>
@@ -442,18 +453,18 @@ function! SearchWithAgInDirectory(...)
 endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <M-p> :Buffers<CR>
-nnoremap <silent> <leader>W :Windows<CR>
-nnoremap <silent> <leader>M :Map<CR>
-nnoremap <silent> <leader>C :Commands<CR>
-nnoremap <silent> <leader>bL :BLines<CR>
-nnoremap <silent> <leader>T :Tags<CR>
-nnoremap <silent> <leader>bT :BTags<CR>
-nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-nnoremap <silent> <leader>. :AgIn
-nnoremap <silent> K :call SearchWordWithAg()<CR>
-nnoremap <silent> <leader>gC :Commits<CR>
+nnoremap <silent> <C-p>       :Files<CR>
+nnoremap <silent> <M-p>       :Files $PROJECT_HOME<CR>
+nnoremap <silent> <leader>M   :Map<CR>
+nnoremap <silent> <leader>C   :Commands<CR>
+nnoremap <silent> <leader>L   :Lines<CR>
+nnoremap <silent> <leader>bL  :BLines<CR>
+nnoremap <silent> <leader>T   :Tags<CR>
+nnoremap <silent> <leader>bT  :BTags<CR>
+nnoremap <silent> <leader>/   :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <leader>.   :AgIn
+nnoremap <silent> K           :call SearchWordWithAg()<CR>
+nnoremap <silent> <leader>gC  :Commits<CR>
 nnoremap <silent> <leader>bgC :BCommits<CR>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
@@ -507,12 +518,14 @@ nmap <silent> <leader>tv :TestVisit<CR>
 
 " Completion, Formatters & Linters {{{
 " Autoformat
-let g:autoformat_autoindent = 1
+let g:autoformat_autoindent = 0
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
 let g:autoformat_verbosemode=0
 let g:formatdef_mypy = '"isort - | docformatter - | yapf --style=google"'
 let g:formatters_python = ['mypy']
+let g:formatdef_myrb = '"ruby-beautify -c 2 -s"'
+let g:formatters_ruby = ['myrb']
 
 " Neomake
 let g:neomake_verbose = 0
@@ -637,7 +650,6 @@ augroup END
 
 augroup Filetype_Javascript_html_css
     autocmd!
-    autocmd User Node if &Filetype == "javascript" | setlocal expandtab | endif
     autocmd FileType html,css EmmetInstall
     autocmd Filetype javascript nnoremap <leader>b Odebugger;<Esc>
     autocmd FileType javascript setlocal omnifunc=tern#Complete
@@ -646,9 +658,8 @@ augroup END
 
 augroup Filetype_Racket
     autocmd!
-    autocmd BufNewFile,BufRead,BufReadPost *.rkt,*.rktl,*.rktd set filetype=scheme
-    autocmd FileType lisp,racket,clojure scheme setlocal RainbowParentheses
-    autocmd FileType lisp,racket,scheme setlocal equalprg=scmindent.rkt
+    autocmd FileType lisp,racket RainbowParentheses
+    autocmd FileType lisp,racket setlocal equalprg=scmindent.rkt
 augroup END
 
 augroup FileType_Markdown
@@ -660,6 +671,15 @@ augroup FileType_Markdown
             Goyo
         endif
     endfunction
+augroup END
+
+augroup FileType_Dirvish
+    autocmd!
+    autocmd FileType dirvish nnoremap <buffer>
+                \ gh :keeppatterns g@\v/\.[^\/]+/?$@d<cr>
+    autocmd FileType dirvish call fugitive#detect(@%)
+    autocmd FileType dirvish setlocal nospell
+    autocmd FileType dirvish execute ':sort r /[^\/]$/'
 augroup END
 
 augroup Neomake

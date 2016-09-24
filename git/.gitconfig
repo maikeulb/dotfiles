@@ -115,3 +115,7 @@
 
 [diff-so-fancy]
     stripLeadingSymbols = true
+
+[secrets]
+    patterns = password\\s*=\\s*.+
+    patterns = [A-Z0-9]{64}

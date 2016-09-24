@@ -1,2 +1,0 @@
-# Require `pip freeze` for uninstallations
-pip uninstall $@ && pip freeze > requirements.txt
