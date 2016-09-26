@@ -1,15 +1,15 @@
-# Prezto {{{
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-# }}}
+# # Prezto {{{
+# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+#     source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# fi
+# # }}}
 
 
 # Aliases {{{
 alias python='python3'
 
 alias rm='echo "This is not the command you are looking for."; false'
-alias cdg='cd $(git rev-parse --show-toplevel)'
+
 
 alias etd='nvim /home/mike/Dropbox/todo/todo.txt'
 alias ez='nvim ~/.zshrc'
@@ -21,12 +21,15 @@ alias en='nvim ~/.config/nvim/init.vim'
 alias eg='nvim ~/.gitconfig'
 
 alias json="python -m json.tool"
-alias tagit='ctags -R --exclude=.git --exclude=log *'
+alias yaml="js-yaml"
 
-# alias tmux="TERM=screen-256color-bce tmux"
+alias tmux="TERM=screen-256color-bce tmux"
 alias mktmp='mktmpenv --no-cd'
+alias cdg='cd $(git rev-parse --show-toplevel)'
+alias tagit='ctags -R --exclude=.git --exclude=log *'
 alias fs='. fzf-fs'
-bindkey "^y" _fuzzybrowse_zsh_insert_output
+
+alias galias='git config --get-regexp alias'
 
 alias -g H='| head'
 alias -g T='| tail'
@@ -38,6 +41,8 @@ alias create_flask_project='cookiecutter https://github.com/sloria/cookiecutter-
 alias create_python_project='cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git'
 
 alias -g P='| path-extractor | fzf | read filename; [ ! -z $filename ] && nvim $filename'
+
+bindkey "^y" _fuzzybrowse_zsh_insert_output
 # }}}
 
 
@@ -118,19 +123,101 @@ function zf() {
 
 
 # Plugins {{{
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.alias-tips/alias-tips.plugin.zsh ] && source ~/.alias-tips/alias-tips.plugin.zsh
-[ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
-[ -f ~/.fzf-extras/fzf-extras.zsh ] && source ~/.fzf-extras/fzf-extras.zsh
 
-[ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
-[ -f ~/src/todo.txt_cli-2.9/todo_completion ] && source ~/src/todo.txt_cli-2.9/todo_completion
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+source ~/.zplug/init.zsh
+zplug "sorin-ionescu/prezto", as:plugin, use:init.zsh, nice:2, hook-build:"ln -s $ZPLUG_HOME/repos/sorin-ionescu/prezto ~/.zprezto"
+
+zplug "sorin-ionescu/prezto", as:plugin, use:init.zsh,\
+    hook-build:"ln -s $ZPLUG_HOME/repos/sorin-ionescu/prezto  ${ZDOTDIR:-$HOME}/.zprezto"
+
+zstyle ':prezto:*:*' case-sensitive 'no'
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:load' pmodule \
+    'environment' \
+    'terminal' \
+    'editor' \
+    'history' \
+    'directory' \
+    'spectrum' \
+    'utility' \
+    'completion' \
+    'prompt'\
+    # 'syntax-highlighting' \
+    # 'history-substring-search' \
+    'git' \
+    'dpkg' \
+    'tmux' \
+    'autosuggestions' \
+zstyle ':prezto:module:autosuggestions' color 'yes'
+zstyle ':prezto:module:autosuggestions:color' found 'fg=8'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
+zstyle ':prezto:module:editor' dot-expansion 'yes'
+zstyle ':prezto:module:history-substring-search:color' found ''
+zstyle ':prezto:module:history-substring-search:color' not-found ''
+zstyle ':prezto:module:history-substring-search' globbing-flags ''
+zstyle ':prezto:module:prompt' theme 'nicoulaj'
+zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
+# zstyle ':prezto:module:syntax-highlighting' color 'yes'
+# zstyle ':prezto:module:syntax-highlighting' highlighters \
+    # 'main' \
+    # 'brackets' \
+    # 'pattern' \
+    # 'line' \
+    # 'cursor' \
+    # 'root'
+# if [[ "$(tput colors)" == "256"  ]]; then
+    # zstyle ':prezto:module:syntax-highlighting' styles \
+        # 'alias'                  'fg=26'               \
+        # 'builtin'                'fg=26'               \
+        # 'command'                'fg=26'               \
+        # 'commandseparator'       'fg=45'               \
+        # 'default'                'fg=45'               \
+        # 'double-hyphen-option'   'fg=39'               \
+        # 'double-quoted-argument' 'fg=45'               \
+        # 'function'               'fg=26'               \
+        # 'globbing'               'fg=39,bold'          \
+        # 'hashed-command'         'fg=26'               \
+        # 'history-expansion'      'fg=39'               \
+        # 'path'                   'fg=39'               \
+        # 'precommand'             'fg=36'               \
+        # 'reserved-word'          'fg=36'               \
+        # 'single-hyphen-option'   'fg=39'               \
+        # 'single-quoted-argument' 'fg=45'
+# fi
+# zstyle ':prezto:module:terminal' auto-title 'no'
+# zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+# zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+zstyle ':prezto:module:tmux:auto-start' local 'yes'
+# zstyle ':prezto:module:tmux:auto-start' remote 'yes'
+zstyle ':prezto:module:git:log:context' format 'brief'
+zstyle ':prezto:module:git:status:ignore' submodules 'all'
+zplug "zplug/zplug"
+zplug "supercrabtree/k"
+zplug "djui/alias-tips"
+zplug "unixorn/git-extra-commands"
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
+zplug "junegunn/fzf", rename-to:fzf-completion, use:shell/completion.zsh
+zplug "junegunn/fzf", as:command, rename-to:fzf-tmux, use:bin/fzf-tmux
+zplug "atweiden/fzf-extras", use:fzf-extras.sh
+zplug "so-fancy/diff-so-fancy", as:command, use:diff-so-fancy
+zplug "mollifier/cd-gitroot"
+
+zplug load --verbose
+
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf-extras/fzf-extras.zsh ] && source ~/.fzf-extras/fzf-extras.zsh
+# [ -f ~/.alias-tips/alias-tips.plugin.zsh ] && source ~/.alias-tips/alias-tips.plugin.zsh
+# [ -f ~/.k.zsh/k.sh ] && source ~/.k.zsh/k.sh
+
+# [ -f ~/.autoenv/activate.sh ] && source ~/.autoenv/activate.sh
+# [ -f ~/src/todo.txt_cli-2.9/todo_completion ] && source ~/src/todo.txt_cli-2.9/todo_completion
+# [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 fpath=($HOME/.zsh-completions/src $fpath)
 
-# fasd
+eval "$(hub alias -s)"
 eval "$(fasd --init auto)"
 
+# fasd
 alias z='fasd_cd -d'
 alias n='fasd -f -e nvim'
 

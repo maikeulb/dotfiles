@@ -35,7 +35,7 @@ export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # Add git-extra-commands to Path
-export PATH=$PATH:$HOME/src/git-extra-commands/bin
+# export PATH=$PATH:$HOME/src/git-extra-commands/bin
 
 # Add hub to Path
 export PATH=$PATH:$HOME/src/hub-linux-386-2.2.6/bin/

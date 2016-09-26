@@ -31,7 +31,7 @@ set completeopt-=preview
 let g:python_highlight_all=1
 let g:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
-set rtp+=~/.fzf_browser/vim
+set runtimepath+=~/.fzf_browser/vim
 
 "Formatting
 set relativenumber
@@ -65,14 +65,14 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
 let g:vimDir = '$HOME/.vim'
-let &runtimepath.=','.vimDir
+let &runtimepath.=','.g:vimDir
 
 if has('persistent_undo')
-    let myUndoDir = expand(vimDir . '/undodir')
+    let g:myUndoDir = expand(g:vimDir . '/undodir')
     " Create dirs
-    call system('mkdir ' . vimDir)
-    call system('mkdir ' . myUndoDir)
-    let &undodir = myUndoDir
+    call system('mkdir ' . g:vimDir)
+    call system('mkdir ' . g:myUndoDir)
+    let &undodir = g:myUndoDir
     set undofile
 endif
 
@@ -179,7 +179,7 @@ function! LocationListToggle()
             lopen
             let w:locationlist_window = 1
         else
-            echomsg "LocList is empty"
+            echomsg 'LocList is empty'
         endif
     endif
 endfunction
@@ -214,7 +214,7 @@ function! TerminalToggle()
         exe 'buffer' . s:termbuf
         startinsert
     catch
-        terminal
+        " terminal
         let s:termbuf=bufnr('%')
         tnoremap <buffer> <leader>te  <C-\><C-n>:close<CR>
     endtry
@@ -258,14 +258,14 @@ xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
 
 " Z - cd to recent / frequent directories
 function! Z(...)
-    let cmd = 'fasd -d -e printf'
-    for arg in a:000
-        let cmd = cmd . ' ' . arg
+    let l:cmd = 'fasd -d -e printf'
+    for l:arg in a:000
+        let l:cmd = l:cmd . ' ' . l:arg
     endfor
-    let path = system(cmd)
-    if isdirectory(path)
-        echo path
-        exec 'cd ' . path
+    let l:path = system(l:cmd)
+    if isdirectory(l:path)
+        echo l:path
+        exec 'cd ' . l:path
     endif
 endfunction
 
@@ -273,10 +273,10 @@ command! -nargs=* Z call Z(<f-args>)
 
 " Find a directory
 function! Directory(directory)
-    let directory = expand(a:directory)
-    let command = 'tree -i -f -d "'.directory.'"'
+    let l:directory = expand(a:directory)
+    let l:command = 'tree -i -f -d "'.l:directory.'"'
     call fzf#run({
-                \ 'source': command,
+                \ 'source': l:command,
                 \ 'sink': 'Dirvish',
                 \ 'options': '+e'
                 \ })
@@ -427,7 +427,7 @@ nmap <Leader>hv <Plug>GitGutterPreviewHunk
 nnoremap <leader>u :UndotreeToggle<CR>
 
 " fzf.vim
-set rtp+=~/.fzf
+set runtimepath+=~/.fzf
 let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-x': 'split',
@@ -439,15 +439,15 @@ function! SearchWordWithAg()
 endfunction
 
 function! SearchVisualSelectionWithAg() range
-    let old_reg = getreg('"')
-    let old_regtype = getregtype('"')
-    let old_clipboard = &clipboard
+    let l:old_reg = getreg('"')
+    let l:old_regtype = getregtype('"')
+    let l:old_clipboard = &clipboard
     set clipboard&
     normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', old_reg, old_regtype)
-    let &clipboard = old_clipboard
-    execute 'Ag' selection
+    let l:selection = getreg('"')
+    call setreg('"', l:old_reg, l:old_regtype)
+    let &clipboard = l:old_clipboard
+    execute 'Ag' l:selection
 endfunction
 
 function! SearchWithAgInDirectory(...)
@@ -559,10 +559,10 @@ inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 
 " Ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>"
-let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<c-l>'
+let g:UltiSnipsJumpBackwardTrigger='<c-j>'
+let g:UltiSnipsEditSplit='vertical'
 " }}}
 
 " Language {{{
@@ -615,6 +615,10 @@ augroup General
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     autocmd VimResized * :wincmd =
+    autocmd BufReadPost *
+               \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+               \     exe "normal! g`\"" |
+               \ endif
 augroup END
 
 augroup Working_Directory
@@ -635,15 +639,7 @@ augroup Neomake
     autocmd VimLeave * let g:neomake_verbose = 0
 augroup END
 
-augroup Configgroup
-    autocmd!
-    autocmd BufReadPost *
-               \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-               \     exe "normal! g`\"" |
-               \ endif
-augroup END
-
-augroup todo.txt
+augroup todo
     autocmd!
     autocmd BufWritePre todo.txt silent! %s/x*\s*\([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\)\s//
 augroup END
