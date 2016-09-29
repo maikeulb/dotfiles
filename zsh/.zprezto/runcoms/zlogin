@@ -1,8 +1,4 @@
 # Executes commands at login post-zshrc.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
 # Execute code that does not affect the current session in the background.
 {
@@ -13,16 +9,7 @@
   fi
 } &!
 
-# Print a random, hopefully interesting, adage.
-if (( $+commands[fortune] )); then
-  if [[ -t 0 || -t 1 ]]; then
-    fortune -s
-    print
-  fi
+# Start the dropbox daemon if it isn't running.
+if [[ $+commands[dropbox] == 1 && $(dropbox status) =~ "Dropbox isn't running\!" ]]; then
+    dropbox start
 fi
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-rm -f ~/.zcompdump*

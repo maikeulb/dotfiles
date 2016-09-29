@@ -28,10 +28,9 @@ set fillchars+=vert:\
 set fileformat=unix
 set completeopt-=preview
 
-let g:python_highlight_all=1
+let g:python_highlight_all = 1
 let g:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
 set lispwords+=public-method,override-method,private-method,syntax-case,syntax-rules
-set runtimepath+=~/.fzf_browser/vim
 
 "Formatting
 set relativenumber
@@ -87,6 +86,7 @@ endif
 
 
 " Mappings {{{
+
 let g:mapleader = "\<Space>"
 
 nnoremap <backspace> <nop>
@@ -174,7 +174,6 @@ function! LocationListToggle()
         lclose
         let w:locationlist_window = 0
     else
-        " prevent errors on empty loclist
         if !empty(getloclist(0))
             lopen
             let w:locationlist_window = 1
@@ -191,8 +190,6 @@ nnoremap <silent> <leader>lo :LocationListToggle<CR>
 function! QuickfixToggle()
     if gettabvar(tabpagenr(), 'quickfix_window', 0)
         if t:quickfix_window == winnr()
-            " jump back to the previous window if inside the quickfix
-            " window
             wincmd p
         endif
         cclose
@@ -215,7 +212,7 @@ function! TerminalToggle()
         startinsert
     catch
         " terminal
-        let s:termbuf=bufnr('%')
+        let s:termbuf = bufnr('%')
         tnoremap <buffer> <leader>te  <C-\><C-n>:close<CR>
     endtry
 endfunction
@@ -237,24 +234,23 @@ function! WinMove(key)
     endif
 endfunction
 
-map <leader>h :call WinMove('h')<CR>
-map <leader>k :call WinMove('k')<CR>
-map <leader>l :call WinMove('l')<CR>
-map <leader>j :call WinMove('j')<CR>
-map <leader>wc :wincmd q<CR>
-map <leader>wr <C-W>>
-map <leader>H :wincmd H<CR>
-map <leader>K :wincmd K<CR>
-map <leader>L :wincmd L<CR>
-map <leader>J :wincmd J<CR>
-nmap <left>  :3wincmd <<CR>
-nmap <right> :3wincmd ><CR>
-nmap <up>    :3wincmd +<CR>
-nmap <down>  :3wincmd -<CR>
-nnoremap <leader> <Down> :<C-u>silent! move+<CR>==
-nnoremap <leader> <Up>   :<C-u>silent! move-2<CR>==
-xnoremap <leader> <Up>   :<C-u>silent! '<,'>move-2<CR>gv=gv
-xnoremap <leader> <Down> :<C-u>silent! '<,'>move'>+<CR>gv=gv
+nnoremap <leader>h  :call WinMove('h')<CR>
+nnoremap <leader>k  :call WinMove('k')<CR>
+nnoremap <leader>l  :call WinMove('l')<CR>
+nnoremap <leader>j  :call WinMove('j')<CR>
+
+nnoremap <leader>wc :wincmd q<CR>
+nnoremap <leader>wr <C-W>r
+
+nnoremap <leader>H :wincmd H<CR>
+nnoremap <leader>K :wincmd K<CR>
+nnoremap <leader>L :wincmd L<CR>
+nnoremap <leader>J :wincmd J<CR>
+
+nnoremap <left>    :3wincmd <<CR>
+nnoremap <up>      :3wincmd +<CR>
+nnoremap <right>   :3wincmd ><CR>
+nnoremap <down>    :3wincmd -<CR>
 
 " Z - cd to recent / frequent directories
 function! Z(...)
@@ -305,6 +301,43 @@ function! XTermPasteBegin()
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" Change window layout
+function! Rotate()
+   let l:initial = winnr()
+   exe 1 . 'wincmd w'
+   wincmd l
+   if winnr() != 1
+      wincmd J
+   else
+      wincmd H
+   endif
+   execute l:initial . 'wincmd w'
+endfunction
+
+nnoremap <leader><space> :call Rotate()<CR>
+
+" Better fold text
+function! NeatFoldText()
+    let l:fs = v:foldstart
+    while getline(l:fs) =~# '^\s*$' | let l:fs = nextnonblank(l:fs + 1)
+    endwhile
+    if l:fs > v:foldend
+        let l:line = getline(v:foldstart)
+    else
+        let l:line = substitute(getline(l:fs), '\t', repeat(' ', &tabstop), 'g')
+    endif
+    let l:w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+    let l:foldSize = 1 + v:foldend - v:foldstart
+    let l:foldSizeStr = ' ' . l:foldSize . ' lines '
+    let l:foldLevelStr = repeat('+--', v:foldlevel)
+    let l:lineCount = line('$')
+    let l:foldPercentage = printf('[%.1f', (l:foldSize*1.0)/l:lineCount*100) . '%] '
+    let l:expansionString = repeat('.', l:w - strwidth(l:foldSizeStr.line.l:foldLevelStr.l:foldPercentage))
+    return l:line . l:expansionString . l:foldSizeStr . l:foldPercentage . l:foldLevelStr
+endf
+
+set foldtext=NeatFoldText()
 " }}}
 
 
@@ -324,9 +357,11 @@ Plug 'szw/vim-maximizer'
 Plug 'othree/eregex.vim'
 Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-sleuth'
 
 " Integration
 Plug 'rhysd/clever-f.vim'
+Plug 'romgrk/winteract.vim'
 Plug 'airblade/vim-gitgutter', { 'on': 'GitgutterToggle' }
 Plug 'svermeulen/vim-easyclip'
 Plug 'christoomey/vim-tmux-navigator'
@@ -365,6 +400,7 @@ Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+Plug 'alvan/vim-closetag',  { 'for': ['html', 'jinja2', 'css'] }
 
 " Commands
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -393,13 +429,13 @@ colo seoul256
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#promptline#enabled = 1
-let g:airline_inactive_collapse=1
-let g:airline_section_y =''
-let g:airline_section_z =''
-let g:airline_detect_crypt=0
-let g:airline_theme='wombat'
-let g:airline_left_sep=' '
-let g:airline_right_sep=' '
+let g:airline_inactive_collapse = 1
+let g:airline_section_y = ''
+let g:airline_section_z = ''
+let g:airline_detect_crypt = 0
+let g:airline_theme = 'wombat'
+let g:airline_left_sep = ' '
+let g:airline_right_sep = ' '
 
 " Dirvish
 nnoremap <silent>-   :Dirvish<CR>
@@ -413,7 +449,7 @@ tnoremap <silent><c-z> :MaximizerToggle<CR>
 
 " Integration {{{
 " Clever-F
-let g:clever_f_fix_key_direction=1
+let g:clever_f_fix_key_direction = 1
 
 " Git-gutter
 set updatetime=250
@@ -422,6 +458,14 @@ let g:gitgutter_enabled = 0
 nmap <Leader>ha <Plug>GitGutterStageHunk
 nmap <Leader>hr <Plug>GitGutterUndoHunk
 nmap <Leader>hv <Plug>GitGutterPreviewHunk
+
+" Vim-EasyClip
+let g:EasyClipShareYanks = 1
+let g:EasyClipShareYanksDirectory = $HOME.'/.vim'
+let g:EasyClipShareYanksFile = '.easyclip'
+let g:EasyClipUsePasteToggleDefaults = 0
+nmap <c-f> <plug>EasyClipSwapPasteForward
+nmap <c-b> <plug>EasyClipSwapPasteBackwards
 
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -455,9 +499,33 @@ function! SearchWithAgInDirectory(...)
 endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
+function! s:yank_list()
+  redir => ys
+  silent Yanks
+  redir END
+  return split(ys, '\n')[1:]
+endfunction
+
+function! s:yank_handler(reg)
+  if empty(a:reg)
+    echo "aborted register paste"
+  else
+    let token = split(a:reg, ' ')
+    execute 'Paste' . token[0]
+  endif
+endfunction
+
+command! FZFYanks call fzf#run({
+\ 'source': <sid>yank_list(),
+\ 'sink': function('<sid>yank_handler'),
+\ 'options': '-m',
+\ 'down': 12
+\ })
+
 nnoremap <silent> <C-p>       :Files<CR>
 nnoremap <silent> <M-p>       :Files $PROJECT_HOME<CR>
 nnoremap <silent> <leader>M   :Map<CR>
+nnoremap <silent> <leader>S   :Snippets<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
 nnoremap <silent> <leader>L   :Lines<CR>
 nnoremap <silent> <leader>bL  :BLines<CR>
@@ -466,8 +534,10 @@ nnoremap <silent> <leader>bT  :BTags<CR>
 nnoremap <silent> <leader>/   :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>.   :AgIn
 nnoremap <silent> <leader>gC  :Commits<CR>
-nnoremap <silent> <leader>bgC :BCommits<CR>
+nnoremap <silent> <leader>bC  :BCommits<CR>
+nnoremap <silent> <leader>Y   :FZFYanks<CR>
 nnoremap <silent> K           :call SearchWordWithAg()<CR>
+
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
@@ -487,12 +557,12 @@ function! VimuxSlime()
     call VimuxSendKeys('Enter')
 endfunction
 
-nmap <silent> <leader>vp :VimuxPromptCommand<CR>
-nmap <silent> <leader>vl :VimuxRunLastCommand<CR>
-nmap <silent> <leader>vq :VimuxCloseRunner<CR>
-nmap <silent> <leader>vx :VimuxInterruptRunner<CR>
-vmap <silent> <leader>vs "vy :call VimuxSlime()<CR>
-nmap <silent> <leader>vs vip<LocalLeader>vs<CR><Paste>
+nnoremap <silent> <leader>vp :VimuxPromptCommand<CR>
+nnoremap <silent> <leader>vl :VimuxRunLastCommand<CR>
+nnoremap <silent> <leader>vq :VimuxCloseRunner<CR>
+nnoremap <silent> <leader>vx :VimuxInterruptRunner<CR>
+vnoremap <silent> <leader>vs "vy :call VimuxSlime()<CR>
+nnoremap <silent> <leader>vs vip<LocalLeader>vs<CR><Paste>
 
 " Neoterm
 set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
@@ -502,24 +572,23 @@ set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
 let g:neoterm_position = 'horizontal'
 let g:neoterm_automap_keys = ',tt'
 let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
-let g:neoterm_run_tests_bg=1
-let g:neoterm_raise_when_tests_fail=1
+let g:neoterm_run_tests_bg = 1
+let g:neoterm_raise_when_tests_fail = 1
 let g:neoterm_close_when_tests_succeed = 1
 
-nnoremap <silent> <leader>tsf :TREPLSendFile<CR>
-nnoremap <silent> <leader>tsl :TREPLSend<CR>
-vnoremap <silent> <leader>tsl :TREPLSend<CR>
-nnoremap <silent> <leader>tto :Ttoggle<CR>
+noremap <silent> <leader>rf :TREPLSendFile<CR>
+noremap <silent> <leader>rs :TREPLSend<CR>
+noremap <silent> <leader>rt :Ttoggle<CR>
 
 " Vim-Test
 let g:test#strategy = 'dispatch'
 let g:test#python#runner = 'pytest'
 
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
 " }}}
 
 " Completion, Formatters & Linters {{{
@@ -527,7 +596,7 @@ nmap <silent> <leader>tv :TestVisit<CR>
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
-let g:autoformat_verbosemode=0
+let g:autoformat_verbosemode = 0
 let g:formatdef_mypy = '"isort - | docformatter - | yapf --style=google"'
 let g:formatters_python = ['mypy']
 let g:formatdef_myrb = '"ruby-beautify -c 2 -s"'
@@ -559,10 +628,10 @@ inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 
 " Ultisnips
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<c-l>'
-let g:UltiSnipsJumpBackwardTrigger='<c-j>'
-let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<c-l>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
+let g:UltiSnipsEditSplit = 'vertical'
 " }}}
 
 " Language {{{
@@ -608,99 +677,28 @@ nnoremap <leader>gu  :Dispatch! git pull<CR>
 augroup General
     autocmd!
     autocmd WinEnter term://* startinsert
-    autocmd VimEnter * if isdirectory(expand("<amatch>")) | exe 'FZF! '.expand("<amatch>") | endif
+    autocmd VimEnter * if isdirectory(expand('<amatch>')) | exe 'FZF! '.expand("<amatch>") | endif
+    autocmd VimResized * wincmd =
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
                 \ q :cclose<CR>:lclose<CR>
-    autocmd BufWrite * :Autoformat
+    autocmd BufWrite * Autoformat
+    " autocmd BufWrite * Neomake
     autocmd BufReadPost fugitive://* set bufhidden=delete
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    autocmd VimResized * :wincmd =
-    autocmd BufReadPost *
-               \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-               \     exe "normal! g`\"" |
-               \ endif
+    autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$")
+               \|    exe "normal! g`\""
+               \| endif
 augroup END
 
 augroup Working_Directory
     autocmd!
-    autocmd BufEnter *
-               \ if exists('b:last_cwd') |
-               \     execute 'lcd' b:last_cwd |
-               \ else |
-               \     silent! Glcd |
-               \ endif
+    autocmd BufLeave * let b:last_cwd = getcwd()
+    autocmd BufEnter * if exists('b:last_cwd')
+               \|     execute 'lcd' b:last_cwd
+               \| else
+               \|     silent! Glcd
+               \| endif
     autocmd BufLeave * let b:last_cwd = getcwd()
 augroup END
 
-augroup Neomake
-    autocmd!
-    autocmd BufWritePost * Neomake
-    autocmd QuitPre * let g:neomake_verbose = 0
-    autocmd VimLeave * let g:neomake_verbose = 0
-augroup END
-
-augroup todo
-    autocmd!
-    autocmd BufWritePre todo.txt silent! %s/x*\s*\([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\)\s//
-augroup END
-
-augroup FileType_Folding
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-    autocmd FileType json setlocal expandtab formatoptions=tcq2l foldmethod=syntax
-    autocmd FileType html,xhtml setlocal foldmethod=syntax foldlevel=0
-    autocmd FileType css,less setlocal foldmethod=marker foldlevel=0
-    autocmd FileType zsh,bash,tmux setlocal foldmethod=marker foldlevel=0
-augroup END
-
-augroup FileType_Omnicompletion
-    autocmd!
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-    autocmd FileType c set omnifunc=ccomplete#Complete
-    autocmd FileType java set omnifunc=javacomplete#Complete
-augroup END
-
-augroup FileType_gitcommit
-    autocmd!
-    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-augroup END
-
-augroup FileType_Python
-    autocmd!
-    autocmd FileType python BracelessEnable +indent +fold
-    autocmd FileType python map <silent> <leader>ipdb oimport ipdb; ipdb.set_trace()<Esc>
-augroup END
-
-augroup Filetype_Javascript_html_css
-    autocmd!
-    autocmd Filetype javascript nnoremap <leader>b Odebugger;<Esc>
-    autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
-    autocmd FileType html,css EmmetInstall
-augroup END
-
-augroup Filetype_Racket
-    autocmd!
-    autocmd FileType lisp,racket setlocal equalprg=scmindent.rkt
-    autocmd FileType lisp,racket RainbowParentheses
-augroup END
-
-augroup FileType_Markdown
-    autocmd!
-    autocmd FileType markdown call pencil#init()
-    autocmd Filetype markdown call Goyo
-augroup END
-
-augroup FileType_Dirvish
-    autocmd!
-    autocmd FileType dirvish nnoremap <buffer>
-                \ gh :keeppatterns g@\v/\.[^\/]+/?$@d<cr>
-    autocmd FileType dirvish call fugitive#detect(@%)
-    autocmd FileType dirvish setlocal nospell
-    autocmd FileType dirvish execute ':sort r /[^\/]$/'
-augroup END
 "}}}
