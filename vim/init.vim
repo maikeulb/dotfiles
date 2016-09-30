@@ -38,13 +38,13 @@ set number
 set nowrap
 set formatoptions-=c,r,o
 
-set expandtab
-set shiftround
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-set textwidth=79
+" set expandtab
+" set shiftround
+" set shiftwidth=4
+" set tabstop=4
+" set softtabstop=4
 
+set textwidth=79
 set winminheight=0
 set whichwrap=b,s,h,l,<,>,[,]
 set colorcolumn=80
@@ -68,14 +68,13 @@ let &runtimepath.=','.g:vimDir
 
 if has('persistent_undo')
     let g:myUndoDir = expand(g:vimDir . '/undodir')
-    " Create dirs
     call system('mkdir ' . g:vimDir)
     call system('mkdir ' . g:myUndoDir)
     let &undodir = g:myUndoDir
     set undofile
 endif
 
-set undolevels=1000
+set undolevels=10000
 set undoreload=10000
 
 if executable('ag')
@@ -304,15 +303,15 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " Change window layout
 function! Rotate()
-   let l:initial = winnr()
-   exe 1 . 'wincmd w'
-   wincmd l
-   if winnr() != 1
-      wincmd J
-   else
-      wincmd H
-   endif
-   execute l:initial . 'wincmd w'
+    let l:initial = winnr()
+    exe 1 . 'wincmd w'
+    wincmd l
+    if winnr() != 1
+        wincmd J
+    else
+        wincmd H
+    endif
+    execute l:initial . 'wincmd w'
 endfunction
 
 nnoremap <leader><space> :call Rotate()<CR>
@@ -500,27 +499,27 @@ endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
 function! s:yank_list()
-  redir => ys
-  silent Yanks
-  redir END
-  return split(ys, '\n')[1:]
+    redir => ys
+    silent Yanks
+    redir END
+    return split(ys, '\n')[1:]
 endfunction
 
 function! s:yank_handler(reg)
-  if empty(a:reg)
-    echo "aborted register paste"
-  else
-    let token = split(a:reg, ' ')
-    execute 'Paste' . token[0]
-  endif
+    if empty(a:reg)
+        echo "aborted register paste"
+    else
+        let token = split(a:reg, ' ')
+        execute 'Paste' . token[0]
+    endif
 endfunction
 
 command! FZFYanks call fzf#run({
-\ 'source': <sid>yank_list(),
-\ 'sink': function('<sid>yank_handler'),
-\ 'options': '-m',
-\ 'down': 12
-\ })
+            \ 'source': <sid>yank_list(),
+            \ 'sink': function('<sid>yank_handler'),
+            \ 'options': '-m',
+            \ 'down': 12
+            \ })
 
 nnoremap <silent> <C-p>       :Files<CR>
 nnoremap <silent> <M-p>       :Files $PROJECT_HOME<CR>
@@ -593,7 +592,7 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " Completion, Formatters & Linters {{{
 " Autoformat
-let g:autoformat_autoindent = 0
+let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
 let g:autoformat_verbosemode = 0
@@ -686,19 +685,22 @@ augroup General
     " autocmd BufWrite * Neomake
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$")
-               \|    exe "normal! g`\""
-               \| endif
+                \|    exe "normal! g`\""
+                \| endif
 augroup END
 
 augroup Working_Directory
     autocmd!
     autocmd BufLeave * let b:last_cwd = getcwd()
     autocmd BufEnter * if exists('b:last_cwd')
-               \|     execute 'lcd' b:last_cwd
-               \| else
-               \|     silent! Glcd
-               \| endif
+                \|     execute 'lcd' b:last_cwd
+                \| else
+                    \|     silent! Glcd
+                    \| endif
     autocmd BufLeave * let b:last_cwd = getcwd()
 augroup END
 
 "}}}
+
+nnoremap <space>rr :w<cr>:! 2to3 -w %<cr>:e<cr>
+

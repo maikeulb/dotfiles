@@ -1,0 +1,2 @@
+RainbowParentheses
+setlocal equalprg=scmindent.rkt

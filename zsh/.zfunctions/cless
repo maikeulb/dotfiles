@@ -1,0 +1,4 @@
+Pygmentized Less
+function cless () {
+    pygmentize -gf terminal "$1" | less -R
+}
