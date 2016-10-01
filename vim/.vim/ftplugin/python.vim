@@ -1,5 +1,7 @@
+let b:python_highlight_all = 1
+let b:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
+
 BracelessEnable +indent +fold
-nnoremap <silent> <leader>ipdb oimport ipdb; ipdb.set_trace()<Esc>
 
 setlocal autoindent
 setlocal smartindent
@@ -9,6 +11,9 @@ setlocal expandtab
 
 setlocal foldlevel=1
 
-setlocal formatoptions-=t
+nnoremap <silent> <leader>tt :! 2to3 -w -n --no-diffs %<cr>:e<cr>
+nnoremap <silent> <leader>ipdb oimport ipdb; ipdb.set_trace()<Esc>
 
-nnoremap <leader>ss :w<cr>:! 2to3 -w -n --no-diffs %<cr>:e<cr>
+setlocal formatoptions-=c
+setlocal formatoptions-=r
+setlocal formatoptions-=o

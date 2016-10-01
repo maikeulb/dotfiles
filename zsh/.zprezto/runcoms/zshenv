@@ -1,6 +1,6 @@
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zprofile"
+  source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
 # 256 colors in terminal
@@ -23,6 +23,7 @@ export PROJECT_HOME=$HOME/projects
 # Add RVM to PATH for scripting
 export GEM_HOME=$HOME/.gem
 export PATH=$PATH:$HOME/.rvm/bin
+export PATH=$PATH:$GEM_HOME/ruby/2.3.0/bin
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Add Local PIP to PATH

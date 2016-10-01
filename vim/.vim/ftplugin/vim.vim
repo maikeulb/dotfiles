@@ -6,4 +6,6 @@ setlocal autoindent
 
 setlocal foldmethod=marker
 setlocal foldlevel=0
-set formatoptions-=o
+setlocal formatoptions-=c
+setlocal formatoptions-=r
+setlocal formatoptions-=o
