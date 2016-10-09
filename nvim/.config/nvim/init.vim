@@ -1,8 +1,8 @@
-" Settings {{{1
+" Settings {{{
+
 " General
 set title
 set hidden
-set spell
 set gdefault
 set noswapfile
 set autowrite
@@ -15,23 +15,22 @@ set nojoinspaces
 set splitright
 set splitbelow
 set nomodeline
-
+set noshowmode
 set mouse=
 set background=dark
 set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
-set iskeyword-=.,#,-
-set synmaxcol=250
+set iskeyword-=.,#,-,~
+set synmaxcol=128
 set pumheight=15
 set fillchars+=vert:\
 set completeopt-=preview
 
-"Formatting
+" Formatting
 set relativenumber
 set number
 set nowrap
-
 set textwidth=79
 set winminheight=0
 set whichwrap=b,s,h,l,<,>,[,]
@@ -48,27 +47,19 @@ set wildignore+=node_modules/*
 set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
-let g:vimDir = '$HOME/.vim'
-let &runtimepath.=','.g:vimDir
-
-if has('persistent_undo')
-  let g:myUndoDir = expand(g:vimDir . '/undodir')
-  let &undodir = g:myUndoDir
-  call system('mkdir ' . g:vimDir)
-  call system('mkdir ' . g:myUndoDir)
-  set undofile
-  set undolevels=10000
-  set undoreload=10000
-endif
-
+let g:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
+set undodir=$HOME/.config/nvim/undodir
+set undofile
+set undolevels=10000
+set undoreload=10000
 if executable('ag')
   set grepprg=ag
   set grepformat=%f:%l:%c:%m
 endif
-" 1}}}
+" }}}
 
 
-" Mappings {{{1
+" Mappings {{{
 
 let g:mapleader = "\<Space>"
 
@@ -80,6 +71,7 @@ nnoremap : ;
 
 nnoremap ,; @:<CR>
 nnoremap gm m
+nnoremap gu gUiw`]
 
 nnoremap g; g;zz
 nnoremap g, g,zz
@@ -94,7 +86,7 @@ nnoremap H 0
 nnoremap L $
 
 nnoremap Q @q
-vnoremap Q :norm @q<CR>
+vnoremap Q :normal @q<CR>
 
 nnoremap oo o<Esc>k
 nnoremap OO O<Esc>
@@ -106,6 +98,7 @@ nnoremap <leader>* *``cgn
 nnoremap <leader># #``cgN
 nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 
+nnoremap <leader>wr <C-W>r
 nnoremap <leader>q  :BD<CR>
 nnoremap <leader>x  :q<CR>
 
@@ -118,8 +111,8 @@ nnoremap <leader>sc ea<C-X><C-S>
 
 nnoremap <silent> <leader>cn :cnext<CR>
 nnoremap <silent> <leader>cp :cprevious<CR>
-nnoremap <silent> <leader>ln :cnext<CR>
-nnoremap <silent> <leader>lp :cprevious<CR>
+nnoremap <silent> <leader>ln :lnext<CR>
+nnoremap <silent> <leader>lp :lprevious<CR>
 nnoremap <silent> <leader>jj :bprevious<CR>
 nnoremap <silent> <leader>kk :bnext<CR>
 
@@ -130,6 +123,9 @@ nnoremap <leader>sz  :source /home/mike/.zshrc<CR>
 nnoremap <leader>etd :edit /home/mike/Dropbox/todo/todo.txt<CR>
 
 inoremap jj <Esc>
+inoremap <C-w> <C-g>u<C-w>
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-y> <C-r>"
 
 tnoremap <silent> <Esc> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -140,10 +136,11 @@ tnoremap <C-l> <C-\><C-n><C-w>l
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
-" 1}}}
+cnoremap <C-y> <C-r>"
+" }}}
 
 
-" Functions {{{1
+" Functions {{{
 " LocationList Toggle
 function! LocationListToggle()
   if getwinvar(winnr(), 'locationlist_window', 0)
@@ -184,7 +181,7 @@ let s:termbuf = 0
 function! TerminalToggle()
   botright 10 split
   try
-    exe 'buffer' . s:termbuf
+    execute 'buffer' . s:termbuf
     startinsert
   catch
     " terminal
@@ -196,36 +193,8 @@ endfunction
 command! TerminalToggle call TerminalToggle()
 nnoremap <leader>te :TerminalToggle<CR>
 
-" Smart windows
-function! WinMove(key)
-  let t:curwin = winnr()
-  exec 'wincmd '.a:key
-  if (t:curwin == winnr())
-    if (match(a:key,'[jk]'))
-      wincmd v
-    else
-      wincmd s
-    endif
-    exec 'wincmd '.a:key
-  endif
-endfunction
 
-nnoremap <leader>h  :call WinMove('h')<CR>
-nnoremap <leader>k  :call WinMove('k')<CR>
-nnoremap <leader>l  :call WinMove('l')<CR>
-nnoremap <leader>j  :call WinMove('j')<CR>
-nnoremap <leader>wc :wincmd q<CR>
-nnoremap <leader>wr <C-W>r
-nnoremap <leader>H :wincmd H<CR>
-nnoremap <leader>K :wincmd K<CR>
-nnoremap <leader>L :wincmd L<CR>
-nnoremap <leader>J :wincmd J<CR>
-nnoremap <left>    :3wincmd <<CR>
-nnoremap <up>      :3wincmd +<CR>
-nnoremap <right>   :3wincmd ><CR>
-nnoremap <down>    :3wincmd -<CR>
-
-" Z - cd to recent / frequent directories
+" Z within vim
 function! Z(...)
   let l:cmd = 'fasd -d -e printf'
   for l:arg in a:000
@@ -234,26 +203,24 @@ function! Z(...)
   let l:path = system(l:cmd)
   if isdirectory(l:path)
     echo l:path
-    exec 'cd ' . l:path
+    execute 'cd ' . l:path
   endif
 endfunction
 
-command! -nargs=* Z call Z(<f-args>)
-
-" Find a directory
-function! Directory(directory)
-  let l:directory = expand(a:directory)
-  let l:command = 'tree -i -f -d "'.l:directory.'"'
-  call fzf#run({
-        \ 'source': l:command,
-        \ 'sink': 'Dirvish',
-        \ 'options': '+e'
-        \ })
+" N within vim
+function! E(...)
+  let l:cmd = 'fasd -f -e printf'
+  for l:arg in a:000
+    let l:cmd = l:cmd . ' ' . l:arg
+  endfor
+  let l:file = system(l:cmd)
+  if filereadable(l:file)
+    echo l:file
+    execute 'edit ' . l:file
+  endif
 endfunction
 
-command! -nargs=+ -complete=dir Directory call Directory(<f-args>)
-nnoremap <leader>D  :Directory<CR>
-nnoremap <leader>Dp :Directory $PROJECT_HOME<CR>
+command! -nargs=* E call E(<f-args>)
 
 " Smart paste mode
 function! WrapForTmux(s)
@@ -279,7 +246,7 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " Change window layout
 function! Rotate()
   let l:initial = winnr()
-  exe 1 . 'wincmd w'
+  execute 1 . 'wincmd w'
   wincmd l
   if winnr() != 1
     wincmd J
@@ -315,35 +282,35 @@ set foldtext=NeatFoldText()
 
 " Better Jumplist
 function! JumpInFile(back, forw)
-  let [n, i] = [bufnr('%'), 1]
-  let p = [n] + getpos('.')[1:]
-  sil! exe 'norm!1' . a:forw
+  let [l:n, l:i] = [bufnr('%'), 1]
+  let l:p = [l:n] + getpos('.')[1:]
+  silent! execute 'normal!1' . a:forw
   while 1
-    let p1 = [bufnr('%')] + getpos('.')[1:]
-    if n == p1[0] | break | endif
-    if p == p1
-      sil! exe 'norm!' . (i-1) . a:back
+    let l:p1 = [bufnr('%')] + getpos('.')[1:]
+    if l:n == l:p1[0] | break | endif
+    if l:p == l:p1
+      silent! execute 'normal!' . (l:i-1) . a:back
       break
     endif
-    let [p, i] = [p1, i+1]
-    sil! exe 'norm!1' . a:forw
+    let [l:l:l:p, l:l:l:i] = [l:p1, l:i+1]
+    silent! execute 'normal!1' . a:forw
   endwhile
 endfunction
 
 nnoremap <silent> <c-o> :call JumpInFile("\<c-i>", "\<c-o>")<cr>
 nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
-" 1}}}
+" }}}
 
 
-" Plugins {{{1
+" Plugins {{{
 
-" Load Plugins {{{2
-call plug#begin('~/.vim/bundle')
+" Load Plugins {{{
+call plug#begin('$HOME/.config/nvim/plugins')
 
 " General
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'racket' }
-Plug 'vim-airline/vim-airline'| Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-dirvish'
 Plug 'Raimondi/delimitMate'
@@ -361,7 +328,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'freitass/todo.txt-vim'
 Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
@@ -378,6 +345,7 @@ Plug 'wellle/tmux-complete.vim'
 
 " Language
 Plug 'sheerun/vim-polyglot'
+Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'wlangstroth/vim-racket'
 Plug 'chrisbra/vim-zsh'
 Plug 'lifepillar/pgsql.vim'
@@ -412,9 +380,9 @@ Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-rsi'
 
 call plug#end()
-" 2}}}
+" }}}
 
-" General {{{2
+" General {{{
 " Seoul256
 let g:seoul256_background = 233
 colo seoul256
@@ -427,21 +395,20 @@ let g:airline_inactive_collapse = 1
 let g:airline_section_y = ''
 let g:airline_section_z = ''
 let g:airline_detect_crypt = 0
-let g:airline_theme = 'wombat'
+let g:airline_theme = 'dark'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
 
 " Dirvish
-nnoremap <silent>-   :Dirvish<CR>
-nnoremap <leader>d   :Dirvish<CR>
-nnoremap <leader>dp  :Dirvish $PROJECT_HOME<CR>
+nnoremap <silent>-      :Dirvish<CR>
+nnoremap <silent> <M-d> :Dirvish $PROJECT_HOME<CR>
 
 " Vim-Maximizer
-nnoremap <silent><c-z> :MaximizerToggle<CR>
-tnoremap <silent><c-z> :MaximizerToggle<CR>
-" 2}}}
+nnoremap <silent> <C-z> :MaximizerToggle<CR>
+tnoremap <silent> <C-z> :MaximizerToggle<CR>
+" }}}
 
-" Integration {{{2
+" Integration {{{
 " Clever-F
 let g:clever_f_fix_key_direction = 1
 
@@ -455,22 +422,20 @@ nmap <Leader>hv <Plug>GitGutterPreviewHunk
 
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
-let g:EasyClipShareYanksDirectory = $HOME.'/.vim'
-let g:EasyClipShareYanksFile = '.easyclip'
+let g:EasyClipShareYanksDirectory = '$HOME/.config/nvim/easyclip'
+let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
-nmap <c-f> <plug>EasyClipSwapPasteForward
-nmap <c-b> <plug>EasyClipSwapPasteBackwards
+nmap <C-p> <plug>EasyClipSwapPasteForward
+nmap <C-n> <plug>EasyClipSwapPasteBackwards
 
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<CR>
 
 " fzf.vim
-set runtimepath+=~/.fzf
-let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit' }
+set runtimepath+=$HOME/.fzf
 let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_history_dir = '$HOME/.fzf-history'
+let g:fzf_tags_command = 'ctags -R'
 
 function! SearchWordWithAg()
   execute 'Ag' expand('<cword>')
@@ -494,18 +459,18 @@ endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
 function! s:yank_list()
-  redir => ys
+  redir => l:ys
   silent Yanks
   redir END
-  return split(ys, '\n')[1:]
+  return split(l:ys, '\n')[1:]
 endfunction
 
 function! s:yank_handler(reg)
   if empty(a:reg)
     echo "aborted register paste"
   else
-    let token = split(a:reg, ' ')
-    execute 'Paste' . token[0]
+    let l:token = split(a:reg, ' ')
+    execute 'Paste' . l:token[0]
   endif
 endfunction
 
@@ -516,9 +481,9 @@ command! FZFYanks call fzf#run({
       \ 'down': 12
       \ })
 
-nnoremap <silent> <C-p>       :Files<CR>
-nnoremap <silent> <M-p>       :Files $PROJECT_HOME<CR>
-nnoremap <silent> <leader>M   :Map<CR>
+nnoremap <silent> <C-f>       :Files<CR>
+nnoremap <silent> <M-f>       :Files $PROJECT_HOME<CR>
+nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>R   :Marks<CR>
 nnoremap <silent> <leader>S   :Snippets<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
@@ -531,22 +496,30 @@ nnoremap <silent> <leader>.   :AgIn
 nnoremap <silent> <leader>gC  :Commits<CR>
 nnoremap <silent> <leader>bC  :BCommits<CR>
 nnoremap <silent> <leader>Y   :FZFYanks<CR>
+nnoremap <silent> <leader>?   :History<CR>
 nnoremap <silent> K           :call SearchWordWithAg()<CR>
+vnoremap <silent> K           :call SearchVisualSelectionWithAg()<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
+
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+imap <leader><tab> <plug>(fzf-maps-i)
+omap <leader><tab> <plug>(fzf-maps-o)
 
 " TagBar
 let g:tagbar_autofocus = 1
 nnoremap <leader>tb :TagbarToggle<CR>
 
 " Gutentag
-let g:gutentags_cache_dir = '~/.vim/gutentags'
+let g:gutentags_cache_dir = '~/.tags'
 
 " Vimux
 let g:VimuxUseNearestPane = 0
@@ -564,13 +537,14 @@ vnoremap <silent> <leader>vs "vy :call VimuxSlime()<CR>
 nnoremap <silent> <leader>vs vip<LocalLeader>vs<CR><Paste>
 
 " Neoterm
-set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
-set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
-set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
+if exists('g:neoterm_loaded')
+  set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
+  set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
+  set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
+endif
 
 let g:neoterm_position = 'horizontal'
 let g:neoterm_automap_keys = ',tt'
-let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
 let g:neoterm_run_tests_bg = 1
 let g:neoterm_raise_when_tests_fail = 1
 let g:neoterm_close_when_tests_succeed = 1
@@ -581,7 +555,6 @@ noremap <silent> <leader>rt :Ttoggle<CR>
 
 " Vim-Test
 let g:test#strategy = 'dispatch'
-let g:test#python#runner = 'pytest'
 
 nnoremap <silent> <leader>tn :TestNearest<CR>
 nnoremap <silent> <leader>tf :TestFile<CR>
@@ -608,34 +581,24 @@ endfunction
 nnoremap <silent> <leader>qc :QC<CR>
 nnoremap <silent> <leader>qr :QuickRun -mode n<CR>
 vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
-" 2}}}
+" }}}
 
-" Completion, Formatters & Linters {{{2
+" Completion, Formatters & Linters {{{
 " Autoformat
 let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
-let g:autoformat_remove_trailing_spaces = 1
+let g:autoformat_remove_trailing_spaces = 0
 let g:autoformat_verbosemode = 0
-let g:formatdef_mypy = '"isort - | docformatter - | yapf --style=google"'
-let g:formatters_python = ['mypy']
-let g:formatdef_myrb = '"ruby-beautify -c 2 -s"'
-let g:formatters_ruby = ['myrb']
 
 " Neomake
 let g:neomake_verbose = 0
 let g:neomake_open_list = 0
-" let g:neomake_vim_enabled_makers = ['']
-let g:blacklist = ['python']
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
-
-let g:deoplete#sources#jedi#enable_cache = 1
-let g:tern_show_argument_hints = 'on_hold'
-let g:tern_show_signature_in_pum = 1
 
 highlight Pmenu ctermbg=8
 highlight PmenuSel ctermbg=1
@@ -646,16 +609,16 @@ inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
 " <CR>: close popup and save indent.
-inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
+inoremap <silent> <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<c-l>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
 let g:UltiSnipsEditSplit = 'vertical'
-" 2}}}
+" }}}
 
-" Language {{{2
+" Language {{{
 " Vim-virtualenv
 let g:virtualenv_auto_activate = 1
 let g:virtualenv_stl_format = '[%n]'
@@ -666,9 +629,9 @@ let g:sql_type_default = 'pgsql'
 
 " Emmet-Vim
 let g:user_emmet_install_global = 0
-" 2}}}
+" }}}
 
-" Commands {{{2
+" Commands {{{
 " Easy Align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -689,37 +652,37 @@ nnoremap <leader>gb  :Git branch<Space>
 nnoremap <leader>go  :Git checkout<Space>
 nnoremap <leader>gp  :Dispatch! git push<CR>
 nnoremap <leader>gu  :Dispatch! git pull<CR>
-" 2}}}
-" 1}}}
+" }}}
+" }}}
 
 
-" Autogroups {{{1
+" Autogroups {{{
 
 augroup General
   autocmd!
   autocmd WinEnter term://* startinsert
-  autocmd VimEnter * if isdirectory(expand('<amatch>')) | exe 'FZF! '.expand("<amatch>") | endif
+  autocmd VimEnter * if isdirectory(expand('<amatch>')) | execute 'FZF! '.expand("<amatch>") | endif
   autocmd VimResized * wincmd =
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-  autocmd BufWinEnter quickfix nnoremap <silent> <buffer>
-        \ q :cclose<CR>:lclose<CR>
-  autocmd BufWrite * Autoformat
-  autocmd BufWrite * if exists('b:noNeomake=0') | Neomake | endif
-  autocmd FileType vim let b:noNeomake=1
+  autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
+  autocmd BufWrite * if !exists('b:noAutoformat') | Autoformat | endif
+  autocmd BufWrite * if !exists('b:noNeomake') | Neomake | endif
   autocmd BufReadPost fugitive://* set bufhidden=delete
-  autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$")
-        \|   exe "normal! g`\""
-        \| endif
+  autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+        \   execute "normal! g`\"" |
+        \ endif
+  autocmd FileType * if exists("+omnifunc") && &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
+  autocmd FileType * if exists("+completefunc") && &completefunc == "" | setlocal completefunc=syntaxcomplete#Complete | endif
 augroup END
 
 augroup Working_Directory
   autocmd!
   autocmd BufLeave * let b:last_cwd = getcwd()
-  autocmd BufEnter * if exists('b:last_cwd')
-        \|   execute 'lcd' b:last_cwd
-        \| else
-          \|   silent! Glcd
-          \| endif
+  autocmd BufEnter * if exists('b:last_cwd') |
+        \   execute 'lcd' b:last_cwd |
+        \ else |
+        \   silent! Glcd |
+        \ endif
   autocmd BufLeave * let b:last_cwd = getcwd()
 augroup END
-" 1}}}
+" }}}

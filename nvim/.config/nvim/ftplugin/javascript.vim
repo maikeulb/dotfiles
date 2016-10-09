@@ -1,11 +1,10 @@
 setlocal omnifunc=tern#Complete
-nnoremap <leader>b Odebugger;<Esc>
-nnoremap <silent> <buffer> gb :TernD
 
 setlocal autoindent
 setlocal shiftwidth=2
 setlocal tabstop=2
 setlocal expandtab
+setlocal iskeyword=$
 
 setlocal foldmethod=indent
 setlocal foldlevel=1
@@ -15,6 +14,12 @@ setlocal foldlevel=1
 inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 " }
 
-" Prettify a hunk of JSON with <localleader>p
 nnoremap <buffer> <localleader>p ^vg_:!python -m json.tool<cr>
 vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
+nnoremap <buffer> <localleader>d Odebugger;<Esc>
+nnoremap <buffer> <localleader>gd :TernDef<CR>
+nnoremap <buffer> <localleader>tn :TernRename<CR>
+nnoremap <buffer> <localleader>tt :TernType<CR>
+nnoremap <buffer> <localleader>tr :TernRefs<CR>
+
+nnoremap <buffer> <localleader>r :!node %<cr>

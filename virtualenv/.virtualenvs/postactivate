@@ -5,10 +5,10 @@ PROJECT_NAME=$(echo "$VIRTUAL_ENV" | awk -F '/' '{print $NF}')
 
 # Override cd to go to the venv root
 cd () {
-    if (( $# == 0 ))
-    then
-        builtin cd $PROJECT_HOME/$PROJECT_NAME
-    else
-        autoenv_cd "$@" &> /dev/null
-    fi
+  if (( $# == 0 ))
+  then
+    builtin cd $PROJECT_HOME/$PROJECT_NAME
+  else
+    autoenv_cd "$@"
+  fi
 }

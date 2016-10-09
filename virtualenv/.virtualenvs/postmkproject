@@ -2,28 +2,28 @@
 # This hook is run after a new project is activated.
 
 # Create a .env file at the base of the new virtualenv
-PROJECT_NAME=$(echo "$VIRTUAL_ENV" | awk -F '/' '{print $NF}')
-ENV_CONF=~/$PROJECT_NAME/.env
+# PROJECT_NAME=$(echo "$VIRTUAL_ENV" | awk -F '/' '{print $NF}')
+# ENV_CONF=$PROJECT_HOME/$PROJECT_NAME/.env
 
-cat <<EOF > "$ENV_CONF"
+# cat <<EOF > "$ENV_CONF"
 
-venv="\$PROJECT_NAME"
-currentvenv=""
+# venv="\$PROJECT_NAME"
+# currentvenv=""
 
-if [[ \$VIRTUAL_ENV != "" ]]
-then
-    # Strip out the path and just leave the env name
-    currentvenv="\${VIRTUAL_ENV##*/}"
-fi
+# if [[ \$VIRTUAL_ENV != "" ]]
+# then
+# Strip out the path and just leave the env name
+# currentvenv="\${VIRTUAL_ENV##*/}"
+# fi
 
-if [[ "\$currentvenv" != "\$venv" ]]
-then
-    echo "Switching to environment: \$venv"
-    workon \$venv
-    else
-      echo "Already on environment \$venv"
-fi
-EOF
+# if [[ "\$currentvenv" != "\$venv" ]]
+# then
+# echo "Switching to environment: \$venv"
+# workon \$venv
+# else
+# echo "Already on environment \$venv"
+# fi
+# EOF
 
 # # Pre-install unit test tools in the new virtualenv
 # pip install pytest pytest-cov

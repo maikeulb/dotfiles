@@ -1,19 +1,19 @@
 #!/usr/bin/zsh
 # This hook is sourced after a new virtualenv is activated.
 
-# Create a directory named after the virtual environment as a subdirectory of
-# the current working directory, then cd into it.
-parent="$PWD"
-envname="$(basename $VIRTUAL_ENV)"
-envdir="$parent/$envname"
+# # Create a directory named after the virtual environment as a subdirectory of
+# # the current working directory, then cd into it.
+# parent="$PROJECT_HOME"
+# envname="$(basename $VIRTUAL_ENV)"
+# envdir="$parent/$envname"
 
-postactivate=$VIRTUAL_ENV/bin/postactivate
+# postactivate=$VIRTUAL_ENV/bin/postactivate
 
-echo "cd $envdir"             >> $postactivate
-echo                          >> $postactivate
+# echo "cd $envdir"             >> $postactivate
+# echo                          >> $postactivate
 
-if [ ! -e $envdir ]; then
-    mkdir -p $envdir
-fi
+# if [ ! -e $envdir ]; then
+#   mkdir -p $envdir
+# fi
 
-cd $envdir
+# cd $envdir
