@@ -11,7 +11,7 @@ setlocal formatoptions-=o
 
 nnoremap <buffer> <silent> <localleader>tt :! 2to3 -w -n --no-diffs %<cr>:e<cr>
 nnoremap <buffer> <silent> <localleader>d oimport ipdb; ipdb.set_trace()<Esc>
-nnoremap <buffer> <localleader>r :!python %<cr>
+nnoremap <buffer> <localleader>r :!python3 %<cr>
 
 let g:python_highlight_all = 1
 let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'

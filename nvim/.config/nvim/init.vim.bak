@@ -325,7 +325,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Integration
 Plug 'rhysd/clever-f.vim'
 Plug 'airblade/vim-gitgutter', { 'on': 'GitgutterToggle' }
-" Plug 'svermeulen/vim-easyclip'
+Plug 'svermeulen/vim-easyclip'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'freitass/todo.txt-vim'
@@ -423,8 +423,8 @@ nmap <Leader>hv <Plug>GitGutterPreviewHunk
 
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
-" let g:EasyClipShareYanksDirectory = '$HOME/.config/nvim/easyclip'
-" let g:EasyClipShareYanksFile = 'easyclip'
+let g:EasyClipShareYanksDirectory = '$HOME/.config/nvim/easyclip'
+let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
 
 nmap <C-p> <plug>EasyClipSwapPasteForward

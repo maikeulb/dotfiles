@@ -58,12 +58,14 @@
 	path = ~/.githubconfig
 
 [alias]
-    # abbrevs
+	# abbrevs
 	ad = add
 	ap = add -p
 	ci = commit
+	cp = cherry-pick
 	cl = clean
 	clf = clean -df
+	clo = clone
 	br = branch
 	co = checkout
 	pl = pull
@@ -71,20 +73,27 @@
 	ps = push
 	fe = fetch
 	df = diff
+	dc = diff --cached
 	gdf = difftool
 	gdfc = difftool --cached
 	mg = merge
 	gmg = mergetool
+	r = reset
+	rs = reset --soft
+	rh = reset --hard
 	st = status -sb
 	lp = log -p
+	sl = stash list
+	sa = stash apply
+	ss = stash save
 
-    # status
+	# status
 	bl = branch -av
 	vu = ls-files -u                    #view unmerged files
 	ls-ignored = ls-files --exclude-standard --ignored --others
 	ls = ls-files
 
-    # diffing
+	# diffing
 	d1 = diff HEAD^1..
 	dfc = diff --cached
 	wd1 = diff --word-diff=color HEAD^1.. #word-diff from last commit
@@ -94,7 +103,7 @@
 	prestage = diff -w --word-diff=color
 	precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
 
-    # logs
+	# logs
 	ld = log --oneline --decorate
 	l1 = log --max-count=1                   # last commit
 	l5 = log --max-count=5                   # last 5 commits
@@ -105,29 +114,34 @@
 	tree-all = log --graph --pretty=oneline --decorate --color --abbrev-commit --all
 	pc = log -p HEAD@{1}..  # pulled changes
 
-    # undoing things
+	# undoing things
 	unstage = reset -q HEAD --
+	undo = reset --hard '@{1}'
 	discard = checkout --
 	uncommit = reset --mixed HEAD~
 	nevermind = !git reset --hard HEAD && git clean -d -f
 
-    # showing things
+	# showing things
 	branches = branch -a
 	tags = tag
-	stashes = stash list
+	lt = describe --tags --abbrev=0
 
-    # new commands
+	# new commands
 	in = incoming
 	out = outgoing
 	addr = addremove
-	zip = !git archive -o $(basename $(readlink -e .)).zip HEAD
-	bdm = !git branch --merged | grep -v '*' | xargs -n 1 git branch -d
 	untrack = rm -r --cached
-
-    # amending
-	amend = commit --amend -C HEAD
-	amendc = commit --amend
+	tidy = rebase -i @{upstream}..
+	springcleaning = for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate:short)'
+	zip = !git archive -o $(basename $(readlink -e .)).zip HEAD
+	f = !git ls-files | grep -i
 	fixup = !GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash
+	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
+	cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+
+	# amending
+	amendc = commit --amend -C HEAD
+	amend = commit --amend
 
 [color "diff-highlight"]
 	oldNormal = red bold
@@ -144,5 +158,6 @@
 
 [format]
 	pretty = oneline
+
 [rebase]
 	autosquash = true

@@ -3,13 +3,6 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-# 256 colors in terminal
-[[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
-
-# Less syntax highlighting
-export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
-
 # FZF default variables
 export FZF_DEFAULT_COMMAND='find . '
 export FZF_DEFAULT_OPTS="--ansi"
@@ -17,25 +10,26 @@ export FZF_DEFAULT_OPTS="--ansi"
 # ADD XDG_CONFIG_HOME variable
 export XDG_CONFIG_HOME=$HOME/.config
 
-# Add Home/bin to PATH
-export PATH=$PATH:$HOME/bin
-
 # Add Virtualenv to PATH
 PROJECT_HOME='/home/mike/projects'
 VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/projects
-[[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source "/usr/local/bin/virtualenvwrapper.sh"
+
+# Add Home/.zfunctions to FPATH
+export FPATH=$FPATH:$HOME/.zfunctions
+
+# Add Home/bin to PATH
+export PATH=$PATH:$HOME/bin
 
 # Add RVM to PATH for scripting
 export GEM_HOME=$HOME/.gem
 export PATH=$PATH:$HOME/.rvm/bin
 export PATH=$PATH:$GEM_HOME/ruby/2.3.0/bin
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Add Local PIP to PATH
-export PATH=$PATH:$HOME/.local/bin
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+export PATH=$PATH:$HOME/.local/bin
 
 # Add GOPATH to Path
 export GOPATH=$HOME/.go
