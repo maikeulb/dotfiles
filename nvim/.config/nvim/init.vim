@@ -35,6 +35,8 @@ set textwidth=79
 set winminheight=0
 set whichwrap=b,s,h,l,<,>,[,]
 set colorcolumn=80
+set breakindent
+set showbreak=\\\\\
 highlight ColorColumn ctermbg=233
 
 " Files
@@ -283,24 +285,23 @@ set foldtext=NeatFoldText()
 
 " Better Jumplist
 function! JumpInFile(back, forw)
-  let [l:n, l:i] = [bufnr('%'), 1]
-  let l:p = [l:n] + getpos('.')[1:]
-  silent! execute 'normal!1' . a:forw
+  let [n, i] = [bufnr('%'), 1]
+  let p = [n] + getpos('.')[1:]
+  sil! exe 'norm!1' . a:forw
   while 1
-    let l:p1 = [bufnr('%')] + getpos('.')[1:]
-    if l:n == l:p1[0] | break | endif
-    if l:p == l:p1
-      silent! execute 'normal!' . (l:i-1) . a:back
+    let p1 = [bufnr('%')] + getpos('.')[1:]
+    if n == p1[0] | break | endif
+    if p == p1
+      sil! exe 'norm!' . (i-1) . a:back
       break
     endif
-    let [l:l:l:p, l:l:l:i] = [l:p1, l:i+1]
-    silent! execute 'normal!1' . a:forw
+    let [p, i] = [p1, i+1]
+    sil! exe 'norm!1' . a:forw
   endwhile
 endfunction
 
 nnoremap <silent> <c-o> :call JumpInFile("\<c-i>", "\<c-o>")<cr>
 nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
-
 " }}}
 
 
@@ -319,13 +320,12 @@ Plug 'Raimondi/delimitMate'
 Plug 'szw/vim-maximizer'
 Plug 'othree/eregex.vim'
 Plug 'Konfekt/FastFold'
-Plug 'tpope/vim-projectionist'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " Integration
 Plug 'rhysd/clever-f.vim'
 Plug 'airblade/vim-gitgutter', { 'on': 'GitgutterToggle' }
-" Plug 'svermeulen/vim-easyclip'
+Plug 'svermeulen/vim-easyclip'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'freitass/todo.txt-vim'
@@ -353,6 +353,7 @@ Plug 'chrisbra/vim-zsh'
 Plug 'lifepillar/pgsql.vim'
 Plug 'pearofducks/ansible-vim'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'dag/vim-fish', {'for': 'fish'}
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'moll/vim-node', { 'for': 'javascript' }
 Plug 'avakhov/vim-yaml', { 'for': 'yaml' }
@@ -423,8 +424,9 @@ nmap <Leader>hv <Plug>GitGutterPreviewHunk
 
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
-" let g:EasyClipShareYanksDirectory = '$HOME/.config/nvim/easyclip'
-" let g:EasyClipShareYanksFile = 'easyclip'
+" let g:EasyClipShareYanksDirectory ='~/.config/nvim/easyclip/'
+let g:EasyClipShareYanksDirectory ='$HOME/.tmp'
+let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
 
 nmap <C-p> <plug>EasyClipSwapPasteForward

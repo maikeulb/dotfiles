@@ -1,0 +1,1 @@
+/home/mike/.config/fisherman/mono/fish_prompt.fish

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 function new-scratch {
     cur_dir="$HOME/scratch"
     new_dir="$HOME/tmp/scratch-`date +'%s'`"

@@ -1,4 +1,5 @@
+#! /usr/bin/env bash
 #Pygmentized Less
 function cless () {
-	pygmentize -gf terminal "$1" | less -R
+  pygmentize -gf terminal "$1" | less -R
 }

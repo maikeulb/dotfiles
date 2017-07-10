@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Write to requirements with pip
 function pipr() {
     if [ "$1" == "install" ]; then

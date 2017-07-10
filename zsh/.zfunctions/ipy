@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Virtualenv aware ipython
 ipy () {
 	if [[ "$VIRTUAL_ENV" == 1 ]]; then
