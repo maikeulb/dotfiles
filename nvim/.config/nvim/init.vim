@@ -49,7 +49,8 @@ set wildignore+=node_modules/*
 set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
-let g:python3_host_prog = '/home/mike/.virtualenvs/.neovim/bin/python3'
+let g:python_host_prog = expand('$HOME') . '/.virtualenvs/neovim/bin/python'
+let g:python3_host_prog = expand('$HOME'). '/.virtualenvs/neovim/bin/python'
 set undodir=$HOME/.config/nvim/undodir
 set undofile
 set undolevels=10000
@@ -120,9 +121,11 @@ nnoremap <silent> <leader>kk :bnext<CR>
 
 nnoremap <leader>en  :edit $MYVIMRC<CR>
 nnoremap <leader>sv  :source $MYVIMRC<CR>
-nnoremap <leader>ez  :edit /home/mike/.zshrc<CR>
-nnoremap <leader>sz  :source /home/mike/.zshrc<CR>
-nnoremap <leader>etd :edit /home/mike/Dropbox/todo/todo.txt<CR>
+nnoremap <leader>ez  :edit $HOME/.zshrc<CR>
+nnoremap <leader>sz  :source $HOME/.zshrc<CR>
+nnoremap <leader>ef  :edit $HOME/.config/fish/config.fish<CR>
+nnoremap <leader>sf  :source $HOME/.config/fish/config.fish<CR>
+nnoremap <leader>etd :edit $HOME/Dropbox/todo/todo.txt<CR>
 
 inoremap jj <Esc>
 inoremap <C-w> <C-g>u<C-w>
@@ -424,8 +427,7 @@ nmap <Leader>hv <Plug>GitGutterPreviewHunk
 
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
-" let g:EasyClipShareYanksDirectory ='~/.config/nvim/easyclip/'
-let g:EasyClipShareYanksDirectory ='$HOME/.tmp'
+let g:EasyClipShareYanksDirectory = expand('$HOME'). '/.config/nvim/easyclip'
 let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
 
@@ -690,3 +692,9 @@ augroup Working_Directory
 augroup END
 
 " }}}
+
+
+highlight Normal guibg=none
+highlight NonText guibg=none
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none

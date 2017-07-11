@@ -1,9 +1,10 @@
-set start (date "+%s.%N")
+# set start (date "+%s.%N")
 
 # {{{ Exports
 
 set fish_greeting
 set -x PATH $HOME/bin $PATH
+set -x PATH $HOME/.local/bin $PATH
 set -U FZF_LEGACY_KEYBINDINGS 0
 set -x EDITOR "nvim"
 
@@ -24,7 +25,6 @@ end
 # Add Local PIP to Path
 if test -d $HOME/.pip/cache
     set -x PIP_DOWNLOAD_CACHE $HOME/.pip/cache
-    set -x PATH $PATH:$HOME/.local/bin
 end
 
 # Add GOPATH to Path
@@ -40,11 +40,10 @@ end
 
 # Xterm
 if test $TERM = 'xterm'
-    set -gx TERM xterm-256color
+    set -gx TERM screen-256color
 end
 
 # Virtualfish
-
 set -x VIRTUALFISH_HOME $HOME/.virtualenvs
 set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3
 set -x PROJECT_HOME $HOME/projects
@@ -78,25 +77,28 @@ abbr ga 'git add'
 abbr ga. 'git add .'
 abbr gb 'git branch'
 abbr gbd 'git branch -D'
-abbr gca 'git commit -am'
 abbr gcm 'git commit -m'
-abbr gcm!!! 'git add .'
+abbr gca 'git commit --amend --no-edit'
 abbr gco 'git checkout'
 abbr gcob 'git checkout -b'
 abbr gcod 'git checkout development'
+abbr gcdf 'git clean -df'
 abbr gi 'gitignore'
 abbr gm 'git merge'
 abbr gp 'git push'
-abbr gpl 'git pull'
+abbr gpf 'git push -f origin master'
 abbr gpsu 'git push -u origin master'
+abbr gpl 'git pull'
 abbr gs 'git status'
 abbr gc 'git clone'
 abbr gd 'git diff'
 abbr grs "git reset --soft"
 abbr grh "git reset --hard"
+abbr grhf "git reset --hard FETCH_HEAD"
 abbr gcp "git cherry-pick"
 abbr gl "git lg"
 abbr gpom="git pull origin master"
+abbr gfom="git fetch origin master"
 
 # Other
 abbr pg 'pgrep -l'
@@ -112,7 +114,6 @@ source "$HOME/.config/fish/todotxt.fish"
 # {{{ Aliases
 
 alias python='python3'
-# alias rm ='echo "This is not the command you are looking for."; false'
 
 alias ..='cd ..'
 alias la='ls -Ga'
@@ -139,7 +140,6 @@ alias eg='nvim $HOME/.gitconfig'
 alias ei='nvim $HOME/.ipython/profile_default/ipython_config.py'
 
 alias json='python -m json.tool'
-# alias tmux='TERM=screen-256color-bce tmux'
 alias yaml='js-yaml'
 alias mktmp='mktmpenv --no-cd'
 alias cdg='cd (git rev-parse --show-toplevel)'
@@ -286,10 +286,7 @@ function z
   | sed "s:$HOME:~:" \
   | fzf -1 -0 --no-sort +m \
   | sed "s:~:$HOME:")
-    and
-    nvim $dir
-    or
-    return 1
+    cd $dir
 end
 
 # Fuzzy cd to previous
@@ -314,17 +311,5 @@ end
 # }}}
 
 
-set end (date "+%s.%N")
-math $end-$start
-
-
-# Git
-# The format of git-log output is configurable: brief, oneline, and medium
-# zstyle ':prezto:module:git:log:context' format 'brief'
-
-# # Start the dropbox daemon if it isn't running.
-# if [[ $+commands[dropbox] == 1 &
-# & $(dropbox status) =~ "Dropbox isn't running\!" ]]
-# then
-# dropbox start
-# fi
+# set end (date "+%s.%N")
+# math $end-$start
