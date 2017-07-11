@@ -48,7 +48,7 @@ end
 set -x VIRTUALFISH_HOME $HOME/.virtualenvs
 set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3
 set -x PROJECT_HOME $HOME/projects
-eval (python3 -m virtualfish auto_activation)
+eval (python3 -m virtualfish auto_activation projects)
 
 if set -q VIRTUAL_ENV
     echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
@@ -112,8 +112,7 @@ source "$HOME/.config/fish/todotxt.fish"
 # {{{ Aliases
 
 alias python='python3'
-alias rm ='echo "This is not the command you are looking for."
-false'
+# alias rm ='echo "This is not the command you are looking for."; false'
 
 alias ..='cd ..'
 alias la='ls -Ga'

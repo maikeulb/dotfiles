@@ -166,3 +166,6 @@
 
 [rebase]
 	autosquash = true
+
+[status]
+	short = true
