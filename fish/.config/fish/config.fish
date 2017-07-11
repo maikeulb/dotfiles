@@ -5,6 +5,7 @@ set start (date "+%s.%N")
 set fish_greeting
 set -x PATH $HOME/bin $PATH
 set -U FZF_LEGACY_KEYBINDINGS 0
+set -x EDITOR "nvim"
 
 # Language
 set -x LC_ALL en_US.UTF-8
@@ -12,12 +13,6 @@ set -x LC_CTYPE en_US.UTF-8
 
 # ADD XDG_CONFIG_HOME variable
 set -x XDG_CONFIG_HOME $HOME/.config
-
-# # Add Virtualenv to PATH
-# PROJECT_HOME='/home/mike/projects'
-# VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-# export WORKON_HOME=$HOME/.virtualenvs
-# export PROJECT_HOME=$HOME/projects
 
 # Add RVM to Path
 if test -d $HOME/.gem
@@ -43,17 +38,25 @@ if test -d /usr/local/heroku/bin
     set -x PATH /usr/local/heroku/bin $PATH
 end
 
-# Editor
-set -x EDITOR "nvim"
-
 # Xterm
 if test $TERM = 'xterm'
     set -gx TERM xterm-256color
 end
 
-# # Start Dropbox
-# if test (dropbox status) =~ "Dropbox isn't running\!"
-#     dropbox start
+# Virtualfish
+
+set -x VIRTUALFISH_HOME $HOME/.virtualenvs
+set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3
+set -x PROJECT_HOME $HOME/projects
+eval (python3 -m virtualfish auto_activation)
+
+if set -q VIRTUAL_ENV
+    echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+end
+
+# # Dropbox
+# if eval (dropbox status) =~ "Dropbox isn't running\!"
+#     eval (dropbox start)
 # end
 
 # }}}
@@ -137,7 +140,7 @@ alias eg='nvim $HOME/.gitconfig'
 alias ei='nvim $HOME/.ipython/profile_default/ipython_config.py'
 
 alias json='python -m json.tool'
-alias tmux='TERM=screen-256color-bce tmux'
+# alias tmux='TERM=screen-256color-bce tmux'
 alias yaml='js-yaml'
 alias mktmp='mktmpenv --no-cd'
 alias cdg='cd (git rev-parse --show-toplevel)'

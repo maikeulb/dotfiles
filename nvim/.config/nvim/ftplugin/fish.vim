@@ -5,12 +5,11 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal autoindent
 
-" let b:noAutoformat=1
+let b:noAutoformat=1
 setlocal foldmethod=marker
 setlocal foldlevel=0
 
 " let g:formatters_fish = ['fish_indent']
-
 
 nnoremap <buffer> <localleader>r :source %<cr>
 nnoremap <buffer> <localleader>n :Neomake<cr>
@@ -49,4 +48,3 @@ function! Indent()
 
 endfunction
 autocmd BufWritePre <buffer> call Indent()
-
