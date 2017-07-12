@@ -1,0 +1,10 @@
+ipython
+ipdb
+
+#pytest
+#pytest-sugar
+#pytest-cov
+#pytest-django
+#pytest-flask
+#pytest-watch
+

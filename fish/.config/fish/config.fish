@@ -1,25 +1,37 @@
-# set start (date "+%s.%N")
+# {{{ Variables
 
-# {{{ Exports
+set -g fish_greeting
 
-set fish_greeting
-set -x PATH $HOME/bin $PATH
-set -x PATH $HOME/.local/bin $PATH
-set -U FZF_LEGACY_KEYBINDINGS 0
-set -x EDITOR "nvim"
-
-# Language
+set -x XDG_CONFIG_HOME $HOME/.config
+set -x TERM screen-256color
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
+set -x RANGER_LOAD_DEFAULT_RC 0
+set -x PIP_REQUIRE_VIRTUALENV 0
+set -x FZF_LEGACY_KEYBINDINGS 0
+set -x FZF_DEFAULT_OPTS "--height 10"
+set -x LESS_TERMCAP_me (printf "\e[0m")
+set -x LESS_TERMCAP_se (printf "\e[0m")
+set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
+set -x LESS_TERMCAP_ue (printf "\e[0m")
+set -x LESSOPEN "| pygmentize -g %s"
+set -x LESS " -RiF "
 
-# ADD XDG_CONFIG_HOME variable
-set -x XDG_CONFIG_HOME $HOME/.config
+# Add bin and ./local/bin to Path
+if test -d $HOME/bin
+    set -x PATH $HOME/bin $PATH
+end
+if test -d $HOME/.local/bin
+    set -x PATH $HOME/.local/bin $PATH
+end
 
-# Add RVM to Path
-if test -d $HOME/.gem
-    set -x GEM_HOME $HOME/.gem
+# Add GEM/RVM to Path
+if test -d $HOME/.rvm
+    set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
+    set -x GEM_PATH $GEM_HOME
+    set -x PATH $GEM_HOME/bin $PATH
+    bash -c 'source $HOME/.rvm/scripts/rvm'
     set -x PATH $HOME/.rvm/bin $PATH
-    set -x PATH $GEM_HOME/ruby/2.3.0/bin $PATH
 end
 
 # Add Local PIP to Path
@@ -27,10 +39,20 @@ if test -d $HOME/.pip/cache
     set -x PIP_DOWNLOAD_CACHE $HOME/.pip/cache
 end
 
+# Add NPM to Path
+if test -d $HOME/.npm-packages/bin
+    set -x NPM_PACKAGES $HOME/.npm-packages
+    set -x PATH $NPM_PACKAGES/bin $PATH
+    # set -x NPM_CONFIG_PREFIX $HOME/.npm-packages
+    # set -x MANPATH $NPM_PACKAGES/share/man (manpath)
+    set -x NODE_PATH $NPM_PACKAGES/lib/node_modules $NODE_PATH
+end
+
 # Add GOPATH to Path
 if test -d $HOME/.go
-    set -x GOPATH $HOME/.go
-    set -x PATH $GOROOT/bin:$GOPATH/bin $PATH
+    set -x GOPATH $HOME
+    set -x GOROOT /usr/local/go
+    set -x PATH $GOPATH/bin $PATH
 end
 
 # Add Heroku to Path
@@ -38,38 +60,36 @@ if test -d /usr/local/heroku/bin
     set -x PATH /usr/local/heroku/bin $PATH
 end
 
-# Xterm
-if test $TERM = 'xterm'
-    set -gx TERM screen-256color
+# Add Postgresql to Path
+if test -d /usr/lib/postgresql/9.6/bin
+    set -x PATH /usr/lib/postgresql/9.6/bin $PATH
 end
 
 # Virtualfish
 set -x VIRTUALFISH_HOME $HOME/.virtualenvs
-set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3
+set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3.5
 set -x PROJECT_HOME $HOME/projects
-eval (python3 -m virtualfish auto_activation projects)
-
-if set -q VIRTUAL_ENV
-    echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+if not set -q VIRTUAL_ENV
+  eval ( python3 -m virtualfish auto_activation projects global_requirements)
 end
 
-# # Dropbox
-# if eval (dropbox status) =~ "Dropbox isn't running\!"
-#     eval (dropbox start)
-# end
+# Overcommit
+set -x GIT_TEMPLATE_DIR `overcommit --template-dir`
+
+# Autoenv
+# source $HOME/.config/fisherman/autoenv_fish/activate.fish
+
+# Cheat
+set -x CHEAT_EDITOR nvim
+set -x VISUAL nvim
+set -x EDITOR nvim
+set -x DEFAULT_CHEAT_DIR $HOME/dotfiles/cheat/.config/cheat
+set -x CHEATCOLORS true
 
 # }}}
 
 
 # {{{ Abbreviations
-
-# Apt-Get
-abbr ar 'sudo apt-get autoremove'
-abbr dug 'sudo apt-get dist-upgrade'
-abbr i 'sudo apt-get install'
-abbr r 'sudo apt-get remove'
-abbr u 'sudo apt-get update'
-abbr ug 'sudo apt-get upgrade'
 
 # Git
 abbr g 'git'
@@ -82,7 +102,6 @@ abbr gca 'git commit --amend --no-edit'
 abbr gco 'git checkout'
 abbr gcob 'git checkout -b'
 abbr gcod 'git checkout development'
-abbr gcdf 'git clean -df'
 abbr gi 'gitignore'
 abbr gm 'git merge'
 abbr gp 'git push'
@@ -94,19 +113,10 @@ abbr gc 'git clone'
 abbr gd 'git diff'
 abbr grs "git reset --soft"
 abbr grh "git reset --hard"
-abbr grhf "git reset --hard FETCH_HEAD"
 abbr gcp "git cherry-pick"
 abbr gl "git lg"
 abbr gpom="git pull origin master"
 abbr gfom="git fetch origin master"
-
-# Other
-abbr pg 'pgrep -l'
-abbr psg 'ps -ef | grep'
-abbr ccat 'pygmentize -g'
-
-# Source todo.txt
-source "$HOME/.config/fish/todotxt.fish"
 
 # }}}
 
@@ -114,61 +124,89 @@ source "$HOME/.config/fish/todotxt.fish"
 # {{{ Aliases
 
 alias python='python3'
+alias tmux='tmux new-session -A -s main'
+# alias tmux='tmux attach'
+alias todo "$HOME/src/todo.txt_cli-2.9/todo.sh"
 
 alias ..='cd ..'
+alias p='cd $OLDPWD'
 alias la='ls -Ga'
 alias lsd='ls -l | grep "^d"'
 alias ll='ls -ahlF'
 
 alias D='cd $HOME/Downloads'
-alias d='cd $HOME/Dropbox'
-alias df='cd $HOME/dotfiles'
-alias p='cd $HOME/project'
-
-alias psef='ps -ef | peco '
-alias top='top -o cpu'
+alias N='cd $HOME/Dropbox/notes'
+alias db='cd $HOME/Dropbox'
+alias d='cd $HOME/dotfiles'
+alias vi='cd $HOME/.virtualenvs'
 
 alias etd='nvim $HOME/Dropbox/todo/todo.txt'
 alias ez='nvim $HOME/.zshrc'
 alias sz='source $HOME/.zshrc'
 alias ezp='nvim $HOME/.zpreztorc'
+alias ei3='nvim $HOME/.config/i3/config'
 alias ef='nvim $HOME/.config/fish/config.fish'
 alias ev='nvim $HOME/.vimrc'
 alias et='nvim $HOME/.tmux.conf'
-alias en='nvim $HOME/.config/nvim/init.vim'
+alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim'
 alias eg='nvim $HOME/.gitconfig'
 alias ei='nvim $HOME/.ipython/profile_default/ipython_config.py'
 
-alias json='python -m json.tool'
-alias yaml='js-yaml'
-alias mktmp='mktmpenv --no-cd'
 alias cdg='cd (git rev-parse --show-toplevel)'
 alias tagit='ctags -R --exclude=.git --exclude=log *'
 alias rtags='ripper-tags -R -f TAGS'
-# alias t='/home/mike/src/todo.txt_cli-2.9/todo.sh -d /home/mike/src/todo.txt_cli-2.9/todo.cfg'
-alias gitsearch='git rev-list --all | xargs git grep'
 
 alias gg='git grep -E'
 alias grep='grep --color=auto'
-alias gfrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+
+alias nlist='npm list -g --depth=0'
+alias plist='pip freeze --local'
+alias glist='gem list --local'
 
 # }}}
 
 
 # {{{ Functions
 
-function server --description "Start an HTTP server from a directory"
-    open http://localhost:8080/
-    and python -m SimpleHTTPServer 8080
+function start-mongo
+  if test (lsb_release -cs) = 'xenial'
+  sudo service mongod start
+  #/usr/bin/mongod
+  #/var/lib/mongodb
+  #/etc/mongodb.conf
+    else
+  sudo mongod --fork --config /etc/mongodb.conf
+  end
 end
 
-function md
-    open http://localhost:5000/
-    and grip
+function stop-mongo
+  if test (lsb_release -cs) = 'xenial'
+  sudo service mongod stop
+    else
+  sudo mongod --dbpath /var/lib/mongodb --shutdown
+  end
 end
 
-function cd --description "auto ls for each cd"
+function start-postgres
+  sudo service postgresql start
+  #/usr/lib/postgresql/9.6/bin/pg_ctl
+  #/var/lib/postgresql/9.3/main
+  #/etc/postgresql/9.6/main/postgresql.conf
+end
+
+function stop-postgres
+  sudo service postgresql stop
+end
+
+function start-redis
+  sudo service redis_6379 stop
+end
+
+function stop-redis
+  sudo service redis_6379 stop
+end
+
+function cd
     if [ -n $argv[1] ]
         builtin cd $argv[1]
         and ls
@@ -178,138 +216,32 @@ function cd --description "auto ls for each cd"
     end
 end
 
-function pkill --description "pkill a process interactively"
-    ps aux | peco | awk '{ print $2 }' | xargs kill
+function _venvactivate --on-event virtualenv_did_activate
+    echo "The virtualenv \""(basename $VIRTUAL_ENV)"\" was activated"
 end
 
-function ppkill --description "kill -9 a process interactively"
-    ps aux | peco | awk '{ print $2 }' | xargs kill -KILL
-end
-
-function pgrep --description "pgrep a process interactively"
-    ps aux | peco | awk '{ print $2 }'
-end
-
-function gpip
-    env PIP_REQUIRE_VIRTUALENV='' pip $argv
-end
-
-function mdu
-    du -sh * | sort -h
-end
-
-function mdlf
-    youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -a playlist
-end
-
-function reload
-    source $HOME/.config/fish/config.fish
-end
-
-function __go-to-git-root
-    cd (git rev-parse --show-toplevel)
-end
-
-function gitroot
-    if pwd != (git rev-parse --show-toplevel)
-        __go-to-git-root
-    else if test (cd ..; and git rev-parse --is-inside-work-tree > /dev/null ^&1; echo $status) -eq 0
-        cd ..
-        and __go-to-git-root
-    end
-end
-
-function cleanpycs
-    find . -name '.git' -prune -o -name '__pycache__' -delete
-    find . -name '.git' -prune -o -name '*.py[co]' -delete
-end
-
-# {{{ FZF functions
-
-# Fuzzy tmux keys
-function ftk
-    if count $argv >dev/null
-        tmux list-keys | ag $argv | fzf
-    else
-        tmux list-keys | fzf
-    end
-end
-
-# Fuzzy git alias
-function fga
-    if count $argv >dev/null
-        git config --get-regexp alias | ag $argv | fzf
-    else
-        git config --get-regexp alias | fzf
-    end
-end
-
-# Fuzzy fish alias
-function fa
-    if count $argv >dev/null
-        alias | ag $argv | fzf
-    else
-        alias | fzf
-    end
-end
-
-# Fuzzy fish abbr
-function fab
-    if count $argv >dev/null
-        alias | ag $argv | fzf
-    else
-        alias | fzf
-    end
-end
-
-# Fuzzy fish bindings
-function fab
-    if count $argv >dev/null
-        bind | ag $argv | fzf
-    else
-        bind | fzf
-    end
-end
-
-# n with fzf
-function n
-    set file (fasd -Rfl $argv \
-  | sed "s:$HOME:~:" \
-  | fzf -1 -0 --no-sort +m \
-  | sed "s:~:$HOME:")
-    nvim $file
-end
-
-# z with fzf
-function z
-    set dir (fasd -Rdl $argv \
-  | sed "s:$HOME:~:" \
-  | fzf -1 -0 --no-sort +m \
-  | sed "s:~:$HOME:")
-    cd $dir
-end
-
-# Fuzzy cd to previous
-function fcp
-    # Clear non-existent folders from cdhist.
-    set -l buf
-    for i in (seq 1 (count $dirprev))
-        set -l dir $dirprev[$i]
-        if test -d $dir
-            set buf $buf $dir
-        end
-    end
-    set dirprev $buf
-    string join \n $dirprev | tac | sed 1d | eval (__fzfcmd) +m --tiebreak=index --toggle-sort=ctrl-r $FZF_CDHIST_OPTS | read -l result
-    [ "$result" ]
-    and cd $result
-    commandline -f repaint
+function _venvdeactivate --on-event virtualenv_did_deactivate
+    echo "The virtualenv \""(basename $VIRTUAL_ENV)"\" was deactivated"
 end
 
 # }}}
 
-# }}}
+# Always run TMUX
+if test -n $TMUX
+    command tmux attach ^/dev/null
+end
 
+function mtimes
+  for dir in */
+    pushd $dir > /dev/null
+    echo $dir (mtime)
+    popd > /dev/null
+  end
+end
 
-# set end (date "+%s.%N")
-# math $end-$start
+# bash -c 'source ~/.nvm/nvm.sh ; nvm use node;'
+
+# New Vim-notes
+function nn
+    nvim +edit note:$argv
+end

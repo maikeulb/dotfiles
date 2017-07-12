@@ -1,0 +1,117 @@
+---
+# Use this file to configure the Overcommit hooks you wish to use. This will
+# extend the default configuration defined in:
+# https://github.com/brigade/overcommit/blob/master/config/default.yml
+#
+#
+# Uncomment the following lines to make the configuration take effect.
+
+PreCommit:
+  ALL:
+    problem_on_unmodified_line: report
+    requires_files: true
+    required: false
+    quiet: false
+
+  CssLint:
+    enabled: false
+    description: 'Analyze with csslint'
+    required_executable: 'csslint'
+    flags: ['--quiet', '--format=compact']
+    install_command: 'npm install -g csslint'
+    include: '**/*.css'
+
+  EsLint:
+    enabled: false
+    description: 'Analyze with ESLint'
+    required_executable: 'eslint'
+    flags: ['--format=compact']
+    install_command: 'npm install -g eslint'
+    include: '**/*.js'
+
+  HamlLint:
+    enabled: false
+    description: 'Analyze with haml-lint'
+    required_executable: 'haml-lint'
+    install_command: 'gem install haml-lint'
+    flags: ['--no-summary']
+    include: '**/*.haml'
+
+  HtmlHint:
+    enabled: false
+    description: 'Analyze with HTMLHint'
+    required_executable: 'htmlhint'
+    install_command: 'npm install -g htmlhint'
+    include: '**/*.html'
+
+  HtmlTidy:
+    enabled: false
+    description: 'Analyze HTML with tidy'
+    required_executable: 'tidy'
+    flags: ['-errors', '-quiet', '-utf8']
+    include: '**/*.html'
+
+  JsonSyntax:
+    enabled: false
+    description: 'Validate JSON syntax'
+    required_library: 'json'
+    install_command: 'gem install json'
+    include: '**/*.json'
+
+  Mdl:
+    enabled: false
+    description: 'Analyze with mdl'
+    required_executable: 'mdl'
+    install_command: 'gem install mdl'
+    include: '**/*.md'
+
+  Pylint:
+    enabled: false
+    description: 'Analyze with Pylint'
+    required_executable: 'pylint'
+    install_command: 'pip install pylint'
+    flags:
+      - '--msg-template="{path}:{line}:{C}: {msg} ({symbol})"'
+      - '--reports=n'
+      - '--persistent=n'
+    include: '**/*.py'
+
+  PythonFlake8:
+    enabled: false
+    description: 'Analyze with flake8'
+    required_executable: 'flake8'
+    install_command: 'pip install flake8'
+    include: '**/*.py'
+
+  ScssLint:
+    enabled: false
+    description: 'Analyze with scss-lint'
+    required_library: 'json'
+    required_executable: 'scss-lint'
+    flags: ['--format', 'JSON']
+    install_command: 'gem install scss-lint'
+    include: '**/*.scss'
+
+  Sqlint:
+    enabled: false
+    description: 'Analyze with sqlint'
+    required_executable: 'sqlint'
+    install_command: 'gem install sqlint'
+    include: '**/*.sql'
+
+  XmlLint:
+    enabled: false
+    description: 'Analyze with xmllint'
+    required_executable: 'xmllint'
+    flags: ['--noout']
+    include:
+      - '**/*.xml'
+      - '**/*.svg'
+
+  YamlSyntax:
+    enabled: false
+    description: 'Check YAML syntax'
+    required_library: 'yaml'
+    include:
+      - '**/*.yaml'
+      - '**/*.yml'

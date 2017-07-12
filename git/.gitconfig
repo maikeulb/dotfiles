@@ -143,6 +143,8 @@
 	fixup = !GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash
 	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
 	cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+	dotpush ="!git -C $HOME/dotfiles/ add -A && git -C $HOME/dotfiles/ commit --amend --no-edit && git -C $HOME/dotfiles/ push -f origin master"
+	dotreset ="!git -C $HOME/dotfiles/ fetch origin master && git -C $HOME/dotfiles/ reset --hard FETCH_HEAD && git -C $HOME/dotfiles/ clean -df"
 
 	# amending
 	amendc = commit --amend -C HEAD

@@ -1,5 +1,3 @@
-let b:noAutoformat=1
-
 setlocal autoindent
 setlocal tabstop=2
 setlocal shiftwidth=2
@@ -8,6 +6,8 @@ setlocal nosmartindent
 
 setlocal foldmethod=syntax
 setlocal foldlevel=1
+
+let g:neoformat_enabled_html = ['htmlbeautify']
 
 inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
 inoremap <buffer> <c-v> {{<space><space>}}<left><left><left>

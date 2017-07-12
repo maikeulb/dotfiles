@@ -6,3 +6,5 @@ setlocal expandtab
 
 setlocal foldmethod=syntax
 setlocal foldlevel=1
+
+let g:neoformat_enabled_css = ['prettier']

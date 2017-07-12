@@ -5,3 +5,5 @@ setlocal expandtab
 
 setlocal foldmethod=marker
 setlocal foldlevel=0
+
+let g:neoformat_enabled_sh = ['shfmt']

@@ -9,15 +9,27 @@ setlocal formatoptions-=c
 setlocal formatoptions-=r
 setlocal formatoptions-=o
 
+let g:python_highlight_all = 1
+
+if exists('g:test#python#runner')
+  let g:test#python#runner = 'pytest'
+endif
+
+if exists('g:deoplete#sources')
+  let g:deoplete#sources.python = ['buffer', 'jedi']
+  let g:deoplete#sources#jedi#enable_cache = 1
+endif
+
+let g:neoformat_python_yapf = {
+      \ 'exe': 'yapf',
+      \ 'args': ['based_on_style=pep8'],
+      \ }
+let g:neoformat_enabled_python = ['yapf', 'isort']
+
+let g:ale_linters={ 'python': ['flake8'] }
+
 nnoremap <buffer> <silent> <localleader>tt :! 2to3 -w -n --no-diffs %<cr>:e<cr>
 nnoremap <buffer> <silent> <localleader>d oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <buffer> <localleader>r :!python3 %<cr>
-
-let g:python_highlight_all = 1
-let g:neoterm_repl_python = 'ipython --no-banner --no-autoindent'
-let g:test#python#runner = 'pytest'
-let g:formatdef_mypy = '"isort - | docformatter - | yapf --style=google"'
-let g:formatters_python = ['mypy']
-let g:deoplete#sources#jedi#enable_cache = 1
 
 BracelessEnable +indent +fold

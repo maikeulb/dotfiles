@@ -1,5 +1,3 @@
-let b:noAutoformat=1
-
 setlocal autoindent
 setlocal nosmartindent
 setlocal shiftwidth=2
