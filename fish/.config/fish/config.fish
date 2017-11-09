@@ -135,6 +135,8 @@ alias lsd='ls -l | grep "^d"'
 alias ll='ls -ahlF'
 
 alias D='cd $HOME/Downloads'
+alias U='cd $HOME/Udemy'
+alias P='cd $HOME/Pluralsight'
 alias N='cd $HOME/Dropbox/notes'
 alias db='cd $HOME/Dropbox'
 alias d='cd $HOME/dotfiles'
@@ -162,6 +164,8 @@ alias grep='grep --color=auto'
 alias nlist='npm list -g --depth=0'
 alias plist='pip freeze --local'
 alias glist='gem list --local'
+
+alias flask-generator='cookiecutter https://github.com/candidtim/cookiecutter-flask-minimal.git'
 
 # }}}
 

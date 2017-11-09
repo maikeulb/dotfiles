@@ -9,10 +9,10 @@ setlocal formatoptions-=c
 setlocal formatoptions-=r
 setlocal formatoptions-=o
 
-let g:python_highlight_all = 1
+let b:python_highlight_all = 1
 
 if exists('g:test#python#runner')
-  let g:test#python#runner = 'pytest'
+  let b:test#python#runner = 'pytest'
 endif
 
 if exists('g:deoplete#sources')
@@ -24,6 +24,7 @@ let g:neoformat_python_yapf = {
       \ 'exe': 'yapf',
       \ 'args': ['based_on_style=pep8'],
       \ }
+
 let g:neoformat_enabled_python = ['yapf', 'isort']
 
 let g:ale_linters={ 'python': ['flake8'] }

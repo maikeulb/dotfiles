@@ -8,5 +8,5 @@ setlocal autoindent
 setlocal foldmethod=marker
 setlocal foldlevel=0
 
-let g:neoformat_enabled_fish = ['']
-let g:neoformat_try_formatprg = 0
+let b:neoformat_enabled_fish = ['']
+let b:neoformat_try_formatprg = 0

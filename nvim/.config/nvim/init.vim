@@ -342,7 +342,7 @@ nnoremap <silent> <leader>qr :QuickRun -mode n<CR>
 vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 
 " Autoformat
-let g:neoformat_basic_format_align = 1
+let g:neoformat_basic_format_align = 0
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
 let g:neoformat_only_msg_on_error = 1
@@ -403,6 +403,54 @@ nnoremap <leader>gb  :Git branch<Space>
 nnoremap <leader>go  :Git checkout<Space>
 nnoremap <leader>gp  :Dispatch! git push<CR>
 nnoremap <leader>gu  :Dispatch! git pull<CR>
+
+" Omnisharp
+let g:OmniSharp_selector_ui = 'fzf'
+let g:OmniSharp_server_type = 'v1'
+let g:OmniSharp_server_type = 'roslyn'
+nnoremap <leader>ss :OmniSharpStartServer<cr>
+nnoremap <leader>sp :OmniSharpStopServer<cr>
+nnoremap <leader>rl :OmniSharpReloadSolution<cr>
+nnoremap <leader>cf :OmniSharpCodeFormat<cr>
+nnoremap <leader>tp :OmniSharpAddToProject<cr>
+
+augroup omnisharp_commands
+  autocmd!
+
+  "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
+  autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+
+  " Synchronous build (blocks Vim)
+  "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+  " Builds can also run asynchronously with vim-dispatch installed
+  autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+
+  " Automatically add new cs files to the nearest project on save
+  autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+
+  "show type information automatically when the cursor stops moving
+  autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+  "The following commands are contextual, based on the current cursor position.
+
+  autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+  autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+  autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+  autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+  autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+  "finds members in the current buffer
+  autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
+  " cursor can be anywhere on the line containing an issue
+  autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
+  autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+  autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+  autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+  "navigate up by method/property/field
+  autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
+  "navigate down by method/property/field
+  autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
+
+augroup END
 
 " }}}
 

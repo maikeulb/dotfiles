@@ -7,9 +7,10 @@ setlocal nosmartindent
 setlocal foldmethod=syntax
 setlocal foldlevel=1
 
-let g:neoformat_enabled_html = ['htmlbeautify']
+let b:neoformat_enabled_html = ['htmlbeautify']
+let g:deoplete_disable_auto_complete = 1
 
 inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
 inoremap <buffer> <c-v> {{<space><space>}}<left><left><left>
-nnoremap <buffer> <localleader>a :Autoformat<cr>
-vnoremap <buffer> <localleader>a :Autoformat<cr>
+" nnoremap <buffer> <localleader>a :Autoformat<cr>
+" vnoremap <buffer> <localleader>a :Autoformat<cr>

@@ -12,13 +12,13 @@ setlocal foldlevel=1
 inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 " }
 
-let g:neoformat_javascript_prettiereslint = {
+let b:neoformat_javascript_prettiereslint = {
       \ 'exe': 'prettier-eslint',
       \ 'args': ['--stdin', '--single-quote'],
       \ 'stdin': 1,
       \ 'no_append': 1,
       \ }
 
-let g:neoformat_enabled_typescript = ['prettier']
+let b:neoformat_enabled_typescript = ['prettier']
 
-let g:ale_linters={ 'typescript': ['tslint'] }
+let b:ale_linters={ 'typescript': ['tslint'] }

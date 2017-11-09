@@ -25,23 +25,23 @@ nnoremap <buffer> <localleader>r :!node %<cr>
 
 let g:deoplete#sources#flow#flow_bin = 'flow'
 
-let g:neoformat_jsx_prettier = {
+let b:neoformat_jsx_prettier = {
       \ 'exe': 'prettier',
       \ 'args': ['--stdin', '--single-quote'],
       \ 'stdin': 1,
       \ 'no_append': 1,
       \ }
 
-" let g:neoformat_jsx_prettiereslint = {
+" let b:neoformat_jsx_prettiereslint = {
 "             \ 'exe': 'prettier-eslint',
 "             \ 'args': ['--stdin', '--single-quote'],
 "             \ 'stdin': 1,
 "             \ }
 
-let g:neoformat_enabled_jsx = ['prettier']
-" let g:neoformat_enabled_jsx = ['prettiereslint']
+let b:neoformat_enabled_jsx = ['prettier']
+" let b:neoformat_enabled_jsx = ['prettiereslint']
 
-let g:ale_jsx_eslint_use_global=1
-" let g:ale_jsx_eslint_executable=
+let b:ale_jsx_eslint_use_global=1
+" let b:ale_jsx_eslint_executable=
 
-let g:ale_linters={ 'jsx': ['eslint'] }
+let b:ale_linters={ 'jsx': ['eslint'] }

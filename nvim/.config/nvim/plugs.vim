@@ -94,9 +94,12 @@ Plug 'chrisbra/vim-zsh', { 'for': 'zsh' }
 Plug 'lifepillar/pgsql.vim', {'for': 'pgsql'}
 Plug 'pearofducks/ansible-vim', {'for': 'ansible'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
-" Plug 'dag/vim-fish', {'for': 'fish'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
-Plug 'blindFS/vim-taskwarrior'
+Plug 'OmniSharp/omnisharp-vim', {'do': 'git submodule update --init --recursive &&
+      \ cd omnisharp-roslyn && ./build.sh', 'for': 'cs'}
+Plug 'OrangeT/vim-csharp', {'for': 'cs'}
+Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
 
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -126,7 +129,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+'
 " Completion
 Plug 'Raimondi/delimitMate'
 

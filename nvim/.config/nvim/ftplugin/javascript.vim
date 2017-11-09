@@ -25,28 +25,28 @@ if exists('g:deoplete#omni#functions')
 endif
 
 if exists('g:tern#command')
-  let g:tern#command = ['tern']
-  let g:tern#arguments = ['--persistent']
-  let g:tern_show_signature_in_pum = '0'
-  let g:tern_request_timeout = 1
-  let g:tern#filetypes = [
+  let b:tern#command = ['tern']
+  let b:tern#arguments = ['--persistent']
+  let b:tern_show_signature_in_pum = '0'
+  let b:tern_request_timeout = 1
+  let b:tern#filetypes = [
         \ 'jsx',
         \ 'javascript.jsx'
         \ ]
 endif
 
-let g:neoformat_javascript_prettiereslint = {
+let b:neoformat_javascript_prettiereslint = {
       \ 'exe': 'prettier-eslint',
       \ 'args': ['--stdin', '--single-quote'],
       \ 'stdin': 1,
       \ 'no_append': 1,
       \ }
 
-let g:neoformat_enabled_javascript = ['prettiereslint']
+let b:neoformat_enabled_javascript = ['prettiereslint']
 
-let g:ale_javascript_eslint_use_global=1
+let b:ale_javascript_eslint_use_global=1
 
-let g:ale_linters={ 'javascript': ['eslint'] }
+let b:ale_linters={ 'javascript': ['eslint'] }
 
 nnoremap <buffer> <localleader>p ^vg_:!python -m json.tool<cr>
 vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
