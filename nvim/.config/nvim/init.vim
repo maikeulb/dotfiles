@@ -141,14 +141,6 @@ inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 inoremap <C-y> <C-r>"
 
-if has('nvim')
-  tnoremap <silent> <Esc> <C-\><C-n>
-  tnoremap <C-h> <C-\><C-n><C-w>h
-  tnoremap <C-j> <C-\><C-n><C-w>j
-  tnoremap <C-k> <C-\><C-n><C-w>k
-  tnoremap <C-l> <C-\><C-n><C-w>l
-endif
-
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<CR>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
