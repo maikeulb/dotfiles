@@ -115,9 +115,8 @@ nnoremap <leader># #``cgN
 nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 
 nnoremap <leader>wr <C-W>r
-nnoremap <leader>q  :qa!<CR>
-nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>.
-
+nnoremap <leader>q  :qa<CR>
+nnoremap <leader>bd :bp|bd #
 nnoremap <leader>"  :split<CR>
 nnoremap <leader>%  :vsplit<CR>
 nnoremap <leader>c  :enew<CR>
@@ -131,7 +130,11 @@ nnoremap <silent> <leader>kk :bnext<CR>
 
 nnoremap <leader>en  :edit $MYVIMRC<CR>
 nnoremap <leader>sv  :source $MYVIMRC<CR>
+
+nnoremap <leader>ez  :edit $HOME/.zshrc<CR>
+nnoremap <leader>sz  :source $HOME/.zshrc<CR>
 nnoremap <leader>ef  :edit $HOME/.config/fish/config.fish<CR>
+nnoremap <leader>sf  :source $HOME/.config/fish/config.fish<CR>
 nnoremap <leader>etd :edit $HOME/Dropbox/todo/todo.txt<CR>
 
 inoremap jj <Esc>
@@ -191,7 +194,7 @@ let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
 
 " Dirvish
-nnoremap <silent>- :Dirvish<CR>
+nnoremap <silent>-      :Dirvish<CR>
 
 " Vim-Notes
 let g:notes_directories = [expand('$HOME'). '/Dropbox/notes']
@@ -275,7 +278,6 @@ vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 let g:neoformat_basic_format_align = 0
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-let g:neoformat_try_formatprg=1
 let g:neoformat_only_msg_on_error = 1
 let g:neoformat_verbose = 0
 let g:javascript_plugin_flow = 1
@@ -315,10 +317,6 @@ let g:virtualenv_directory = $WORKON_HOME
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" Clever F
-let g:clever_f_across_no_line=1
-let g:clever_f_ignore_case=1
-
 " Fugitive
 nnoremap <leader>ga  :Git add %:p<CR><CR>
 nnoremap <leader>gs  :Gstatus<CR>
@@ -335,6 +333,42 @@ nnoremap <leader>gb  :Git branch<Space>
 nnoremap <leader>go  :Git checkout<Space>
 nnoremap <leader>gp  :Dispatch! git push<CR>
 nnoremap <leader>gu  :Dispatch! git pull<CR>
+
+" " Omnisharp
+" let g:OmniSharp_selector_ui = 'fzf'
+" let g:OmniSharp_server_type = 'v1'
+" let g:OmniSharp_server_type = 'roslyn'
+
+" augroup omnisharp_commands
+"   autocmd!
+"   "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
+"   autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"   " Synchronous build (blocks Vim)
+"   "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+"   " Builds can also run asynchronously with vim-dispatch installed
+"   autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+"   " Automatically add new cs files to the nearest project on save
+"   autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+"   "show type information automatically when the cursor stops moving
+"   autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+"   "The following commands are contextual, based on the current cursor position.
+"   autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+"   autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+"   autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+"   autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+"   autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+"   "finds members in the current buffer
+"   autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
+"   " cursor can be anywhere on the line containing an issue
+"   autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
+"   autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+"   autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+"   autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+"   "navigate up by method/property/field
+"   autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
+"   "navigate down by method/property/field
+"   autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
+" augroup END
 
 " }}}
 

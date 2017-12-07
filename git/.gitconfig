@@ -1,7 +1,8 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore-global
-	pager = less -r
+	; pager = ""Jless -r
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [user]
 	name = Michael Barnes

@@ -4,7 +4,7 @@ setlocal tabstop=2
 setlocal expandtab
 setlocal iskeyword=$
 
-setlocal foldmethod=indent
+setlocal foldmethod=syntax
 setlocal foldlevel=1
 
 " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
@@ -47,12 +47,3 @@ let b:neoformat_enabled_javascript = ['prettiereslint']
 let b:ale_javascript_eslint_use_global=1
 
 let b:ale_linters={ 'javascript': ['eslint'] }
-
-nnoremap <buffer> <localleader>p ^vg_:!python -m json.tool<cr>
-vnoremap <buffer> <localleader>p :!python -m json.tool<cr>
-nnoremap <buffer> <localleader>d Odebugger;<Esc>
-nnoremap <buffer> <localleader>gd :TernDef<CR>
-nnoremap <buffer> <localleader>tn :TernRename<CR>
-nnoremap <buffer> <localleader>tt :TernType<CR>
-nnoremap <buffer> <localleader>tr :TernRefs<CR>
-nnoremap <buffer> <localleader>r :!node %<cr>

@@ -7,4 +7,4 @@ setlocal expandtab
 setlocal foldmethod=syntax
 setlocal foldlevel=1
 
-let b:neoformat_enabled_css = ['prettier']
+" let b:neoformat_enabled_css = ['prettier']

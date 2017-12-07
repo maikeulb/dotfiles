@@ -10,7 +10,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 
-" Colors
+" Colors and Display
 Plug 'junegunn/seoul256.vim'
 Plug 'blueyed/vim-diminactive'
 
@@ -22,12 +22,10 @@ Plug 'tpope/vim-eunuch'
 
 " Folds
 Plug 'Konfekt/FastFold'
+Plug 'tmhedberg/SimpylFold'
 
 " Windows
 Plug 'szw/vim-maximizer'
-
-" Buffers
-" Plug 'qpkorr/vim-bufkill'
 
 " Filesystem
 Plug 'justinmk/vim-dirvish'
@@ -38,13 +36,15 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 " Textobj
 Plug 'wellle/targets.vim'
+Plug 'chaoren/vim-wordmotion'
 
 " Align
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
 " Movement
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'rhysd/clever-f.vim'
+Plug 'rhysd/clever-f'
+Plug 'unblevable/quick-scope'
 
 " Repeat
 Plug 'tpope/vim-repeat'
@@ -59,7 +59,7 @@ Plug 'tpope/vim-commentary'
 Plug 'othree/eregex.vim'
 
 " Git
-Plug 'airblade/vim-gitgutter', { 'on': 'GitgutterToggle' }
+" Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
 Plug 'tpope/vim-fugitive'
 
 " Tags
@@ -70,13 +70,12 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
+Plug 'wincent/ferret'
 
 " Formatters
 Plug 'sbdchd/neoformat'
 
 " Command Runners
-Plug 'benmills/vimux', { 'on': 'VimuxPromptCommand' }
 Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
 Plug 'thinca/vim-quickrun', { 'on': 'QuickRun' }
 Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
@@ -91,21 +90,21 @@ Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascri
 Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja' }
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
 Plug 'chrisbra/vim-zsh', { 'for': 'zsh' }
-Plug 'lifepillar/pgsql.vim', {'for': 'pgsql'}
 Plug 'pearofducks/ansible-vim', {'for': 'ansible'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
-Plug 'OmniSharp/omnisharp-vim', {'do': 'git submodule update --init --recursive &&
-      \ cd omnisharp-roslyn && ./build.sh', 'for': 'cs'}
-Plug 'OrangeT/vim-csharp', {'for': 'cs'}
+Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
 Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
+Plug 'fsharp/vim-fsharp', {
+      \ 'for': 'fsharp',
+      \ 'do':  'make fsautocomplete',
+      \}
 
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'tweekmonster/braceless.vim', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
-" Plug 'moll/vim-node', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'alvan/vim-closetag', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
@@ -138,4 +137,3 @@ Plug 'Raimondi/delimitMate'
 Plug 'svermeulen/vim-easyclip'
 
 call plug#end()
-
