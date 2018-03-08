@@ -251,25 +251,25 @@ end
 # tree
 function tree
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music" -T
+  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -T
 end
 
 # Use exa instead of ls
 function ls
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music"
+  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv"
 end
 
 # Use exa instead of lsa
 function la
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music" -a
+  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -a
 end
 
 # Use exa instead of ls1
 function l1
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music" -1
+  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -1
 end
 
 # }}}

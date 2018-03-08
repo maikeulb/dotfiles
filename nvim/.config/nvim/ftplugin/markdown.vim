@@ -1,12 +1,6 @@
 call pencil#init()
 
 setlocal spell
+setlocal formatoptions-=t
+let g:pencil#autoformat = 0      " 0=disable, 1=enable (def)
 
-" Use <localleader>1/2/3 to add headings.
-nnoremap <buffer> <localleader>1 yypVr=:redraw<cr>
-nnoremap <buffer> <localleader>2 yypVr-:redraw<cr>
-nnoremap <buffer> <localleader>3 mzI###<space><esc>`zllll
-nnoremap <buffer> <localleader>4 mzI####<space><esc>`zlllll
-
-nnoremap <buffer> <localleader>p VV:'<,'>!python -m json.tool<cr>
-vnoremap <buffer> <localleader>p :!python -m json.tool<cr>

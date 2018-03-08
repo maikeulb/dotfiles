@@ -42,7 +42,7 @@ let b:neoformat_javascript_prettiereslint = {
       \ 'no_append': 1,
       \ }
 
-let b:neoformat_enabled_javascript = ['prettiereslint']
+" let b:neoformat_enabled_javascript = ['prettiereslint']
 
 let b:ale_javascript_eslint_use_global=1
 

@@ -43,7 +43,6 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
 " Movement
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'rhysd/clever-f'
 Plug 'unblevable/quick-scope'
 
 " Repeat
@@ -94,7 +93,7 @@ Plug 'pearofducks/ansible-vim', {'for': 'ansible'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
 Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
-Plug 'Quramy/tsuquyomi', {'for': 'typescript'}
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
 Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
@@ -110,26 +109,26 @@ Plug 'alvan/vim-closetag', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'avakhov/vim-yaml', { 'for': 'yaml' }
-Plug 'guns/vim-sexp', { 'for': 'racket' }
-Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'racket' }
-Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'racket' }
+Plug 'guns/vim-sexp', { 'for': 'clojure' }
+Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
+Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
+" Plug 'tpope/vim-salve', { 'for': 'clojure' }
+" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+" Plug 'snoe/nvim-parinfer.js', {'for': 'clojure'}
 
 " Auto Completion
 Plug 'ervandew/supertab'
-Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
-" Plug 'wokalski/autocomplete-flow', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'Shougo/neco-vim', { 'for': 'vim' }
+" Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+" Plug 'Shougo/neco-vim', { 'for': 'vim' }
 Plug 'wellle/tmux-complete.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'mattn/emmet-vim', { 'for': 'html' }
-'
+" Plug 'SirVer/ultisnips' */
+" Plug 'honza/vim-snippets' */
+" Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] }
+" Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] }
+" Plug 'mattn/emmet-vim', { 'for': 'html' }
+
 " Completion
 Plug 'Raimondi/delimitMate'
 

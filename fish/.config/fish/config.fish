@@ -34,6 +34,11 @@ if test -d $HOME/.rvm
     set -x PATH $HOME/.rvm/bin $PATH
 end
 
+# Add Linuxbrew to Path
+if test -s $HOME/.linuxbrew
+	  set -x PATH "$HOME/.linuxbrew/brew/bin" $PATH
+end
+
 # Add Cargo to Path
 if test -d $HOME/.cargo
     set -x CARGO_HOME $HOME/.cargo 
@@ -57,9 +62,9 @@ end
 
 # Add GOPATH to Path
 if test -d $HOME/.go
-    set -x GOPATH $HOME
-    set -x GOROOT /usr/local/go
-    set -x PATH $GOPATH/bin $PATH
+    set -x GOPATH $HOME/Projects-Go
+    set -x GOROOT /usr/lib/go-1.9
+    set -x PATH $GOROOT/bin $PATH
 end
 
 # Add Heroku to Path
@@ -97,8 +102,9 @@ set -x CHEATCOLORS true
 # {{{ Aliases
 
 alias python='python3'
+alias piggy ='~/.src/piggy/piggy-1.0.35-ubuntu.16.04-x64/piggy'
 alias tmux='tmux new-session -A -s main'
-alias todo "$HOME/src/todo.txt_cli-2.9/todo.sh"
+alias todo "$HOME/.src/todo.txt_cli-2.9/todo.sh"
 
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
@@ -122,6 +128,13 @@ alias plist='pip freeze --local'
 alias glist='gem list --local'
 
 alias ag='ag --path-to-ignore ~/.ignore'
+
+alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient'
+
+alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'
+alias myconnect='mycli mysql://root:P@ssw0rd!@172.17.0.3:3306/'
+alias redisconnect="redis-cli -h '172.17.0.6'"
+alias dockerservices='docker start postgres mysql sql1 some-mongo redis'
 
 # }}}
 

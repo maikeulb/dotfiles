@@ -190,6 +190,9 @@ let g:airline_theme = 'dark'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
 
+" Vim-parinfer
+let g:parinfer_mode = "indent"
+
 " Dirvish
 nnoremap <silent>- :Dirvish<CR>
 
@@ -275,26 +278,26 @@ vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 let g:neoformat_basic_format_align = 0
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_basic_format_trim = 1
-let g:neoformat_try_formatprg=1
+let g:neoformat_try_formatprg=0
 let g:neoformat_only_msg_on_error = 1
 let g:neoformat_verbose = 0
-let g:javascript_plugin_flow = 1
-let g:jsx_ext_required = 1
-
+let g:javascript_plugin_flow = 0
+let g:jsx_ext_required = 0
+" format paragraph gq
 " Ale
 nmap <c-n> <Plug>(ale_next_wrap)
 nmap <c-p> <Plug>(ale_previous_wrap)
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 
 " Deoplete/Ultisnips/Supertab
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
-set completeopt=menuone
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer', 'ultisnips']
-let g:deoplete#sources.vim = ['buffer,','vim']
-let g:deoplete#omni#functions ={}
+" set completeopt=menuone
+" let g:deoplete#sources = {}
+" let g:deoplete#sources._ = ['buffer', 'ultisnips']
+" let g:deoplete#sources.vim = ['buffer,','vim']
+" let g:deoplete#omni#functions ={}
 
 let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 let g:UltiSnipsExpandTrigger='<c-j>'
@@ -302,9 +305,9 @@ let g:SupTabClosePreviewOnPopupClose=1
 let g:SuperTabCrMapping = 'false'
 let g:SuperTabMappingBackward ='false'
 
-if exists('g:deoplete')
-  inoremap <expr><TAB>  pumvisiblj() ? "\<C-n>" : "\<TAB>"
-end
+" if exists('g:deoplete')
+"   inoremap <expr><TAB>  pumvisiblj() ? "\<C-n>" : "\<TAB>"
+" end
 
 " Vim-virtualenv
 let g:virtualenv_auto_activate = 1
@@ -345,9 +348,10 @@ augroup General
   autocmd!
   autocmd WinEnter term://* startinsert
   autocmd VimResized * wincmd =
+  autocmd  BufReadPost *.psql set syntax=sql
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
   autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
-  autocmd BufWritePre * undojoin | Neoformat
+  " autocmd BufWritePre * undojoin | Neoformat
   autocmd BufReadPost fugitive://* set bufhidden=delete
   autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
         \   execute "normal! g`\"" |
