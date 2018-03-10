@@ -275,12 +275,15 @@ nnoremap <silent> <leader>qr :QuickRun -mode n<CR>
 vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 
 " Autoformat
-let g:neoformat_basic_format_align = 0
-let g:neoformat_basic_format_retab = 1
-let g:neoformat_basic_format_trim = 1
-let g:neoformat_try_formatprg=0
-let g:neoformat_only_msg_on_error = 1
-let g:neoformat_verbose = 0
+let g:autoformat_autoindent = 1
+let g:autoformat_retab = 1
+let g:autoformat_remove_trailing_spaces = 1
+" let g:neoformat_basic_format_align = 0
+" let g:neoformat_basic_format_retab = 1
+" let g:neoformat_basic_format_trim = 1
+" let g:neoformat_try_formatprg=0
+" let g:neoformat_only_msg_on_error = 1
+" let g:neoformat_verbose = 0
 let g:javascript_plugin_flow = 0
 let g:jsx_ext_required = 0
 " format paragraph gq
@@ -351,7 +354,7 @@ augroup General
   autocmd  BufReadPost *.psql set syntax=sql
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
   autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
-  " autocmd BufWritePre * undojoin | Neoformat
+  autocmd BufWritePre * undojoin | Autformat
   autocmd BufReadPost fugitive://* set bufhidden=delete
   autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
         \   execute "normal! g`\"" |

@@ -72,7 +72,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'wincent/ferret'
 
 " Formatters
-Plug 'sbdchd/neoformat'
+" Plug 'sbdchd/neoformat'
+Plug 'Chiel92/vim-autoformat'
 
 " Command Runners
 Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }

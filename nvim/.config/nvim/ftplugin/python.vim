@@ -20,12 +20,23 @@ if exists('g:deoplete#sources')
   let g:deoplete#sources#jedi#enable_cache = 1
 endif
 
-let g:neoformat_python_yapf = {
-      \ 'exe': 'yapf',
-      \ 'args': ['based_on_style=pep8'],
-      \ }
+let g:neoformat_python_autopep8 = {
+            \ 'exe': 'autopep8',
+            \ 'stdin': 1,
+            \ 'no_append': 1,
+            \ }
 
-let g:neoformat_enabled_python = ['yapf', 'isort']
+let g:neoformat_enabled_python = ['autopep8']
+
+let g:formatter_yapf_style = 'pep8'
+
+" let g:neoformat_python_yapf = {
+"       \ 'exe': 'yapf',
+"       \ 'args': ['based_on_style=pep8'],
+"       \ }
+
+" let g:neoformat_enabled_python = ['yapf']
+" let g:neoformat_enabled_python = ['isort']
 
 let g:ale_linters={ 'python': ['flake8'] }
 
