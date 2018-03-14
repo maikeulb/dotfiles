@@ -19,67 +19,67 @@ set -x ASPNETCORE_ENVIRONMENT Development
 
 # Add bin and ./local/bin to Path
 if test -d $HOME/bin
-    set -x PATH $HOME/bin $PATH
+  set -x PATH $HOME/bin $PATH
 end
 if test -d $HOME/.local/bin
-    set -x PATH $HOME/.local/bin $PATH
+  set -x PATH $HOME/.local/bin $PATH
 end
 
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm
-    set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
-    set -x GEM_PATH $GEM_HOME
-    set -x PATH $GEM_HOME/bin $PATH
-    bash -c 'source $HOME/.rvm/scripts/rvm'
-    set -x PATH $HOME/.rvm/bin $PATH
+  set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
+  set -x GEM_PATH $GEM_HOME
+  set -x PATH $GEM_HOME/bin $PATH
+  bash -c 'source $HOME/.rvm/scripts/rvm'
+  set -x PATH $HOME/.rvm/bin $PATH
 end
 
 # Add Linuxbrew to Path
 if test -s $HOME/.linuxbrew
-	  set -x PATH "$HOME/.linuxbrew/brew/bin" $PATH
+  set -x PATH "$HOME/.linuxbrew/brew/bin" $PATH
 end
 
 # Add Cargo to Path
 if test -d $HOME/.cargo
-    set -x CARGO_HOME $HOME/.cargo 
-    set -x CARGO_HOME $CARGO_HOME
-    set -x PATH $CARGO_HOME/bin $PATH
+  set -x CARGO_HOME $HOME/.cargo
+  set -x CARGO_HOME $CARGO_HOME
+  set -x PATH $CARGO_HOME/bin $PATH
 end
 
 # Add Local PIP to Path
 if test -d $HOME/.pip/cache
-    set -x PIP_DOWNLOAD_CACHE $HOME/.pip/cache
+  set -x PIP_DOWNLOAD_CACHE $HOME/.pip/cache
 end
 
 # Add NPM to Path
 if test -d $HOME/.npm-packages/bin
-    set -x NPM_PACKAGES $HOME/.npm-packages
-    set -x PATH $NPM_PACKAGES/bin $PATH
-    # set -x NPM_CONFIG_PREFIX $HOME/.npm-packages
-    # set -x MANPATH $NPM_PACKAGES/share/man (manpath)
-    set -x NODE_PATH $NPM_PACKAGES/lib/node_modules $NODE_PATH
+  set -x NPM_PACKAGES $HOME/.npm-packages
+  set -x PATH $NPM_PACKAGES/bin $PATH
+  # set -x NPM_CONFIG_PREFIX $HOME/.npm-packages
+  # set -x MANPATH $NPM_PACKAGES/share/man (manpath)
+  set -x NODE_PATH $NPM_PACKAGES/lib/node_modules $NODE_PATH
 end
 
 # Add GOPATH to Path
 if test -d $HOME/.go
-    set -x GOPATH $HOME/Projects-Go
-    set -x GOROOT /usr/lib/go-1.9
-    set -x PATH $GOROOT/bin $PATH
+  set -x GOPATH $HOME/Projects-Go
+  set -x GOROOT /usr/lib/go-1.9
+  set -x PATH $GOROOT/bin $PATH
 end
 
 # Add Heroku to Path
 if test -d /usr/local/heroku/bin
-    set -x PATH /usr/local/heroku/bin $PATH
+  set -x PATH /usr/local/heroku/bin $PATH
 end
 
 # Add sqlcmd/bcp to Path
 if test -d /opt/mssql-tools/bin
-    set -x PATH /opt/mssql-tools/bin $PATH
+  set -x PATH /opt/mssql-tools/bin $PATH
 end
 
 # Add Postgresql to Path
 if test -d /usr/lib/postgresql/9.6/bin
-    set -x PATH /usr/lib/postgresql/9.6/bin $PATH
+  set -x PATH /usr/lib/postgresql/9.6/bin $PATH
 end
 
 # Virtualfish
@@ -131,6 +131,14 @@ alias ag='ag --path-to-ignore ~/.ignore'
 
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient'
 
+alias pgstart='docker run --name postgres -e POSTGRES_PASSWORD=P@ssw0rd! -d postgres'
+alias redisstart='docker run --name redis -d redis'
+alias mongostart='docker run --name mongo -d mongo'
+alias mysqlstart='docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=P@ssw0rd! -d mysql'
+# alias elasticstart="docker run --name elastic -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' -d docker.elastic.co/elasticsearch/elasticsearch:6.2.2"
+alias elasticstart="docker run --name elastic -e ELASTIC_PASSWORD=P@ssw0rd! -d docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.3"
+alias sqlstart='docker run --name sql1 -p 1401:1433 -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=P@ssw0rd!' -d microsoft/mssql-server-linux:2017-latest'
+
 alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'
 alias myconnect='mycli mysql://root:P@ssw0rd!@172.17.0.3:3306/'
 alias redisconnect="redis-cli -h '172.17.0.6'"
@@ -151,7 +159,7 @@ source $HOME/.config/fish/functions/functions.fish
 # Load direnv
 eval (direnv hook fish)
 
-# Load fishmarks 
+# Load fishmarks
 . $HOME/.fishmarks/marks.fish
 
 # Load nvm
@@ -159,9 +167,9 @@ eval (direnv hook fish)
 
 # Ensure LS colors are set
 if not set -q LS_COLORS
-    if type -f dircolors >/dev/null
-        eval (dircolors -c ~/.dircolors | sed 's/>&\/dev\/null$//')
-    end
+  if type -f dircolors >/dev/null
+    eval (dircolors -c ~/.dircolors | sed 's/>&\/dev\/null$//')
+end
 end
 
 # }}}

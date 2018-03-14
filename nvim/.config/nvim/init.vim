@@ -278,15 +278,10 @@ vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
-" let g:neoformat_basic_format_align = 0
-" let g:neoformat_basic_format_retab = 1
-" let g:neoformat_basic_format_trim = 1
-" let g:neoformat_try_formatprg=0
-" let g:neoformat_only_msg_on_error = 1
-" let g:neoformat_verbose = 0
 let g:javascript_plugin_flow = 0
 let g:jsx_ext_required = 0
-" format paragraph gq
+" format paragraph with gq
+
 " Ale
 nmap <c-n> <Plug>(ale_next_wrap)
 nmap <c-p> <Plug>(ale_previous_wrap)
@@ -351,10 +346,9 @@ augroup General
   autocmd!
   autocmd WinEnter term://* startinsert
   autocmd VimResized * wincmd =
-  autocmd  BufReadPost *.psql set syntax=sql
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
   autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
-  autocmd BufWritePre * undojoin | Autformat
+  autocmd BufWritePre * call AutoFormatFiles()
   autocmd BufReadPost fugitive://* set bufhidden=delete
   autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
         \   execute "normal! g`\"" |
@@ -381,9 +375,16 @@ augroup EditLastFile
         \  if argc() == 0
         \|   let last = filter(filter(copy(v:oldfiles), 'match(v:val, getcwd()) == 0'), 'filereadable(v:val)')
         \|   if !empty(last)
-        \|     execute 'edit' fnameescape(last[0])
-        \|   endif
-        \| endif
+          \|     execute 'edit' fnameescape(last[0])
+          \|   endif
+          \| endif
 augroup END
+
+fun! AutoFormatFiles()
+  if exists('b:noAutoFormat')
+    return
+  endif
+  undojoin | :Autoformat
+endfun
 
 " }}}

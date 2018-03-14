@@ -8,6 +8,7 @@ setlocal foldmethod=syntax
 setlocal foldlevel=1
 
 inoremap <c-n> <c-x><c-o>
+let b:noAutoFormat=1
 
 " let g:neoformat_enabled_cs = ['uncrustify', 'astyle']
 " let g:neoformat_cs_uncrustify = {
