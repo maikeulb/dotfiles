@@ -94,13 +94,16 @@ Plug 'pearofducks/ansible-vim', {'for': 'ansible'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
 Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
-Plug 'fatih/vim-go', {'for': 'go'}
+" Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
 Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
       \}
-
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
+Plug 'eagltmt/ghcmod-vim', { 'for': 'haskell' }
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'tweekmonster/braceless.vim', { 'for': 'python' }
@@ -119,7 +122,7 @@ Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
 
 " Auto Completion
 Plug 'ervandew/supertab'
-" Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 " Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'Shougo/neco-vim', { 'for': 'vim' }

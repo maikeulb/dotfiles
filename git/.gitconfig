@@ -84,6 +84,7 @@
 	gdfc = difftool --cached
 	mg = merge
 	gmg = mergetool
+	lc = rev-list --all --count
 	r = reset
 	rs = reset --soft
 	rh = reset --hard

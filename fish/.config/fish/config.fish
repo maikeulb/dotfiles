@@ -25,6 +25,7 @@ if test -d $HOME/.local/bin
   set -x PATH $HOME/.local/bin $PATH
 end
 
+set -x PATH $HOME/.local/bin $PATH
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm
   set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
@@ -62,8 +63,8 @@ end
 
 # Add GOPATH to Path
 if test -d $HOME/.go
-  set -x GOPATH $HOME/Projects-Go
   set -x GOROOT /usr/lib/go-1.9
+  set -x GOPATH $HOME/Projects-Go
   set -x PATH $GOROOT/bin $PATH
 end
 
@@ -82,12 +83,12 @@ if test -d /usr/lib/postgresql/9.6/bin
   set -x PATH /usr/lib/postgresql/9.6/bin $PATH
 end
 
-# Virtualfish
-set -x VIRTUALFISH_HOME $HOME/.virtualenvs
-set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3.5
-if not set -q VIRTUAL_ENV
-  eval ( python3 -m virtualfish auto_activation projects global_requirements)
-end
+# # Virtualfish
+# set -x VIRTUALFISH_HOME $HOME/.virtualenvs
+# set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3.5
+# if not set -q VIRTUAL_ENV
+#   eval ( python3 -m virtualfish auto_activation projects global_requirements)
+# end
 
 # Cheat
 set -x CHEAT_EDITOR nvim
@@ -132,17 +133,18 @@ alias ag='ag --path-to-ignore ~/.ignore'
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient'
 
 alias pgstart='docker run --name postgres -e POSTGRES_PASSWORD=P@ssw0rd! -d postgres'
+alias rabbitstart='docker run --name postgres --hostname my-rabbit -d rabbitmq:3'
 alias redisstart='docker run --name redis -d redis'
 alias mongostart='docker run --name mongo -d mongo'
 alias mysqlstart='docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=P@ssw0rd! -d mysql'
-# alias elasticstart="docker run --name elastic -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' -d docker.elastic.co/elasticsearch/elasticsearch:6.2.2"
-alias elasticstart="docker run --name elastic -e ELASTIC_PASSWORD=P@ssw0rd! -d docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.3"
+alias elasticstart="docker run --name elastic -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' -d docker.elastic.co/elasticsearch/elasticsearch:6.2.2"
 alias sqlstart='docker run --name sql1 -p 1401:1433 -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=P@ssw0rd!' -d microsoft/mssql-server-linux:2017-latest'
 
 alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'
 alias myconnect='mycli mysql://root:P@ssw0rd!@172.17.0.3:3306/'
-alias redisconnect="redis-cli -h '172.17.0.6'"
+alias redisconnect="redis-cli -h '172.17.0.3'"
 alias dockerservices='docker start postgres mysql sql1 some-mongo redis'
+alias pgconnect="pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'$DB'"
 
 # }}}
 

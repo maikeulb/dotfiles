@@ -6,6 +6,7 @@ set hidden
 set gdefault
 set noswapfile
 set autowrite
+set expandtab
 set lazyredraw
 set nohlsearch
 set ignorecase
@@ -274,13 +275,17 @@ nnoremap <silent> <leader>qc :QC<CR>
 nnoremap <silent> <leader>qr :QuickRun -mode n<CR>
 vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 
-" Autoformat
-let g:autoformat_autoindent = 1
-let g:autoformat_retab = 1
-let g:autoformat_remove_trailing_spaces = 1
-let g:javascript_plugin_flow = 0
+" " Autoformat
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+let g:autoformat_verbosemode=1
+" let g:javascript_plugin_flow = 0
 let g:jsx_ext_required = 0
-" format paragraph with gq
+" " format paragraph with gq
+
+" Vim-go
+let g:go_fmt_autosave=0
 
 " Ale
 nmap <c-n> <Plug>(ale_next_wrap)
@@ -386,5 +391,12 @@ fun! AutoFormatFiles()
   endif
   undojoin | :Autoformat
 endfun
+
+augroup AutoFormatFileExtensions
+  autocmd!
+  autocmd BufEnter *.fsproj | setlocal noAutoFormat=1
+augroup END
+
+autocmd BufNewFile,BufRead *.csx set syntax=cs
 
 " }}}
