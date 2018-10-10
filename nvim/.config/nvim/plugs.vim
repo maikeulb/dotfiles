@@ -104,6 +104,7 @@ Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 Plug 'eagltmt/ghcmod-vim', { 'for': 'haskell' }
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
+
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'tweekmonster/braceless.vim', { 'for': 'python' }
@@ -116,6 +117,7 @@ Plug 'avakhov/vim-yaml', { 'for': 'yaml' }
 Plug 'guns/vim-sexp', { 'for': 'clojure' }
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
+Plug 'tpope/vim-endwise', { 'for': 'ruby' }
 " Plug 'tpope/vim-salve', { 'for': 'clojure' }
 " Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 " Plug 'snoe/nvim-parinfer.js', {'for': 'clojure'}

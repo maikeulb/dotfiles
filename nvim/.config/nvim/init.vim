@@ -42,6 +42,7 @@ if has('clipit')
 endif
 highlight ColorColumn ctermbg=233
 highlight ColorColumn ctermbg=0 guibg=#eee8d5
+
 " Files
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
 set wildignore+=*.gif,*.jpg,*.png,*.log
