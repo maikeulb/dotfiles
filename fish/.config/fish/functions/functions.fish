@@ -276,25 +276,9 @@ end
 
 # {{{  Servers
 
-function nstart
-    chromium-browser http://localhost:5000/
-    npm start
-end
-
 function fmarkdown
     chromium-browser http://localhost:6419/
     grip
-end
-
-function fserver
-    # sleep 1
-    chromium-browser http://localhost:8080/
-    python -m http.server 8080 
-end
-
-function fstart
-    chromium-browser http://localhost:3000/
-    foreman start
 end
 
 # }}}
@@ -333,10 +317,6 @@ end
 # }}}
 
 # {{{  Misc
-
-function lcheat
-    cheat $argv | less
-end
 
 function nn
     nvim +edit note:$argv
