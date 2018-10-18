@@ -281,7 +281,6 @@ let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
 let g:autoformat_verbosemode=1
-" let g:javascript_plugin_flow = 0
 let g:jsx_ext_required = 0
 " " format paragraph with gq
 
@@ -293,25 +292,6 @@ nmap <c-n> <Plug>(ale_next_wrap)
 nmap <c-p> <Plug>(ale_previous_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-
-" Deoplete/Ultisnips/Supertab
-" let g:deoplete#enable_at_startup = 1
-
-" set completeopt=menuone
-" let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['buffer', 'ultisnips']
-" let g:deoplete#sources.vim = ['buffer,','vim']
-" let g:deoplete#omni#functions ={}
-
-let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
-let g:UltiSnipsExpandTrigger='<c-j>'
-let g:SupTabClosePreviewOnPopupClose=1
-let g:SuperTabCrMapping = 'false'
-let g:SuperTabMappingBackward ='false'
-
-" if exists('g:deoplete')
-"   inoremap <expr><TAB>  pumvisiblj() ? "\<C-n>" : "\<TAB>"
-" end
 
 " Vim-virtualenv
 let g:virtualenv_auto_activate = 1

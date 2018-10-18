@@ -72,7 +72,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'wincent/ferret'
 
 " Formatters
-" Plug 'sbdchd/neoformat'
 Plug 'Chiel92/vim-autoformat'
 
 " Command Runners
@@ -103,7 +102,6 @@ Plug 'fsharp/vim-fsharp', {
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 Plug 'eagltmt/ghcmod-vim', { 'for': 'haskell' }
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
 
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -121,19 +119,6 @@ Plug 'tpope/vim-endwise', { 'for': 'ruby' }
 " Plug 'tpope/vim-salve', { 'for': 'clojure' }
 " Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 " Plug 'snoe/nvim-parinfer.js', {'for': 'clojure'}
-
-" Auto Completion
-Plug 'ervandew/supertab'
-Plug 'Shougo/deoplete.nvim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-" Plug 'zchee/deoplete-jedi', { 'for': 'python' }
-" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'Shougo/neco-vim', { 'for': 'vim' }
-Plug 'wellle/tmux-complete.vim'
-" Plug 'SirVer/ultisnips' */
-" Plug 'honza/vim-snippets' */
-" Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'mattn/emmet-vim', { 'for': 'html' }
 
 " Completion
 Plug 'Raimondi/delimitMate'

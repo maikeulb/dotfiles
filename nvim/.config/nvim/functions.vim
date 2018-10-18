@@ -48,34 +48,6 @@ if has('nvim')
   nnoremap <leader>te :TerminalToggle<CR>
 endif
 
-" " Z within vim
-" command! -nargs=* Z call Z(<f-args>)
-" function! Z(...)
-"   let l:cmd = 'fasd -d -e printf'
-"   for l:arg in a:000
-"     let l:cmd = l:cmd . ' ' . l:arg
-"   endfor
-"   let l:path = system(l:cmd)
-"   if isdirectory(l:path)
-"     echo l:path
-"     execute 'cd ' . l:path
-"   endif
-" endfunction
-
-" " N within vim
-" command! -nargs=* E call E(<f-args>)
-" function! E(...)
-"   let l:cmd = 'fasd -f -e printf'
-"   for l:arg in a:000
-"     let l:cmd = l:cmd . ' ' . l:arg
-"   endfor
-"   let l:file = system(l:cmd)
-"   if filereadable(l:file)
-"     echo l:file
-"     execute 'edit ' . l:file
-"   endif
-" endfunction
-
 " Smart paste mode
 function! WrapForTmux(s)
   if !exists('$TMUX')
@@ -146,27 +118,3 @@ function! JumpInFile(back, forw)
     sil! exe 'norm!1' . a:forw
   endwhile
 endfunction
-
-" fun! RelatedFile(file)
-"     #This is to check that the directory looks djangoish
-"     if filereadable(expand("%:h"). '/models.py') || isdirectory(expand("%:h") . "/templatetags/")
-"         exec "edit %:h/" . a:file
-"         let g:last_relative_dir = expand("%:h") . '/'
-"         return ''
-"     endif
-"     if g:last_relative_dir != ''
-"         exec "edit " . g:last_relative_dir . a:file
-"         return ''
-"     endif
-"     echo "Cant determine where relative file is : " . a:file
-"     return ''
-" endfun
-
-" fun SetAppDir()
-"     if filereadable(expand("%:h"). '/models.py') || isdirectory(expand("%:h") . "/templatetags/")
-"         let g:last_relative_dir = expand("%:h") . '/'
-"         return ''
-"     endif
-" endfun
-" autocmd BufEnter *.py call SetAppDir()
-
