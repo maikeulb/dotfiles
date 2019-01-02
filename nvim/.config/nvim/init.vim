@@ -23,7 +23,7 @@ set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
 set iskeyword-=.,#,-,~
-set synmaxcol=128
+" set synmaxcol=128
 set pumheight=15
 set fillchars+=vert:\
 set completeopt-=preview
@@ -208,14 +208,6 @@ nnoremap <silent> <C-z> :MaximizerToggle<CR>
 " Clever-F
 let g:clever_f_fix_key_direction = 1
 
-" Git-gutter
-set updatetime=250
-let g:gitgutter_enabled = 0
-
-nmap <Leader>ha <Plug>GitGutterStageHunk
-nmap <Leader>hr <Plug>GitGutterUndoHunk
-nmap <Leader>hv <Plug>GitGutterPreviewHunk
-
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
 let g:EasyClipShareYanksDirectory = expand('$HOME'). '/.config/nvim/easyclip'
@@ -239,22 +231,6 @@ nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
 nnoremap <silent> <leader>A   :Ag<CR>
 nnoremap <silent> <leader>L   :BLines<CR>
-
-" TagBar
-let g:tagbar_autofocus = 1
-nnoremap <leader>tb :TagbarToggle<CR>
-
-" Gutentag
-let g:gutentags_cache_dir = '~/.tags'
-
-" Vim-Test
-let g:test#strategy = 'dispatch'
-
-nnoremap <silent> <leader>tn :TestNearest<CR>
-nnoremap <silent> <leader>tf :TestFile<CR>
-nnoremap <silent> <leader>ts :TestSuite<CR>
-nnoremap <silent> <leader>tl :TestLast<CR>
-nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " QuickRun
 let g:quickrun_config=get(g:, 'quickrun_config', {})

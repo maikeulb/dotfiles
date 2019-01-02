@@ -58,12 +58,7 @@ Plug 'tpope/vim-commentary'
 Plug 'othree/eregex.vim'
 
 " Git
-" Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
 Plug 'tpope/vim-fugitive'
-
-" Tags
-Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
 
 " Search and Replace
 Plug 'tpope/vim-abolish'
@@ -75,7 +70,6 @@ Plug 'wincent/ferret'
 Plug 'Chiel92/vim-autoformat'
 
 " Command Runners
-Plug 'janko-m/vim-test', { 'on': ['TestNearest','TestFile'] }
 Plug 'thinca/vim-quickrun', { 'on': 'QuickRun' }
 Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
 Plug 'tpope/vim-tbone'
@@ -102,12 +96,13 @@ Plug 'fsharp/vim-fsharp', {
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 Plug 'eagltmt/ghcmod-vim', { 'for': 'haskell' }
+Plug 'dansomething/vim-eclim' 
 
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'tweekmonster/braceless.vim', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
+" Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'alvan/vim-closetag', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
@@ -116,9 +111,6 @@ Plug 'guns/vim-sexp', { 'for': 'clojure' }
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby' }
-" Plug 'tpope/vim-salve', { 'for': 'clojure' }
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-" Plug 'snoe/nvim-parinfer.js', {'for': 'clojure'}
 
 " Completion
 Plug 'Raimondi/delimitMate'
