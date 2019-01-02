@@ -5,7 +5,6 @@ set -x XDG_CONFIG_HOME $HOME/.config
 set -x TERM screen-256color
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
-set -x RANGER_LOAD_DEFAULT_RC 0
 set -x PIP_REQUIRE_VIRTUALENV 0
 set -x FZF_LEGACY_KEYBINDINGS 0
 set -x FZF_DEFAULT_OPTS "--height 10"
@@ -15,15 +14,22 @@ set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
 set -x LESS_TERMCAP_ue (printf "\e[0m")
 set -x LESSOPEN "| pygmentize -g %s"
 set -x LESS " -RiF "
-set -x ASPNETCORE_ENVIRONMENT Development
+set -x TODO $HOME/Dropbox/todo/
 
-# Add bin and ./local/bin to Path
+# Add bin, .local/bin, /usr/local/bin, and /usr/local/sbin to Path
 if test -d $HOME/bin
   set -x PATH $HOME/bin $PATH
 end
 if test -d $HOME/.local/bin
   set -x PATH $HOME/.local/bin $PATH
 end
+if test -d /usr/local/bin
+  set -x PATH /usr/local/bin $PATH
+end
+if test -s /usr/local/sbin
+  set -x PATH /usr/local/sbin $PATH
+end
+
 
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm
@@ -86,19 +92,17 @@ alias todo "$HOME/.src/todo.txt_cli-2.9/todo.sh"
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
 alias nv='nvim'
-alias etd='nvim $HOME/Dropbox/todo/todo.txt'
+alias etd='nvim $TODO/todo.txt'
 alias ei3='nvim $HOME/.config/i3/config'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/functions/functions.fish'
 alias ev='nvim $HOME/.vimrc'
 alias et='nvim $HOME/.tmux.conf'
-alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim'
+alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim $HOME/.config/nvim/functions.vim'
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
 alias ewp='nvim $PROJECT_HOME/webpack.config.js'
 
 alias cdg='cd (git rev-parse --show-toplevel)'
-alias tagit='ctags -R --exclude=.git --exclude=log *'
-alias rtags='ripper-tags -R -f TAGS'
 
 alias nlist='npm list -g --depth=0'
 alias plist='pip freeze --local'
@@ -115,11 +119,10 @@ alias mongostart='docker run --name mongo -d mongo'
 alias mysqlstart='docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=P@ssw0rd! -d mysql'
 alias elasticstart="docker run --name elastic -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' -d docker.elastic.co/elasticsearch/elasticsearch:6.2.2"
 
-alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'
-alias myconnect='mycli mysql://root:P@ssw0rd!@172.17.0.3:3306/'
-alias redisconnect="redis-cli -h '172.17.0.3'"
-alias dockerservices='docker start postgres mysql sql1 some-mongo redis'
-alias pgconnect="pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/'$DB'"
+alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/' # todo: env variables
+alias myconnect='mycli mysql://$MYSQL_USER:$MYSQL_PASSWORD!@$MYSQL_HOST:$MYSQL_PORT/' # todo: env variables
+alias redisconnect="redis-cli -h '172.17.0.3'" # todo: env variables
+alias portforward='ssh -L 3306:dbrw-mage:3306 michaelbarnes@michaelbarnes.dev.birchbox.com -N'
 
 # }}}
 

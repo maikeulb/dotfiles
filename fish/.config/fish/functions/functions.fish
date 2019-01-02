@@ -73,26 +73,6 @@ end
 
 # }}}
 
-# {{{  Media Files
-
-function udlf
-    youtube-dl -o '%(playlist)s/%(chapter_number)s - %(chapter)s/%(playlist_index)s - %(title)s.%(ext)s' --cookies ~/Udemy/udemy-cookies.txt --min-sleep-interval 30 --max-sleep-interval 180 -a playlist
-end
-
-function ldlf
-    youtube-dl -o '%(playlist)s/%(chapter_number)s - %(chapter)s/%(playlist_index)s - %(title)s.%(ext)s' --cookies ~/Lynda/cookies.txt --min-sleep-interval 30 --max-sleep-interval 180 -a playlist
-end
-
-function mdlf
-    youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" -a playlist
-end
-
-function mdu
-    du -sh * | sort -h
-end
-
-# }}}
-
 # {{{  FZF
 
 function z --description 'z with fzf'
@@ -150,11 +130,11 @@ function __fzf_find_file
   fd --type f | fzf | read -l result; and nvim $result
 end
 
-# FZF find file by content and open with nvim
-bind \ct '__fzf_find_pattern'
+# FZF find file by name and pushd into directory
+bind \ct '__fzf_cd'
 
-function '__fzf_find_pattern'
-  ag --nobreak --nonumbers --noheading . | fzf 
+function __fzf_cd
+  fd --type f | fzf | read -l result; and pushd (dirname $result)
 end
 
 # }}}
@@ -285,32 +265,9 @@ end
 
 # {{{  Development Utilities
 
-# Tag Configuration
-set -x TAG_ALIAS_PREFIX 'e'
-set -x TAG_CMD_FMT_STRING 'nvim "{{.Filename}}" +{{.LineNumber}}'
-
-function tag
-    set -x TAG_SEARCH_PROG ag  # replace with rg for ripgrep
-    set -q TAG_ALIAS_FILE; or set -l TAG_ALIAS_FILE /tmp/tag_aliases
-    command tag $argv; and source $TAG_ALIAS_FILE ^/dev/null
-    alias ag tag 
-end
-
 function git-open
   pushd $PROJECT_HOME
   nvim (git status --porcelain | awk '{print $2}')
-  popd
-end
-
-function dr
-  pushd $PROJECT_HOME
-  dotnet run
-  popd
-end
-
-function db
-  pushd $PROJECT_HOME
-  dotnet build
   popd
 end
 
@@ -322,10 +279,6 @@ function nn
     nvim +edit note:$argv
 end
 
-function nvm
-    bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
-end
-
 function reload
     source $HOME/.config/fish/config.fish
 end
@@ -335,6 +288,29 @@ function fishtime
     reload
     set end (date "+%s.%N")
     eval math $end-$start
+end
+
+# function yank
+#     set -x BUFFERPATH (greadlink -f $argv)
+#     echo $BUFFERPATH > ~/.bufferpath
+# end
+
+# function put
+#     read -x BUFFERPATH < ~/.bufferpath
+#     cp $BUFFERPATH ./
+# end
+
+function yank
+    greadlink -f $argv > ~/.buffer &
+end
+
+function put
+    cp (cat ~/.buffer) ./
+end
+
+function docker-stop-and_remove_all
+    docker stop (docker ps -aq)
+    docker rm (docker ps -aq)
 end
 
 # }}}
