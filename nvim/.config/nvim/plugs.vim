@@ -29,7 +29,6 @@ Plug 'szw/vim-maximizer'
 
 " Filesystem
 Plug 'justinmk/vim-dirvish'
-Plug 'lingceng/z.vim'
 
 " Undo
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }

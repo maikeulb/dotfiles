@@ -29,7 +29,9 @@ end
 if test -s /usr/local/sbin
   set -x PATH /usr/local/sbin $PATH
 end
-
+if test -s /Library/Frameworks/Mono.framework/Versions/Current/bin
+  set -x PATH /Library/Frameworks/Mono.framework/Versions/Current/bin $PATH
+end
 
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm

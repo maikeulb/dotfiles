@@ -354,6 +354,10 @@ augroup AutoFormatFileExtensions
   autocmd BufEnter *.fsproj | setlocal noAutoFormat=1
 augroup END
 
-autocmd BufNewFile,BufRead *.csx set syntax=cs
+augroup filetypedetect
+  au! BufNewFile,BufRead *.csx setf cs
+  au! BufNewFile,BufRead *.env setf sh
+  au! BufNewFile,BufRead *.envrc setf sh
+augroup END
 
 " }}}
