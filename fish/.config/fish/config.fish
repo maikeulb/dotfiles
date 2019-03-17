@@ -15,6 +15,12 @@ set -x LESS_TERMCAP_ue (printf "\e[0m")
 set -x LESSOPEN "| pygmentize -g %s"
 set -x LESS " -RiF "
 set -x TODO $HOME/Dropbox/todo/
+set -x BBHOME $HOME/Birchbox
+
+# source develoment credentials (BIRCHBOX)
+if test -e $HOME/.dev.env
+  source $HOME/.dev.env
+end
 
 # Add bin, .local/bin, /usr/local/bin, and /usr/local/sbin to Path
 if test -d $HOME/bin
@@ -35,9 +41,9 @@ end
 
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm
-  set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
-  set -x GEM_PATH $GEM_HOME
-  set -x PATH $GEM_HOME/bin $PATH
+  # set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
+  # set -x GEM_PATH $GEM_HOME
+  # set -x PATH $GEM_HOME/bin $PATH
   bash -c 'source $HOME/.rvm/scripts/rvm'
   set -x PATH $HOME/.rvm/bin $PATH
 end
@@ -89,7 +95,7 @@ end
 
 alias python='python3'
 alias tmux='tmux new-session -A -s main'
-alias todo "$HOME/.src/todo.txt_cli-2.9/todo.sh"
+alias todo '$HOME/.src/todo.txt_cli-2.9/todo.sh'
 
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
@@ -103,6 +109,7 @@ alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim $HOME/.c
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
 alias ewp='nvim $PROJECT_HOME/webpack.config.js'
+alias gettime='date +%r'
 
 alias cdg='cd (git rev-parse --show-toplevel)'
 
@@ -114,17 +121,20 @@ alias ag='ag --path-to-ignore ~/.ignore'
 
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient' # hacky dhclient solution
 
-alias pgstart='docker run --name postgres -e POSTGRES_PASSWORD=P@ssw0rd! -d postgres'
-alias rabbitstart='docker run --name postgres --hostname my-rabbit -d rabbitmq:3'
-alias redisstart='docker run --name redis -d redis'
-alias mongostart='docker run --name mongo -d mongo'
-alias mysqlstart='docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=P@ssw0rd! -d mysql'
-alias elasticstart="docker run --name elastic -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' -d docker.elastic.co/elasticsearch/elasticsearch:6.2.2"
+alias magesync='rsync -a /Users/michael.barnes/Birchbox/birchbox/ michaelbarnes.dev.birchbox.com:~/unit/com.birchbox.web/repo'
 
-alias pgconnect='pgcli postgresql://postgres:P@ssw0rd!@172.17.0.2:5432/' # todo: env variables
-alias myconnect='mycli mysql://$MYSQL_USER:$MYSQL_PASSWORD!@$MYSQL_HOST:$MYSQL_PORT/' # todo: env variables
-alias redisconnect="redis-cli -h '172.17.0.3'" # todo: env variables
-alias portforward='ssh -L 3306:dbrw-mage:3306 michaelbarnes@michaelbarnes.dev.birchbox.com -N'
+alias mageforward='ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST'
+alias boxforward='ssh -NL $BOX_PORT:dbrw-box-customization:3306 $DEV_USER@$DEV_HOST'
+alias toolsforward='ssh -NL $TOOLS_PORT:dbrw-tools-server:3306 $DEV_USER@$DEV_HOST'
+alias subsforward='ssh -NL $SUBS_PORT:dbrw-subscription:3306 $DEV_USER@$DEV_HOST'
+alias flushmage="ssh dev 'echo flush_all | nc memc-mage 11211'"
+alias remotebreakage="ssh dev 'php /home/michaelbarnes/unit/com.birchbox.web/repo/local/scripts/addon_orders/breakage_fix_test.php'"
+alias allforward='ssh $DEV_USER@$DEV_HOST -NL $TOOLS_PORT:dbrw-tools-server:3306 -NL $BOX_PORT:dbrw-box-customization:3306 -NL $MAGE_PORT:dbrw-mage:3306 -NL $SUBS_PORT:dbrw-subscription:3306'
+
+alias myclicomm='mycli mysql://$SYS0_USER:$SYS0_PASSWORD@$SYS0_HOST:$SYS_PORT/' 
+alias myclimage='mycli mysql://$MAGE_USER:$MAGE_PASS@localhost:$MAGE_PORT' 
+alias myclibox='mycli mysql://$BOX_USER:$BOX_PASS@localhost:$BOX_PORT' 
+alias myclitools='mycli mysql://$TOOLS_USER:$TOOLS_PASS@localhost:$TOOLS_PORT' 
 
 # }}}
 
@@ -157,3 +167,4 @@ if not set -q LS_COLORS
 end
 
 # }}}
+rvm default
