@@ -167,9 +167,10 @@ nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
 
 source ~/.config/nvim/plugs.vim
 
-" Seoul256
+" Color
 let g:seoul256_background = 233
-colo seoul256
+colorscheme seoul256
+" colorscheme monotone
 
 highlight Normal guibg=none
 highlight NonText guibg=none

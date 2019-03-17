@@ -12,6 +12,7 @@ Plug 'xolox/vim-misc'
 
 " Colors and Display
 Plug 'junegunn/seoul256.vim'
+" Plug 'Lokaltog/vim-monotone'
 Plug 'blueyed/vim-diminactive'
 
 " Readline
