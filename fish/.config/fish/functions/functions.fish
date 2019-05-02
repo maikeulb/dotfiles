@@ -325,6 +325,22 @@ function mage-forward
   ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST
 end  
 
+function box-forward
+  ssh -NL $BOX_PORT:dbrw-box-customization:3306 $DEV_USER@$DEV_HOST
+end  
+
+function tools-forward
+  ssh -NL $TOOLS_PORT:dbrw-tools-server:3306 $DEV_USER@$DEV_HOST
+end  
+
+function subs-forward
+  ssh -NL $SUBS_PORT:dbrw-subscription:3306 $DEV_USER@$DEV_HOST
+end  
+
+function all-forward
+  ssh $DEV_USER@$DEV_HOST -NL $TOOLS_PORT:dbrw-tools-server:3306 -NL $BOX_PORT:dbrw-box-customization:3306 -NL $MAGE_PORT:dbrw-mage:3306 -NL $SUBS_PORT:dbrw-subscription:3306
+end  
+
 function mycli-comm
   mycli mysql://$SYS0_USER:$SYS0_PASSWORD@$SYS0_HOST:$SYS_PORT
 end  
