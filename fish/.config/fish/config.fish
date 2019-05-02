@@ -109,7 +109,8 @@ alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim $HOME/.c
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
 alias ewp='nvim $PROJECT_HOME/webpack.config.js'
-alias gettime='date +%r'
+alias whattimeisit='date +%r'
+alias getdate='date "+%Y%m%d%H%M%S"'
 
 alias cdg='cd (git rev-parse --show-toplevel)'
 
@@ -120,21 +121,6 @@ alias glist='gem list --local'
 alias ag='ag --path-to-ignore ~/.ignore'
 
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient' # hacky dhclient solution
-
-alias magesync='rsync -a /Users/michael.barnes/Birchbox/birchbox/ michaelbarnes.dev.birchbox.com:~/unit/com.birchbox.web/repo'
-
-alias mageforward='ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST'
-alias boxforward='ssh -NL $BOX_PORT:dbrw-box-customization:3306 $DEV_USER@$DEV_HOST'
-alias toolsforward='ssh -NL $TOOLS_PORT:dbrw-tools-server:3306 $DEV_USER@$DEV_HOST'
-alias subsforward='ssh -NL $SUBS_PORT:dbrw-subscription:3306 $DEV_USER@$DEV_HOST'
-alias flushmage="ssh dev 'echo flush_all | nc memc-mage 11211'"
-alias remotebreakage="ssh dev 'php /home/michaelbarnes/unit/com.birchbox.web/repo/local/scripts/addon_orders/breakage_fix_test.php'"
-alias allforward='ssh $DEV_USER@$DEV_HOST -NL $TOOLS_PORT:dbrw-tools-server:3306 -NL $BOX_PORT:dbrw-box-customization:3306 -NL $MAGE_PORT:dbrw-mage:3306 -NL $SUBS_PORT:dbrw-subscription:3306'
-
-alias myclicomm='mycli mysql://$SYS0_USER:$SYS0_PASSWORD@$SYS0_HOST:$SYS_PORT/' 
-alias myclimage='mycli mysql://$MAGE_USER:$MAGE_PASS@localhost:$MAGE_PORT' 
-alias myclibox='mycli mysql://$BOX_USER:$BOX_PASS@localhost:$BOX_PORT' 
-alias myclitools='mycli mysql://$TOOLS_USER:$TOOLS_PASS@localhost:$TOOLS_PORT' 
 
 # }}}
 

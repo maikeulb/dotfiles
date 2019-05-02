@@ -1,13 +1,13 @@
 # {{{  Package Management and Cleanup
 
-function aupdate
+function apt-update
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get autoremove
     sudo apt-get clean
 end
 
-function pupdate
+function package-update
     pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs pip install -U
     gem update
     gem cleanup
@@ -17,7 +17,7 @@ function pupdate
     fisher up
 end
 
-function pfreeze
+function package-freeze
     pip freeze --local >$HOME/dotfiles/packages/piplist.txt
     echo 'finished pip'
     gem list --local --no-versions --no-details -q >$HOME/dotfiles/packages/gemlist.txt
@@ -26,7 +26,7 @@ function pfreeze
     echo 'finished npm'
 end
 
-function pinstall
+function package-install
     pip install --user -r $HOME/dotfiles/packages/piplist.txt
     cat $HOME/dotfiles/packages/gemlist.txt | xargs gem install
     cat $HOME/dotfiles/packages/npmlist.txt | xargs npm install -g
@@ -48,7 +48,7 @@ end
 #     echo "The virtualenv \""(basename $VIRTUAL_ENV)"\" was deactivated"
 # end
 
-function stowall
+function stow_all
   stow bin
   stow cheat
   stow fish
@@ -62,13 +62,6 @@ function stowall
   stow tmux
   stow virtualenv
   stow zsh
-end
-
-function docker-clean
-  docker container prune -f ;
-  docker image prune -f ; 
-  docker network prune -f ;
-  docker volume prune -f 
 end
 
 # }}}
@@ -290,16 +283,6 @@ function fishtime
     eval math $end-$start
 end
 
-# function yank
-#     set -x BUFFERPATH (greadlink -f $argv)
-#     echo $BUFFERPATH > ~/.bufferpath
-# end
-
-# function put
-#     read -x BUFFERPATH < ~/.bufferpath
-#     cp $BUFFERPATH ./
-# end
-
 function yank
     greadlink -f $argv > ~/.buffer &
 end
@@ -308,9 +291,66 @@ function put
     cp (cat ~/.buffer) ./
 end
 
-function docker-stop-and_remove_all
+function docker-stop-and-remove-all
     docker stop (docker ps -aq)
     docker rm (docker ps -aq)
+end
+# {{{ Work stuff
+
+function mage-sync
+  rsync -a /Users/michael.barnes/Birchbox/birchbox/ michaelbarnes.dev.birchbox.com:~/unit/com.birchbox.web/repo
+end  
+
+function mage-flush
+  ssh dev 'echo flush_all | nc memc-mage 11211'
+end  
+
+function remote-breakage
+  ssh dev 'php /home/michaelbarnes/unit/com.birchbox.web/repo/local/scripts/addon_orders/breakage_fix_test.php'
+end  
+
+function proxy-on
+  ssh -fN bbms
+end  
+
+function proxy-check
+  ssh -O check bbms
+end  
+
+function proxy-off
+  ssh -O exit bbms
+end  
+
+function mage-forward
+  ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST
+end  
+
+function mycli-comm
+  mycli mysql://$SYS0_USER:$SYS0_PASSWORD@$SYS0_HOST:$SYS_PORT
+end  
+
+function mycli-mage
+  mycli mysql://$MAGE_USER:$MAGE_PASS@localhost:$MAGE_PORT
+end  
+
+function stage_curl_sendgrid
+  ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6fb09bcd-e15d-48a3-a0bb-02e7b0b2fc52\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {}, \"customerId\": 123, \"provider\": \"sendgrid\" }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
+end
+
+function stage_curl
+  ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6fb09bcd-e15d-48a3-a0bb-02e7b0b2fc52\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {}, \"customerId\": 123 }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
+end
+
+function bb_login
+   http --form post https://api.staging.birchbox.com/user/login email=michael.barnes@birchbox.com password=tester | jq -r .id
+end
+
+function test_sub
+   http post http://api.staging.birchbox.com/subscriptions/pause\?vertical_id=1\?shipping_cycle=1 x-session-id:$argv x-magento-session-id:$argv
+end
+
+function test_unsub
+   http delete http://api.staging.birchbox.com/subscriptions/pause/5703 x-session-id:$argv x-magento-session-id:$argv
 end
 
 # }}}
