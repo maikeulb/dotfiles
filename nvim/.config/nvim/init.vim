@@ -218,6 +218,12 @@ let g:EasyClipUsePasteToggleDefaults = 0
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<CR>
 
+" Gutentags
+let g:gutentags_ctags_tagfile = '.tags'
+
+" Ferret
+let g:FerretMap = 0
+
 " fzf.vim
 set runtimepath+=$HOME/.fzf
 let g:fzf_layout = { 'window': 'enew' }
@@ -225,13 +231,16 @@ let g:fzf_history_dir = '$HOME/.fzf-history'
 let g:fzf_tags_command = 'ctags -R'
 let g:fzf_layout = { 'down': '~40%' }
 
+" override for AG to not include filename
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 nnoremap <silent> <C-f>       :Files<CR>
-nnoremap <silent> <C-b>       :Buffers<CR>
 nnoremap <silent> <C-_>       :BLines<CR>
+nnoremap <silent> <C-t>       :Tags<CR>
+nnoremap <silent> <C-b>       :Buffers<CR>
+nnoremap <silent> <C-g>       :Ag<CR>
 nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
-nnoremap <silent> <leader>A   :Ag<CR>
-nnoremap <silent> <leader>L   :BLines<CR>
 
 " QuickRun
 let g:quickrun_config=get(g:, 'quickrun_config', {})

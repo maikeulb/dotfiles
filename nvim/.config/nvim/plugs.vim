@@ -15,6 +15,9 @@ Plug 'junegunn/seoul256.vim'
 " Plug 'Lokaltog/vim-monotone'
 Plug 'blueyed/vim-diminactive'
 
+" Match
+Plug 'andymass/vim-matchup'
+
 " Readline
 Plug 'tpope/vim-rsi'
 
@@ -51,11 +54,17 @@ Plug 'tpope/vim-repeat'
 " Surround
 Plug 'tpope/vim-surround'
 
+" Tags
+Plug 'ludovicchabant/vim-gutentags'
+
 " Comments
 Plug 'tpope/vim-commentary'
 
 " Regex
 Plug 'othree/eregex.vim'
+
+" Prose
+Plug 'junegunn/goyo.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -65,6 +74,7 @@ Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'wincent/ferret'
+Plug 'markonm/traces'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
