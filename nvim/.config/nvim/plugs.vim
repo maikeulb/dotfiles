@@ -12,8 +12,7 @@ Plug 'xolox/vim-misc'
 
 " Colors and Display
 Plug 'junegunn/seoul256.vim'
-" Plug 'Lokaltog/vim-monotone'
-Plug 'blueyed/vim-diminactive'
+" Plug 'blueyed/vim-diminactive'
 
 " Match
 Plug 'andymass/vim-matchup'
@@ -53,9 +52,6 @@ Plug 'tpope/vim-repeat'
 
 " Surround
 Plug 'tpope/vim-surround'
-
-" Tags
-Plug 'ludovicchabant/vim-gutentags'
 
 " Comments
 Plug 'tpope/vim-commentary'

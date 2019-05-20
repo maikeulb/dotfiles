@@ -218,9 +218,6 @@ let g:EasyClipUsePasteToggleDefaults = 0
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<CR>
 
-" Gutentags
-let g:gutentags_ctags_tagfile = '.tags'
-
 " Ferret
 let g:FerretMap = 0
 
