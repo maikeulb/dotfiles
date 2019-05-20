@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Find by file name
-ff () { find . -name "$@"; }
-
