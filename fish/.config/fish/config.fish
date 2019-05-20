@@ -137,9 +137,6 @@ source $HOME/.config/fish/functions/functions.fish
 # Load direnv
 eval (direnv hook fish)
 
-# Load fishmarks
-. $HOME/.fishmarks/marks.fish
-
 # Ensure LS colors are set
 if not set -q LS_COLORS
   switch (uname)
@@ -154,3 +151,4 @@ end
 
 # }}}
 rvm default
+set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
