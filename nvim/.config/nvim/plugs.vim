@@ -12,7 +12,7 @@ Plug 'xolox/vim-misc'
 
 " Colors and Display
 Plug 'junegunn/seoul256.vim'
-" Plug 'blueyed/vim-diminactive'
+Plug 'blueyed/vim-diminactive'
 
 " Match
 Plug 'andymass/vim-matchup'
@@ -78,7 +78,6 @@ Plug 'Chiel92/vim-autoformat'
 " Command Runners
 Plug 'thinca/vim-quickrun', { 'on': 'QuickRun' }
 Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-tbone'
 
 " Linters
 Plug 'w0rp/ale'

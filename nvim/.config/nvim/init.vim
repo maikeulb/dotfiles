@@ -170,7 +170,6 @@ source ~/.config/nvim/plugs.vim
 " Color
 let g:seoul256_background = 233
 colorscheme seoul256
-" colorscheme monotone
 
 highlight Normal guibg=none
 highlight NonText guibg=none
@@ -187,14 +186,11 @@ let g:airline#extensions#promptline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline_inactive_collapse = 1
 let g:airline_section_y = ''
-let g:airline_section_z = ''
+let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%'.g:airline_symbols.space, 'linenr', 'maxlinenr', g:airline_symbols.space.'%2.3c%-.3V'])
 let g:airline_detect_crypt = 0
 let g:airline_theme = 'dark'
 let g:airline_left_sep = ' '
 let g:airline_right_sep = ' '
-
-" Vim-parinfer
-let g:parinfer_mode = "indent"
 
 " Dirvish
 nnoremap <silent>- :Dirvish<CR>
