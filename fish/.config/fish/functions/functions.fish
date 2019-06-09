@@ -57,7 +57,7 @@ function z --description 'z with fzf'
   | sed "s:$HOME:~:" \
   | fzf -1 -0 --no-sort +m \
   | sed "s:~:$HOME:")
-    cd $dir; ls
+    cd $dir;
 end
 
 function n --description 'n with fzf'
@@ -110,9 +110,9 @@ end
 # FZF find file by name and pushd into directory
 bind \ct '__fzf_cd'
 
-function __fzf_cd
-  fd --type f | fzf | read -l result; and pushd (dirname $result)
-end
+# function __fzf_cd
+#   fd --type f | fzf | read -l result; and pushd (dirname $result)
+# end
 
 # }}}
 
