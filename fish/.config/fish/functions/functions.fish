@@ -309,6 +309,10 @@ function mage-forward
   ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST
 end  
 
+function bbms-rmq-forward
+  ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST
+end  
+
 function box-forward
   ssh -NL $BOX_PORT:dbrw-box-customization:3306 $DEV_USER@$DEV_HOST
 end  
@@ -319,6 +323,10 @@ end
 
 function subs-forward
   ssh -NL $SUBS_PORT:dbrw-subscription:3306 $DEV_USER@$DEV_HOST
+end  
+
+function bbms-rmq-forward
+  ssh -NL 15672:127.0.0.1:15672 app7.nyc2.birchbox.com
 end  
 
 function all-forward
@@ -341,6 +349,10 @@ function stage_curl
   ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6fb09bcd-e15d-48a3-a0bb-02e7b0b2fc52\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {}, \"customerId\": 123 }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
 end
 
+function stage_curl_es
+  ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"customerId\": 4, \"email\": \"michael.barnes@birchbox.com\", \"countryCode\": \"gb\", \"trackingUrl\": \"2343\", \"trackingNumber\": 123, \"shippingCycleId\": 3, \"shopId\" : 1, \"subscriptionVertical\": \"mens\"}' \"http://bbms-stg.pvt.nyc2.birchbox.com/trigger/box_has_shipped\""
+end
+
 function bb_login
    http --form post https://api.staging.birchbox.com/user/login email=michael.barnes@birchbox.com password=tester | jq -r .id
 end
@@ -351,6 +363,10 @@ end
 
 function test_unsub
    http delete http://api.staging.birchbox.com/subscriptions/pause/5703 x-session-id:$argv x-magento-session-id:$argv
+end
+
+function test_es
+    http post http://localhost:4200/trigger/box_has_shipped customerId=4 trackingNumber=222 trackingUrl=2343 countryCode=gb email=michael.barnes@birchbox.com subscriptionVertical=mens shippingCycleId=3 shopId=1
 end
 
 # }}}
