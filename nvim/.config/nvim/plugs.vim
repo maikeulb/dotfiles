@@ -1,18 +1,9 @@
 call plug#begin('$HOME/.config/nvim/plugins')
 
-" Status
-Plug 'vim-airline/vim-airline'
-
-" Terminal
-Plug 'tmux-plugins/vim-tmux-focus-events'
-
-" Notes
-Plug 'xolox/vim-notes'
-Plug 'xolox/vim-misc'
-
-" Colors and Display
+" Presentation
 Plug 'junegunn/seoul256.vim'
 Plug 'blueyed/vim-diminactive'
+Plug 'vim-airline/vim-airline'
 
 " Match
 Plug 'andymass/vim-matchup'
@@ -29,8 +20,9 @@ Plug 'tmhedberg/SimpylFold'
 
 " Windows
 Plug 'szw/vim-maximizer'
+Plug 'romainl/vim-qf'
 
-" Filesystem
+" Navigation
 Plug 'justinmk/vim-dirvish'
 
 " Undo
@@ -39,6 +31,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " Textobj
 Plug 'wellle/targets.vim'
 Plug 'chaoren/vim-wordmotion'
+Plug 'michaeljsmith/vim-indent-object'
 
 " Align
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -56,14 +49,14 @@ Plug 'tpope/vim-surround'
 " Comments
 Plug 'tpope/vim-commentary'
 
-" Regex
-Plug 'othree/eregex.vim'
-
-" Prose
+" Notes / Prose
+Plug 'xolox/vim-notes'
+Plug 'xolox/vim-misc'
 Plug 'junegunn/goyo.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'rhysd/committia.vim'
 
 " Search and Replace
@@ -71,12 +64,12 @@ Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'wincent/ferret'
+Plug 'romainl/vim-cool'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
 
 " Command Runners
-Plug 'thinca/vim-quickrun', { 'on': 'QuickRun' }
 Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
 
 " Linters
@@ -116,8 +109,10 @@ Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby' }
 
-" Completion
+" Completion / Tags
 Plug 'Raimondi/delimitMate'
+Plug 'lifepillar/vim-mucomplete'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Yank
 Plug 'svermeulen/vim-easyclip'

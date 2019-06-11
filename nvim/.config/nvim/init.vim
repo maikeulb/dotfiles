@@ -8,7 +8,6 @@ set noswapfile
 set autowrite
 set expandtab
 set lazyredraw
-set nohlsearch
 set ignorecase
 set smartcase
 set showmatch
@@ -102,10 +101,6 @@ nnoremap C m$
 nnoremap H 0
 nnoremap L $
 
-nnoremap q <Nop>
-nnoremap Q @q
-vnoremap Q :normal @q<CR>
-
 nnoremap oo o<Esc>k
 nnoremap OO O<Esc>
 nnoremap ss a<space><Esc>h
@@ -146,6 +141,15 @@ cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 cnoremap <C-y> <C-r>"
 
+nnoremap <leader>y "+y
+nnoremap <leader>d "+d
+vnoremap <leader>y "+y
+vnoremap <leader>d "+d
+
+nnoremap <leader>p :set paste<CR>"+p:set nopaste<CR>
+nnoremap <leader>P :set paste<CR>"+P:set nopaste<CR>
+vnoremap <leader>p :set paste<CR>"+p:set nopaste<CR>
+vnoremap <leader>P :set paste<CR>"+P:set nopaste<CR>
 " }}}
 
 
@@ -234,26 +238,6 @@ nnoremap <silent> <C-b>       :Buffers<CR>
 nnoremap <silent> <C-g>       :Ag<CR>
 nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
-
-" QuickRun
-let g:quickrun_config=get(g:, 'quickrun_config', {})
-let g:quickrun_config._={
-      \'runner': 'vimproc',
-      \'runner/vimproc/updatetime' : 10,
-      \'outputter' : 'error',
-      \'outputter/error/success' : 'message',
-      \'outputter/error/error'   : 'quickfix',
-      \'outputter/buffer/close_on_empty' : 1,
-      \}
-
-command! -nargs=0 QC call CloseQuickRunWindow()
-function! CloseQuickRunWindow()
-  execute "normal \<c-c>\<c-w>jZZ"
-endfunction
-
-nnoremap <silent> <leader>qc :QC<CR>
-nnoremap <silent> <leader>qr :QuickRun -mode n<CR>
-vnoremap <silent> <leader>qr :QuickRun -mode v<CR>
 
 " " Autoformat
 let g:autoformat_autoindent = 0
