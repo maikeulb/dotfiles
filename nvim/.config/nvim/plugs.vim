@@ -64,13 +64,13 @@ Plug 'junegunn/goyo.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'rhysd/committia.vim'
 
 " Search and Replace
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'wincent/ferret'
-Plug 'markonm/traces'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
@@ -100,7 +100,6 @@ Plug 'fsharp/vim-fsharp', {
       \}
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
-Plug 'eagltmt/ghcmod-vim', { 'for': 'haskell' }
 Plug 'dansomething/vim-eclim' 
 
 " Language - Utilities

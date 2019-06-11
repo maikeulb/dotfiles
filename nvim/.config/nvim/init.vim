@@ -302,6 +302,16 @@ nnoremap <leader>go  :Git checkout<Space>
 nnoremap <leader>gp  :Dispatch! git push<CR>
 nnoremap <leader>gu  :Dispatch! git pull<CR>
 
+" Committia
+let g:committia_hooks = {}
+function! g:committia_hooks.edit_open(info)
+    setlocal spell
+
+    if a:info.vcs ==# 'git' && getline(1) ==# ''
+        startinsert
+    endif
+endfunction
+
 " }}}
 
 
