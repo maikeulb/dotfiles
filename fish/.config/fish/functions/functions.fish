@@ -342,7 +342,7 @@ function mycli-mage
 end  
 
 function stage_curl_sendgrid
-  ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6fb09bcd-e15d-48a3-a0bb-02e7b0b2fc52\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {}, \"customerId\": 123, \"provider\": \"sendgrid\" }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
+  ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6cb0b86d-d822-431b-889a-99d589683c78\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {\"first_name\":\"michael\", \"tracking_number\": \"123\"}, \"customerId\": 123, \"provider\": \"sendgrid\" }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
 end
 
 function stage_curl
