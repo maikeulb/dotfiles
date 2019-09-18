@@ -8,6 +8,7 @@ set -x LC_CTYPE en_US.UTF-8
 set -x PIP_REQUIRE_VIRTUALENV 0
 set -x FZF_LEGACY_KEYBINDINGS 0
 set -x FZF_DEFAULT_OPTS "--height 10"
+set -x FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
 set -x LESS_TERMCAP_me (printf "\e[0m")
 set -x LESS_TERMCAP_se (printf "\e[0m")
 set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
@@ -19,8 +20,10 @@ set -x BBHOME $HOME/Birchbox
 set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
 
 # source develoment credentials (BIRCHBOX)
-if test -e $HOME/.dev.env
-  source $HOME/.dev.env
+if test -e $HOME/.dev.env.fish
+  source $HOME/.dev.env.fish
+  # source $HOME/.dev.env.mike.fish
+  load_dev_env_variables
 end
 
 # Add bin, .local/bin, /usr/local/bin, and /usr/local/sbin to Path
