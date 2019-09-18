@@ -233,17 +233,12 @@ let g:fzf_layout = { 'down': '~40%' }
 " gutentags
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 let g:gutentags_ctags_tagfile = '.tags'
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
 let g:gutentags_modules = []
 if executable('ctags')
   let g:gutentags_modules += ['ctags']
 endif
 let g:gutentags_trace=0
-let g:gutentags_enabled=0
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
+let g:gutentags_enabled=1
 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
@@ -259,8 +254,7 @@ nnoremap <silent> <leader>C   :Commands<CR>
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
-let g:autoformat_verbosemode=1
-let g:jsx_ext_required = 0
+let g:autoformat_verbosemode = 0
 " " format paragraph with gq
 
 " Vim-go
@@ -305,11 +299,11 @@ nnoremap <leader>gu  :Dispatch! git pull<CR>
 " Committia
 let g:committia_hooks = {}
 function! g:committia_hooks.edit_open(info)
-    setlocal spell
+  setlocal spell
 
-    if a:info.vcs ==# 'git' && getline(1) ==# ''
-        startinsert
-    endif
+  if a:info.vcs ==# 'git' && getline(1) ==# ''
+      startinsert
+  endif
 endfunction
 
 " }}}
