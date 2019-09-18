@@ -16,6 +16,7 @@ set -x LESSOPEN "| pygmentize -g %s"
 set -x LESS " -RiF "
 set -x TODO $HOME/Dropbox/todo/
 set -x BBHOME $HOME/Birchbox
+set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
 
 # source develoment credentials (BIRCHBOX)
 if test -e $HOME/.dev.env
@@ -41,11 +42,9 @@ end
 
 # Add GEM/RVM to Path
 if test -d $HOME/.rvm
-  # set -x GEM_HOME $HOME/.rvm/gems/ruby-2.3.0
-  # set -x GEM_PATH $GEM_HOME
-  # set -x PATH $GEM_HOME/bin $PATH
   bash -c 'source $HOME/.rvm/scripts/rvm'
   set -x PATH $HOME/.rvm/bin $PATH
+  rvm default
 end
 
 # Add Linuxbrew to Path
@@ -81,20 +80,28 @@ if test -d $HOME/.go
   set -x PATH $GOROOT/bin $PATH
 end
 
-# # Virtualfish
-# set -x VIRTUALFISH_HOME $HOME/.virtualenvs
-# set -x VIRTUALFISH_DEFAULT_PYTHON /usr/bin/python3.5
-# if not set -q VIRTUAL_ENV
-#   eval ( python3 -m virtualfish auto_activation projects global_requirements)
-# end
+# Add pyenv to Path
+if test -e $HOME/.pyenv/bin/pyenv
+  set -xg PATH $PATH $HOME/.pyenv/bin
+  set -xg PYENV_ROOT $HOME/.pyenv
+end
+
+# If pyenv exists then run it
+set pyenv_exists (which pyenv)
+if [ $pyenv_exists ];  test -x $pyenv_exists
+  source (pyenv init - --no-rehash | psub)
+  source (pyenv virtualenv-init - | psub)
+  if test -z "$VIMRUNTIME"
+    pyenv rehash
+  end
+end
 
 # }}}
 
 
 # {{{ Aliases
 
-alias python='python3'
-alias tmux='tmux new-session -A -s main'
+# alias tmux='tmux new-session -A -s main'
 alias todo '$HOME/.src/todo.txt_cli-2.9/todo.sh'
 
 alias lss='exa --group-directories-first -G --color always --git-ignore'
@@ -150,5 +157,3 @@ if not set -q LS_COLORS
 end
 
 # }}}
-rvm default
-set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
