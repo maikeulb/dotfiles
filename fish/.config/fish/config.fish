@@ -43,11 +43,16 @@ if test -s /Library/Frameworks/Mono.framework/Versions/Current/bin
   set -x PATH /Library/Frameworks/Mono.framework/Versions/Current/bin $PATH
 end
 
-# Add GEM/RVM to Path
+# Add RVM to Path
 if test -d $HOME/.rvm
   bash -c 'source $HOME/.rvm/scripts/rvm'
   set -x PATH $HOME/.rvm/bin $PATH
   rvm default
+end
+
+# Add Cargo to Path
+if test -d $HOME/.rvm
+  set -x PATH $HOME/.cargo/bin $PATH
 end
 
 # Add Linuxbrew to Path
