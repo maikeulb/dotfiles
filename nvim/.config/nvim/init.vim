@@ -36,6 +36,8 @@ set colorcolumn=80
 set breakindent
 set showbreak=\\\\\
 set clipboard=
+set flp=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+
 if has('clipit')
   set clipboard=unnamed
 endif
@@ -53,8 +55,8 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
 if has('nvim')
-  let g:python_host_prog = expand('$HOME'). '/.virtualenvs/neovim2.7/bin/python'
-  let g:python3_host_prog = expand('$HOME'). '/.virtualenvs/neovim3.5/bin/python'
+  let g:python_host_prog = expand('$HOME'). '/.pyenv/shims/python'
+  let g:python3_host_prog = expand('$HOME'). '/.pyenv/shims/python3'
 endif
 
 if has('persistent_undo')
@@ -75,7 +77,6 @@ set foldlevelstart=20
 
 " }}}
 
-
 " Mappings {{{
 
 let g:mapleader = "\<Space>"
@@ -87,7 +88,8 @@ nnoremap ; :
 nnoremap : ;
 
 nnoremap ,; @:<CR>
-nnoremap gm m
+" marks
+nnoremap gm m  
 nnoremap gu gUiw`]
 
 nnoremap g; g;zz
@@ -228,7 +230,21 @@ let g:fzf_history_dir = '$HOME/.fzf-history'
 let g:fzf_tags_command = 'ctags -R'
 let g:fzf_layout = { 'down': '~40%' }
 
-" override for AG to not include filename
+" gutentags
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+let g:gutentags_ctags_tagfile = '.tags'
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+let g:gutentags_modules = []
+if executable('ctags')
+  let g:gutentags_modules += ['ctags']
+endif
+let g:gutentags_trace=0
+let g:gutentags_enabled=0
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 nnoremap <silent> <C-f>       :Files<CR>
