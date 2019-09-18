@@ -6,3 +6,4 @@ nvim/.config/nvim/ftplugin/envrc.vim
 nvim/.config/nvim/plugins/
 nvim/.config/nvim/syntax/
 .DS_Store
+tags
