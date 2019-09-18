@@ -109,7 +109,7 @@ alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
 alias nv='nvim'
 alias etd='nvim $TODO/todo.txt'
 alias ei3='nvim $HOME/.config/i3/config'
-alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/functions/functions.fish'
+alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/functions/functions.fish $HOME/.config/fish/functions/bb_functions.fish'
 alias ev='nvim $HOME/.vimrc'
 alias et='nvim $HOME/.tmux.conf'
 alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim $HOME/.config/nvim/functions.vim'
@@ -135,6 +135,7 @@ alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient' # hack
 # {{{ Functions
 
 source $HOME/.config/fish/functions/functions.fish
+source $HOME/.config/fish/functions/bb_functions.fish
 
 # }}}
 
