@@ -1,4 +1,4 @@
-# {{{ Work stuff
+# {{{ Mage stuff
 
 function mage-sync
   rsync -a /Users/michael.barnes/Birchbox/birchbox/ michaelbarnes.dev.birchbox.com:~/unit/com.birchbox.web/repo
@@ -11,6 +11,10 @@ end
 function remote-breakage
   ssh dev 'php /home/michaelbarnes/unit/com.birchbox.web/repo/local/scripts/addon_orders/breakage_fix_test.php'
 end  
+
+# }}}
+
+# {{{ Local Remote Port Forwarding
 
 function proxy-on
   ssh -fN bbms
@@ -40,6 +44,10 @@ function subs-forward
   ssh -NL $LOCAL_SUBS_PORT:$REMOTE_SUBS_HOST:$REMOTE_SUBS_PORT $REMOTE_USER@$REMOTE_HOST
 end  
 
+function all-forward
+  ssh $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST -NL $LOCAL_TOOLS_PORT:$REMOTE_TOOLS_HOST:$REMOTE_TOOLS_PORT -NL $LOCAL_BOX_PORT:$REMOTE_BOX_HOST:$REMOTE_BOX_PORT -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT -NL $LOCAL_SUBS_PORT:dbrw-subscription:$REMOTE_SUBS_PORT 
+end  
+
 function bbms-stage-rmq-forward
   ssh -NL 15672:127.0.0.1:15672 app7.nyc2.birchbox.com
 end  
@@ -48,11 +56,11 @@ function bbms-prod-rmq-forward
   ssh -NL 55672:127.0.0.1:55672 -L 15672:127.0.0.1:15672 queue0.nyc2.birchbox.com
 end  
 
-function all-forward
-  ssh $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST -NL $LOCAL_TOOLS_PORT:$REMOTE_TOOLS_HOST:$REMOTE_TOOLS_PORT -NL $LOCAL_BOX_PORT:$REMOTE_BOX_HOST:$REMOTE_BOX_PORT -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT -NL $LOCAL_SUBS_PORT:dbrw-subscription:$REMOTE_SUBS_PORT 
-end  
+# }}}
 
-function mycli-comm
+# {{{ Local Remote Port Forwarding
+
+function mycli-comm-prod
   mycli mysql://$SYS0_USER:$SYS0_PASSWORD@$SYS0_HOST:$SYS_PORT
 end  
 
@@ -63,6 +71,10 @@ end
 function mycli-mage-remote
   mycli mysql://$REMOTE_MAGE_USER:$REMOTE_MAGE_PASS@$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT
 end  
+
+# }}}
+
+# {{{ Curling stuff to BBMS
 
 function stage_curl_sendgrid
   ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"template\": \"6cb0b86d-d822-431b-889a-99d589683c78\", \"email\": \"michael.barnes@birchbox.com\", \"region\": \"US\", \"message\": \"M_Breakage_1\", \"vars\": {\"first_name\":\"michael\", \"tracking_number\": \"123\"}, \"customerId\": 123, \"provider\": \"sendgrid\" }' \"http://bbms-stg.pvt.nyc2.birchbox.com/send/triggered\""
@@ -96,6 +108,10 @@ function stage_curl_reviews_completed
   ssh sys0 "curl -X POST -H \"Content-Type:application/json\" -H \"Accept:application/json\" -d '{\"email\": \"michael.barnes@birchbox.com\", \"userId\": 4, \"boxName\": \"fun\", \"countryCode\": \"gb\"}' \"http://bbms-stg.pvt.nyc2.birchbox.com/trigger/reviews_completed\""
 end
 
+# }}}
+
+# {{{ Misc stuff
+
 function bb_login
    http --form post https://api.staging.birchbox.com/user/login email=michael.barnes@birchbox.com password=tester | jq -r .id
 end
@@ -106,10 +122,6 @@ end
 
 function test_unsub
    http delete http://api.staging.birchbox.com/subscriptions/pause/5703 x-session-id:$argv x-magento-session-id:$argv
-end
-
-function test_es
-    http post http://localhost:4200/trigger/box_has_shipped customerId=4 trackingNumber=222 trackingUrl=2343 countryCode=gb email=michael.barnes@birchbox.com subscriptionVertical=mens shippingCycleId=3 shopId=1
 end
 
 # }}}
