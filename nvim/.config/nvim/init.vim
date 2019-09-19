@@ -88,8 +88,9 @@ nnoremap ; :
 nnoremap : ;
 
 nnoremap ,; @:<CR>
+
 " marks
-nnoremap gm m  
+nnoremap gm m
 nnoremap gu gUiw`]
 
 nnoremap g; g;zz

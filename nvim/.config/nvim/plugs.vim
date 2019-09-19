@@ -24,6 +24,7 @@ Plug 'romainl/vim-qf'
 
 " Navigation
 Plug 'justinmk/vim-dirvish'
+Plug 'rhysd/clever-f.vim'
 
 " Undo
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
