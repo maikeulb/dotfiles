@@ -25,19 +25,19 @@ function proxy-off
 end  
 
 function mage-forward
-  ssh -NL $MAGE_PORT:dbrw-mage:3306 $DEV_USER@$DEV_HOST
+  ssh -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST
 end  
 
 function box-forward
-  ssh -NL $BOX_PORT:dbrw-box-customization:3306 $DEV_USER@$DEV_HOST
+  ssh -NL $LOCAL_BOX_PORT:$REMOTE_BOX_HOST:$REMOTE_BOX_PORT $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST
 end  
 
 function tools-forward
-  ssh -NL $TOOLS_PORT:dbrw-tools-server:3306 $DEV_USER@$DEV_HOST
+  ssh -NL $LOCAL_TOOLS_PORT:$REMOTE_TOOLS_HOST:$REMOTE_TOOLS_PORT $REMOTE_USER@$REMOTE_HOST
 end  
 
 function subs-forward
-  ssh -NL $SUBS_PORT:dbrw-subscription:3306 $DEV_USER@$DEV_HOST
+  ssh -NL $LOCAL_SUBS_PORT:$REMOTE_SUBS_HOST:$REMOTE_SUBS_PORT $REMOTE_USER@$REMOTE_HOST
 end  
 
 function bbms-stage-rmq-forward
@@ -49,7 +49,7 @@ function bbms-prod-rmq-forward
 end  
 
 function all-forward
-  ssh $DEV_USER@$DEV_HOST -NL $TOOLS_PORT:dbrw-tools-server:3306 -NL $BOX_PORT:dbrw-box-customization:3306 -NL $MAGE_PORT:$MAGE_HOST:3306 -NL $SUBS_PORT:dbrw-subscription:3306
+  ssh $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST -NL $LOCAL_TOOLS_PORT:$REMOTE_TOOLS_HOST:$REMOTE_TOOLS_PORT -NL $LOCAL_BOX_PORT:$REMOTE_BOX_HOST:$REMOTE_BOX_PORT -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT -NL $LOCAL_SUBS_PORT:dbrw-subscription:$REMOTE_SUBS_PORT 
 end  
 
 function mycli-comm
@@ -57,7 +57,11 @@ function mycli-comm
 end  
 
 function mycli-mage
-  mycli mysql://$MAGE_USER:$MAGE_PASS@localhost:$MAGE_PORT
+  mycli mysql://$REMOTE_MAGE_USER:$REMOTE_MAGE_PASS@localhost:$LOCAL_MAGE_PORT
+end  
+
+function mycli-mage-remote
+  mycli mysql://$REMOTE_MAGE_USER:$REMOTE_MAGE_PASS@$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT
 end  
 
 function stage_curl_sendgrid

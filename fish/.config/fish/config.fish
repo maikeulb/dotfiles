@@ -21,8 +21,8 @@ set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
 
 # source develoment credentials (BIRCHBOX)
 if test -e $HOME/.dev.env.fish
-  source $HOME/.dev.env.fish
-  # source $HOME/.dev.env.mike.fish
+  # source $HOME/.dev.env.fish
+  source $HOME/.dev.env.mike.fish
   load_dev_env_variables
 end
 
@@ -136,6 +136,7 @@ alias glist='gem list --local'
 alias ag='ag --path-to-ignore ~/.ignore'
 
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient' # hacky dhclient solution
+alias listen='netstat -anp tcp | ag listen'
 
 # }}}
 
