@@ -1,7 +1,6 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore-global
-	; pager = ""Jless -r
 	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [user]
@@ -37,18 +36,6 @@
 	added = yellow
 	changed = green
 	untracked = red
-
-; [branch]
-	; autosetuprebase = always
-
-[merge]
-	tool = vimdiff
-
-[mergetool]
-	prompt = true
-
-[mergetool "vimdiff"]
-	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [difftool]
 	prompt = false
@@ -101,25 +88,20 @@
 	ls = ls-files
 
 	# diffing
-	d1 = diff HEAD^1..
-	dfc = diff --cached
-	wd1 = diff --word-diff=color HEAD^1.. #word-diff from last commit
-	wdf = diff --word-diff=color          #word-diff
-	wdfc = diff --word-diff=color --cached # word-diff cached
+	diffh = diff HEAD^1..
+	diffc = diff --cached
+	wdiff1 = diff --word-diff=color HEAD^1.. #word-diff from last commit
+	wdiff = diff --word-diff=color          #word-diff
+	wdiffc = diff --word-diff=color --cached # word-diff cached
 	unmerged = diff --name-only --diff-filter=U
 	prestage = diff -w --word-diff=color
 	precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
 
 	# logs
-	ld = log --oneline --decorate
 	l1 = log --max-count=1                   # last commit
-	l5 = log --max-count=5                   # last 5 commits
-	l5o = log --pretty=oneline --max-count=5 # last 5 commits onelined
 	slog = log --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset | %s %Cgreen%cr%Creset %C(bold blue)[%an]%Creset' --date=relative --no-merges --abbrev-commit
-	stats = shortlog -s -n -e --no-merges
 	tree = log --graph --pretty=oneline --decorate --color --abbrev-commit
 	tree-all = log --graph --pretty=oneline --decorate --color --abbrev-commit --all
-	pc = log -p HEAD@{1}..  # pulled changes
 
 	# undoing things
 	unstage = reset -q HEAD --
@@ -131,26 +113,24 @@
 	# showing things
 	branches = branch -a
 	tags = tag
-	lt = describe --tags --abbrev=0
 
 	# new commands
 	in = incoming
 	out = outgoing
 	addr = addremove
 	untrack = rm -r --cached
-	tidy = rebase -i @{upstream}..
-	springcleaning = for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate:short)'
-	zip = !git archive -o $(basename $(readlink -e .)).zip HEAD
-	f = !git ls-files | grep -i
 	fixup = !GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash
-	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
-	cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 	dotpush ="!git -C $HOME/dotfiles/ add -A && git -C $HOME/dotfiles/ commit --amend --no-edit && git -C $HOME/dotfiles/ push -f origin master"
 	dotreset ="!git -C $HOME/dotfiles/ fetch origin master && git -C $HOME/dotfiles/ reset --hard FETCH_HEAD && git -C $HOME/dotfiles/ clean -df"
 
 	# amending
 	amendc = commit --amend -C HEAD
 	amend = commit --amend
+
+    files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+    stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
+    review = !nvim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\"
+    reviewone = !nvim -p +\"tabdo Gdiff $REVIEW_BASE\"
 
 [color "diff-highlight"]
 	oldNormal = red bold
@@ -168,10 +148,21 @@
 [format]
 	pretty = oneline
 
-; [rebase]
-	; autosquash = true
-
 [status]
 	short = true
+
 [sequence]
 	editor = interactive-rebase-tool
+
+[hub]
+	protocol = https
+
+[merge]
+    tool = vimdiff
+	conflictstyle = diff3
+
+[mergetool]
+    prompt = true
+
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
