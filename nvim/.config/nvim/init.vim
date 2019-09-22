@@ -84,14 +84,11 @@ let g:mapleader = "\<Space>"
 nnoremap <backspace> <nop>
 nnoremap <S> <nop>
 
-nnoremap ; :
-nnoremap : ;
-
-nnoremap ,; @:<CR>
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " marks
 nnoremap gm m
-nnoremap gu gUiw`]
 
 nnoremap g; g;zz
 nnoremap g, g,zz
@@ -115,7 +112,6 @@ nnoremap <leader># #``cgN
 nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 
 nnoremap <leader>wr <C-W>r
-nnoremap <leader>q  :qa!<CR>
 nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>.
 
 nnoremap <leader>"  :split<CR>
@@ -129,10 +125,19 @@ nnoremap <silent> <leader>lp :lprevious<CR>
 nnoremap <silent> <leader>jj :bprevious<CR>
 nnoremap <silent> <leader>kk :bnext<CR>
 
-nnoremap <leader>en  :edit $MYVIMRC<CR>
-nnoremap <leader>sv  :source $MYVIMRC<CR>
+nnoremap <leader>q   :qa!<CR>
+nnoremap <leader>wa  :w<CR>
+nnoremap <leader>wqa :wqa<CR>
+nnoremap <leader>qw  :qw<CR>
+nnoremap <leader>w   :w<CR>
+nnoremap <leader>wa  :wa<CR>
+
 nnoremap <leader>ef  :edit $HOME/.config/fish/config.fish<CR>
+nnoremap <leader>eg  :edit $HOME/.gitconfig<CR>
+nnoremap <leader>sv  :source $MYVIMRC<CR>
+nnoremap <leader>en  :edit $MYVIMRC<CR>
 nnoremap <leader>etd :edit $HOME/Dropbox/todo/todo.txt<CR>
+nnoremap <leader>ea  :edit $APPLICATION_YML/application.yml<CR>
 
 inoremap jj <Esc>
 inoremap <C-w> <C-g>u<C-w>
@@ -186,6 +191,9 @@ highlight NonText ctermbg=none
 " Vim-diminactive
 let g:diminactive_enable_focus = 1
 
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#completion_delay = 1
+
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
@@ -209,9 +217,6 @@ let g:notes_suffix = '.txt'
 " Vim-Maximizer
 nnoremap <silent> <C-z> :MaximizerToggle<CR>
 
-" Clever-F
-let g:clever_f_fix_key_direction = 1
-
 " Vim-EasyClip
 let g:EasyClipShareYanks = 1
 let g:EasyClipShareYanksDirectory = expand('$HOME'). '/.config/nvim/easyclip'
@@ -221,8 +226,14 @@ let g:EasyClipUsePasteToggleDefaults = 0
 " UndoTree
 nnoremap <leader>u :UndotreeToggle<CR>
 
-" Ferret
-let g:FerretMap = 0
+" Vim-Grepper
+let g:grepper = {}
+let g:grepper.tools = ["rg"]
+runtime autoload/grepper.vim
+let g:grepper.jump = 1
+nnoremap <Leader>g :GrepperRg<Space>
+nnoremap gr :Grepper -cword -noprompt<CR>
+xmap gr <plug>(GrepperOperator)
 
 " fzf.vim
 set runtimepath+=$HOME/.fzf
@@ -238,8 +249,9 @@ let g:gutentags_modules = []
 if executable('ctags')
   let g:gutentags_modules += ['ctags']
 endif
-let g:gutentags_trace=0
+let g:gutentags_trace=1
 let g:gutentags_enabled=1
+let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
@@ -278,7 +290,10 @@ nmap ga <Plug>(EasyAlign)
 
 " Clever F
 let g:clever_f_across_no_line=1
-let g:clever_f_ignore_case=1
+let g:clever_f_smart_case=1
+let g:clever_f_fix_key_direction = 0
+map ; <Plug>(clever-f-repeat-forward)
+map , <Plug>(clever-f-repeat-back)
 
 " Fugitive
 nnoremap <leader>ga  :Git add %:p<CR><CR>
@@ -318,7 +333,7 @@ augroup General
   autocmd VimResized * wincmd =
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
   autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
-  autocmd BufWritePre * call AutoFormatFiles()
+  " autocmd BufWritePre * call AutoFormatFiles()
   autocmd BufReadPost fugitive://* set bufhidden=delete
   autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
         \   execute "normal! g`\"" |

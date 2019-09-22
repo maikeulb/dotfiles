@@ -2,16 +2,11 @@ call plug#begin('$HOME/.config/nvim/plugins')
 
 " Presentation
 Plug 'junegunn/seoul256.vim'
-Plug 'blueyed/vim-diminactive'
 Plug 'vim-airline/vim-airline'
+Plug 'blueyed/vim-diminactive'
 
-" Match
-Plug 'andymass/vim-matchup'
-
-" Readline
+" Readline/Command
 Plug 'tpope/vim-rsi'
-
-" Shell Commands
 Plug 'tpope/vim-eunuch'
 
 " Folds
@@ -33,22 +28,19 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'wellle/targets.vim'
 Plug 'chaoren/vim-wordmotion'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
 " Align
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 
 " Movement
+Plug 'andymass/vim-matchup'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'unblevable/quick-scope'
 
 " Repeat
 Plug 'tpope/vim-repeat'
-
-" Surround
-Plug 'tpope/vim-surround'
-
-" Comments
-Plug 'tpope/vim-commentary'
 
 " Notes / Prose
 Plug 'xolox/vim-notes'
@@ -64,8 +56,8 @@ Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'wincent/ferret'
 Plug 'romainl/vim-cool'
+Plug 'mhinz/vim-grepper'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
@@ -82,7 +74,6 @@ Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascri
 Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja' }
 Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
 Plug 'chrisbra/vim-zsh', { 'for': 'zsh' }
-Plug 'pearofducks/ansible-vim', {'for': 'ansible'}
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
 Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
@@ -94,7 +85,6 @@ Plug 'fsharp/vim-fsharp', {
       \}
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
-Plug 'dansomething/vim-eclim' 
 
 " Language - Utilities
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -109,6 +99,7 @@ Plug 'guns/vim-sexp', { 'for': 'clojure' }
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
 Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby' }
+Plug 'dansomething/vim-eclim', {'for': 'java' }
 
 " Completion / Tags
 Plug 'Raimondi/delimitMate'
