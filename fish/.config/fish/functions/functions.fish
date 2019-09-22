@@ -32,22 +32,6 @@ function package-install
     cat $HOME/dotfiles/packages/npmlist.txt | xargs npm install -g
 end
 
-function gpip
-    env PIP_REQUIRE_VIRTUALENV='' pip $argv
-end
-
-function gpip2
-    env PIP_REQUIRE_VIRTUALENV='' pip2 $argv
-end
-
-# function _venvactivate --on-event virtualenv_did_activate
-#     echo "The virtualenv \""(basename $VIRTUAL_ENV)"\" was activated"
-# end
-
-# function _venvdeactivate --on-event virtualenv_did_deactivate
-#     echo "The virtualenv \""(basename $VIRTUAL_ENV)"\" was deactivated"
-# end
-
 # }}}
 
 # {{{  FZF
@@ -70,7 +54,7 @@ end
 
 function falias --description 'FZF fish aliases'
     if count $argv > /dev/null
-        alias | ag $argv | fzf
+        alias | rg $argv | fzf
     else
         alias | fzf
     end
@@ -78,7 +62,7 @@ end
 
 function fbind --description 'FZF fish bindings'
     if count $argv > /dev/null
-        bind | ag $argv | fzf
+        bind | rg $argv | fzf
     else
         bind | fzf
     end
@@ -86,7 +70,7 @@ end
 
 function fgit --description 'FZF git aliases'
     if count $argv > /dev/null
-        git config --get-regexp alias | ag $argv | fzf
+        git config --get-regexp alias | rg $argv | fzf
     else
         git config --get-regexp alias | fzf
     end
@@ -94,7 +78,7 @@ end
 
 function ftkeys --description 'FZF Tmux keys'
     if count $argv > /dev/null
-        command tmux list-keys | ag $argv | fzf
+        command tmux list-keys | rg $argv | fzf
     else
         command tmux list-keys | fzf
     end
@@ -196,14 +180,9 @@ function chpwd --on-variable PWD
 end
 
 # cat
-function ccat
-    pygmentize -g $argv
+function cat
+    bat $argv
 end
-
-# less
-function cless
-    pygmentize -g $argv | less -R
-end    
 
 # tree
 function tree
@@ -214,7 +193,7 @@ end
 # Use exa instead of ls
 function ls
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv"
+  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" $argv
 end
 
 # Use exa instead of lsa

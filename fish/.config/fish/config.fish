@@ -5,10 +5,7 @@ set -x XDG_CONFIG_HOME $HOME/.config
 set -x TERM screen-256color
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
-set -x PIP_REQUIRE_VIRTUALENV 0
-set -x FZF_LEGACY_KEYBINDINGS 0
-set -x FZF_DEFAULT_OPTS "--height 10"
-set -x FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
+
 set -x LESS_TERMCAP_me (printf "\e[0m")
 set -x LESS_TERMCAP_se (printf "\e[0m")
 set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
@@ -18,6 +15,19 @@ set -x LESS " -RiF "
 set -x TODO $HOME/Dropbox/todo/
 set -x BBHOME $HOME/Birchbox
 set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
+
+set -x FZF_LEGACY_KEYBINDINGS 0
+set -x FZF_DEFAULT_OPTS "--height 40"
+set -x FZF_DEFAULT_COMMAND "rg --files --hidden --smart-case"
+set -x RIPGREP_CONFIG_PATH "$HOME/.rgrc"
+
+set -x CHEAT_USER_DIR $HOME/cheat
+set -x CHEAT_COLORS true
+set -x CHEAT_EDITOR nvim
+
+set -x REVIEW_BASE master
+
+set -x PATH /Users/michael.barnes/Library/Python/3.7/bin $PATH
 
 # source develoment credentials (BIRCHBOX)
 if test -e $HOME/.dev.env.fish
@@ -76,8 +86,6 @@ end
 if test -d $HOME/.npm-packages/bin
   set -x NPM_PACKAGES $HOME/.npm-packages
   set -x PATH $NPM_PACKAGES/bin $PATH
-  # set -x NPM_CONFIG_PREFIX $HOME/.npm-packages
-  # set -x MANPATH $NPM_PACKAGES/share/man (manpath)
   set -x NODE_PATH $NPM_PACKAGES/lib/node_modules $NODE_PATH
 end
 
@@ -88,21 +96,21 @@ if test -d $HOME/.go
   set -x PATH $GOROOT/bin $PATH
 end
 
-# Add pyenv to Path
-if test -e $HOME/.pyenv/bin/pyenv
-  set -xg PATH $PATH $HOME/.pyenv/bin
-  set -xg PYENV_ROOT $HOME/.pyenv
-end
+# # Add pyenv to Path
+# if test -e $HOME/.pyenv/bin/pyenv
+#   set -xg PATH $PATH $HOME/.pyenv/bin
+#   set -xg PYENV_ROOT $HOME/.pyenv
+# end
 
-# If pyenv exists then run it
-set pyenv_exists (which pyenv)
-if [ $pyenv_exists ];  test -x $pyenv_exists
-  source (pyenv init - --no-rehash | psub)
-  source (pyenv virtualenv-init - | psub)
-  if test -z "$VIMRUNTIME"
-    pyenv rehash
-  end
-end
+# # If pyenv exists then run it
+# set pyenv_exists (which pyenv)
+# if [ $pyenv_exists ];  test -x $pyenv_exists
+#   source (pyenv init - --no-rehash | psub)
+#   source (pyenv virtualenv-init - | psub)
+#   if test -z "$VIMRUNTIME"
+#     pyenv rehash
+#   end
+# end
 
 # }}}
 
@@ -112,6 +120,7 @@ end
 # alias tmux='tmux new-session -A -s main'
 alias todo '$HOME/.src/todo.txt_cli-2.9/todo.sh'
 
+alias nvimdiff='nvim -d'
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
 alias nv='nvim'
@@ -119,12 +128,12 @@ alias etd='nvim $TODO/todo.txt'
 alias ei3='nvim $HOME/.config/i3/config'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/functions/functions.fish $HOME/.config/fish/functions/bb_functions.fish'
 alias ev='nvim $HOME/.vimrc'
+alias evim='cheat -e vim'
 alias et='nvim $HOME/.tmux.conf'
 alias en='nvim $HOME/.config/nvim/init.vim $HOME/.config/nvim/plugs.vim $HOME/.config/nvim/functions.vim'
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
 alias ewp='nvim $PROJECT_HOME/webpack.config.js'
-alias whattimeisit='date +%r'
 alias getdate='date "+%Y%m%d%H%M%S"'
 
 alias cdg='cd (git rev-parse --show-toplevel)'
@@ -133,10 +142,8 @@ alias nlist='npm list -g --depth=0'
 alias plist='pip freeze --local'
 alias glist='gem list --local'
 
-alias ag='ag --path-to-ignore ~/.ignore'
-
 alias restartnet='sudo /etc/init.d/networking restart; and sudo dhclient' # hacky dhclient solution
-alias listen='netstat -anp tcp | ag listen'
+alias listen='netstat -anp tcp | rg listen'
 
 # }}}
 
