@@ -67,7 +67,11 @@ if has('persistent_undo')
 endif
 
 if executable('ag')
-  set grepprg=ag
+  set grepprg=ag\ --nogroup\ --nocolor
+  set grepformat=%f:%l:%c:%m
+endif
+if executable('rg')
+  set grepprg=rg\ --smart-case
   set grepformat=%f:%l:%c:%m
 endif
 
@@ -228,12 +232,13 @@ nnoremap <leader>u :UndotreeToggle<CR>
 
 " Vim-Grepper
 let g:grepper = {}
-let g:grepper.tools = ["rg"]
-runtime autoload/grepper.vim
-let g:grepper.jump = 1
-nnoremap <Leader>g :GrepperRg<Space>
-nnoremap gr :Grepper -cword -noprompt<CR>
-xmap gr <plug>(GrepperOperator)
+let g:grepper.tools = ['rg']
+let g:grepper.simple_prompt = 1
+let g:grepper.quickfix = 1
+let g:grepper.highlight = 1
+nnoremap <Leader>G :Grepper -tool rg<CR>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
 
 " fzf.vim
 set runtimepath+=$HOME/.fzf
