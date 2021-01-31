@@ -30,6 +30,9 @@ Plug 'chaoren/vim-wordmotion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'kana/vim-textobj-user'
+Plug 'glts/vim-textobj-comment'
+Plug 'PeterRincker/vim-argumentative'
 
 " Align
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -61,6 +64,9 @@ Plug 'mhinz/vim-grepper'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+Plug 'google/vim-glaive'
 
 " Command Runners
 Plug 'tpope/vim-dispatch' | Plug 'radenling/vim-dispatch-neovim'
@@ -79,10 +85,10 @@ Plug 'freitass/todo.txt-vim', {'for': 'todo'}
 Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
 " Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
-Plug 'fsharp/vim-fsharp', {
-      \ 'for': 'fsharp',
-      \ 'do':  'make fsautocomplete',
-      \}
+" Plug 'fsharp/vim-fsharp', {
+      " \ 'for': 'fsharp',
+      " \ 'do':  'make fsautocomplete',
+      " \}
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 
@@ -110,3 +116,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'svermeulen/vim-easyclip'
 
 call plug#end()
+call glaive#Install()
+Glaive codefmt plugin[mappings]
+Glaive codefmt google_java_executable="java -jar /Users/michael.barnes/Downloads/google-java-format-1.7-all-deps.jar"

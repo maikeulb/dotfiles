@@ -179,33 +179,33 @@ function chpwd --on-variable PWD
   ls
 end
 
-# cat
-function cat
-    bat $argv
-end
+# # cat
+# function cat
+#     bat $argv
+# end
 
 # tree
 function tree
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -T
+  --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -T
 end
 
 # Use exa instead of ls
 function ls
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" $argv
+  --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" $argv
 end
 
 # Use exa instead of lsa
 function la
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -a
+  --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -a
 end
 
 # Use exa instead of ls1
 function l1
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
-  --ignore-glob="bin|obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -1
+  --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -1
 end
 
 # }}}
@@ -254,9 +254,17 @@ function put
     cp (cat ~/.buffer) ./
 end
 
+function mput
+    mv (cat ~/.buffer) ./
+end
+
 function docker-stop-and-remove-all
     docker stop (docker ps -aq)
     docker rm (docker ps -aq)
+end
+
+function docker-remove-all-dangling-images
+    docker rmi -f (docker images -f "dangling=true" -q)
 end
 
 # }}}

@@ -81,6 +81,7 @@ set foldlevelstart=20
 
 " }}}
 
+
 " Mappings {{{
 
 let g:mapleader = "\<Space>"
@@ -122,7 +123,7 @@ nnoremap <leader>"  :split<CR>
 nnoremap <leader>%  :vsplit<CR>
 nnoremap <leader>c  :enew<CR>
 
-nnoremap <silent> <leader>cn :cnext<CR>
+nnoremap <silent> <leader>cp :cnext<CR>
 nnoremap <silent> <leader>cp :cprevious<CR>
 nnoremap <silent> <leader>ln :lnext<CR>
 nnoremap <silent> <leader>lp :lprevious<CR>
@@ -142,6 +143,10 @@ nnoremap <leader>sv  :source $MYVIMRC<CR>
 nnoremap <leader>en  :edit $MYVIMRC<CR>
 nnoremap <leader>etd :edit $HOME/Dropbox/todo/todo.txt<CR>
 nnoremap <leader>ea  :edit $APPLICATION_YML/application.yml<CR>
+
+nnoremap <leader>fc :FormatCode<CR>
+nnoremap <leader>dc :TrimComments<CR>
+nnoremap <leader>ab ysii}<CR>
 
 inoremap jj <Esc>
 inoremap <C-w> <C-g>u<C-w>
@@ -254,8 +259,8 @@ let g:gutentags_modules = []
 if executable('ctags')
   let g:gutentags_modules += ['ctags']
 endif
-let g:gutentags_trace=1
-let g:gutentags_enabled=1
+let g:gutentags_trace=0
+let g:gutentags_enabled=0
 let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)

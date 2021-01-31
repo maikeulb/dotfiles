@@ -31,8 +31,9 @@ set -x PATH /Users/michael.barnes/Library/Python/3.7/bin $PATH
 
 # source develoment credentials (BIRCHBOX)
 if test -e $HOME/.dev.env.fish
-  # source $HOME/.dev.env.fish
-  source $HOME/.dev.env.mike.fish
+  source $HOME/.dev.env.fish
+  # source $HOME/.dev.env.uk.fish
+  # source $HOME/.dev.env.mike.fish
   load_dev_env_variables
 end
 

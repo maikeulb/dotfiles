@@ -118,3 +118,31 @@ function! JumpInFile(back, forw)
     sil! exe 'norm!1' . a:forw
   endwhile
 endfunction
+
+" Remove all comments
+function! RemoveAllComments()
+  let l:initial = winnr()
+  execute 1 . 'wincmd w'
+  wincmd l
+  if winnr() != 1
+    wincmd J
+  else
+    wincmd H
+  endif
+  execute l:initial . 'wincmd w'
+endfunction
+
+function! TrimWhitespace()
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
+function! TrimComments()
+  " :g/^\/\//norm D
+  " :g/^\/\//norm D
+  " :g/^\s*#\|\/\//d
+  :g/^\s*\/\//d
+  " :g/^\s*\/d
+endfunction
+command! TrimComments call TrimComments()
