@@ -1,7 +1,8 @@
 call plug#begin('$HOME/.config/nvim/plugins')
 
 " Presentation
-Plug 'junegunn/seoul256.vim'
+" Plug 'junegunn/seoul256.vim'
+Plug 'dracula/vim',{'as':'dracula'}
 Plug 'vim-airline/vim-airline'
 Plug 'blueyed/vim-diminactive'
 
@@ -20,6 +21,7 @@ Plug 'romainl/vim-qf'
 " Navigation
 Plug 'justinmk/vim-dirvish'
 Plug 'rhysd/clever-f.vim'
+Plug 'pechorin/any-jump.vim'
 
 " Undo
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -57,7 +59,7 @@ Plug 'rhysd/committia.vim'
 
 " Search and Replace
 Plug 'tpope/vim-abolish'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-cool'
 Plug 'mhinz/vim-grepper'
@@ -76,15 +78,9 @@ Plug 'w0rp/ale'
 
 " Language - Syntax
 Plug 'sheerun/vim-polyglot'
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja' }
-Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
-Plug 'chrisbra/vim-zsh', { 'for': 'zsh' }
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'freitass/todo.txt-vim', {'for': 'todo'}
 Plug 'OrangeT/vim-csharp', {'for': ['cshtml.html', 'csharp']}
-" Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript'}
 " Plug 'fsharp/vim-fsharp', {
       " \ 'for': 'fsharp',
       " \ 'do':  'make fsautocomplete',
@@ -101,9 +97,6 @@ Plug 'alvan/vim-closetag', { 'for': ['html', 'jinja2', 'css'] }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'avakhov/vim-yaml', { 'for': 'yaml' }
-Plug 'guns/vim-sexp', { 'for': 'clojure' }
-Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
-Plug 'junegunn/rainbow_parentheses.vim', { 'for': 'clojure' }
 Plug 'tpope/vim-endwise', { 'for': 'ruby' }
 Plug 'dansomething/vim-eclim', {'for': 'java' }
 
@@ -118,4 +111,4 @@ Plug 'svermeulen/vim-easyclip'
 call plug#end()
 call glaive#Install()
 Glaive codefmt plugin[mappings]
-Glaive codefmt google_java_executable="java -jar /Users/michael.barnes/Downloads/google-java-format-1.7-all-deps.jar"
+Glaive codefmt google_java_executable="java -jar /Users/michaelbarnes/Downloads/google-java-format-1.7-all-deps.jar"

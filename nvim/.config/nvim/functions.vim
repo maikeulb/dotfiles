@@ -14,7 +14,6 @@ function! LocationListToggle()
   endif
 endfunction
 
-
 " Quickfix Toggle
 command! QuickfixToggle call QuickfixToggle()
 function! QuickfixToggle()

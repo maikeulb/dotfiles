@@ -231,19 +231,8 @@ end
 
 # {{{  Misc
 
-function nn
-    nvim +edit note:$argv
-end
-
 function reload
     source $HOME/.config/fish/config.fish
-end
-
-function fishtime
-    set start (date "+%s.%N")
-    reload
-    set end (date "+%s.%N")
-    eval math $end-$start
 end
 
 function yank
@@ -258,13 +247,11 @@ function mput
     mv (cat ~/.buffer) ./
 end
 
-function docker-stop-and-remove-all
-    docker stop (docker ps -aq)
-    docker rm (docker ps -aq)
-end
-
-function docker-remove-all-dangling-images
-    docker rmi -f (docker images -f "dangling=true" -q)
+function tag
+    set -x TAG_SEARCH_PROG ag  # replace with rg for ripgrep
+    set -q TAG_ALIAS_FILE; or set -l TAG_ALIAS_FILE /tmp/tag_aliases
+    command tag $argv; and source $TAG_ALIAS_FILE ^/dev/null
+    alias ag tag  # replace with rg for ripgrep
 end
 
 # }}}

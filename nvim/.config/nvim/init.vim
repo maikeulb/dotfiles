@@ -55,8 +55,10 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
 if has('nvim')
-  let g:python_host_prog = expand('$HOME'). '/.pyenv/shims/python'
-  let g:python3_host_prog = expand('$HOME'). '/.pyenv/shims/python3'
+  " let g:python_host_prog = expand('$HOME'). '/.pyenv/shims/python'
+  " let g:python3_host_prog = expand('$HOME'). '/.pyenv/shims/python3'
+  let g:python_host_prog = '/usr/local/bin/python'
+  let g:python3_host_prog = '/usr/local/bin/python3'
 endif
 
 if has('persistent_undo')
@@ -112,6 +114,7 @@ nnoremap ss a<space><Esc>h
 nnoremap SS i<space><Esc>h
 nnoremap od 0D
 
+nnoremap <leader>J :!java %
 nnoremap <leader>* *``cgn
 nnoremap <leader># #``cgN
 nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
@@ -189,8 +192,9 @@ nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
 source ~/.config/nvim/plugs.vim
 
 " Color
-let g:seoul256_background = 233
-colorscheme seoul256
+" let g:seoul256_background = 233
+" colorscheme seoul256
+colorscheme dracula
 
 highlight Normal guibg=none
 highlight NonText guibg=none
@@ -265,7 +269,7 @@ let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".g
 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-nnoremap <silent> <C-f>       :Files<CR>
+nnoremap <silent> <C-f>       :GFiles<CR>
 nnoremap <silent> <C-_>       :BLines<CR>
 nnoremap <silent> <C-t>       :Tags<CR>
 nnoremap <silent> <C-b>       :Buffers<CR>

@@ -43,7 +43,7 @@ function proxy-off
 end
 
 function bbms-stg-forward
-    ssh -NL 4200:bbms-stg.pvt.nyc2.birchbox.com:80 michaelbarnes@sys0.nyc2.birchbox.com
+    ssh -NL 4201:bbms-stg.pvt.nyc2.birchbox.com:80 michaelbarnes@sys0.nyc2.birchbox.com
 end
 
 function bbms-prod-forward
@@ -103,7 +103,8 @@ function product-dev-rmq-forward
 end
 
 function solr_forward
-    ssh -A web6.nyc2.birchbox.com -L8080:solr.pvt.nyc2.birchbox.com:8080
+    # ssh -A web6.nyc2.birchbox.com -L8080:solr.pvt.nyc2.birchbox.com:8080
+    ssh -NL 8080:solr.pvt.nyc2.birchbox.com:8080 web6.nyc2.birchbox.com
 end
 
 function bbms-stage-rmq-forward
