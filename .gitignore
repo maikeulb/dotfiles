@@ -1,9 +1,16 @@
-nvim/.config/nvim/undodir/
 nvim/.config/nvim/.netrwhist
+nvim/.config/nvim/undodir/
 nvim/.config/nvim/easyclip/
 nvim/.config/nvim/ftdetect/
 nvim/.config/nvim/ftplugin/envrc.vim
 nvim/.config/nvim/plugins/
 nvim/.config/nvim/syntax/
+
+vim/.vim/undodir/
+vim/.vim/easyclip/
+vim/.vim/ftdetect/
+vim/.vim/ftplugin/envrc.vim
+vim/.vim/plugins/
+vim/.vim/syntax/
 .DS_Store
 tags
