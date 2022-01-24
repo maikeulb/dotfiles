@@ -100,19 +100,6 @@ function! JumpInFile(back, forw)
   endwhile
 endfunction
 
-" Remove all comments
-function! RemoveAllComments()
-  let l:initial = winnr()
-  execute 1 . 'wincmd w'
-  wincmd l
-  if winnr() != 1
-    wincmd J
-  else
-    wincmd H
-  endif
-  execute l:initial . 'wincmd w'
-endfunction
-
 function! TrimWhitespace()
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
