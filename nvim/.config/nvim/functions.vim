@@ -29,24 +29,6 @@ function! QuickfixToggle()
   endif
 endfunction
 
-" Terminal Toggle
-if has('nvim')
-  command! TerminalToggle call TerminalToggle()
-  let s:termbuf = 0
-  function! TerminalToggle()
-    botright 10 split
-    try
-      execute 'buffer' . s:termbuf
-      startinsert
-    catch
-      " terminal
-      let s:termbuf = bufnr('%')
-      tnoremap <buffer> <leader>te  <C-\><C-n>:close<CR>
-    endtry
-  endfunction
-  nnoremap <leader>te :TerminalToggle<CR>
-endif
-
 " Smart paste mode
 function! WrapForTmux(s)
   if !exists('$TMUX')

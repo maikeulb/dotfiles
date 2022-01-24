@@ -221,9 +221,6 @@ let g:EasyClipShareYanksDirectory = expand('$HOME'). '/.vim/easyclip'
 let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
 
-" UndoTree
-nnoremap <leader>u :UndotreeToggle<CR>
-
 " Vim-Grepper
 let g:grepper = {}
 let g:grepper.tools = ['rg']
@@ -262,7 +259,7 @@ nnoremap <silent> <C-g>       :Ag<CR>
 nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
 
-" " Autoformat
+" Autoformat
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
@@ -352,6 +349,11 @@ endfun
 augroup AutoFormatFileExtensions
   autocmd!
   autocmd BufEnter *.fsproj | setlocal noAutoFormat=1
+augroup END
+
+augroup Skeleton
+  autocmd!
+  autocmd BufNewFile *.java 0r ~/.config/nvim/skeletons/skeleton.java
 augroup END
 
 augroup filetypedetect

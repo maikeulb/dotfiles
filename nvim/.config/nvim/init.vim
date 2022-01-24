@@ -266,7 +266,7 @@ nnoremap <silent> <C-g>       :Ag<CR>
 nnoremap <silent> <leader>M   :Maps<CR>
 nnoremap <silent> <leader>C   :Commands<CR>
 
-" " Autoformat
+" Autoformat
 let g:autoformat_autoindent = 0
 let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 0
@@ -359,7 +359,8 @@ augroup AutoFormatFileExtensions
 augroup END
 
 augroup Skeleton
-  autocmd BufNewFile *.java 0r ~/.config/nvim/skeletons/skeletons/skeletons.java
+  autocmd!
+  autocmd BufNewFile *.java 0r ~/.config/nvim/skeletons/skeleton.java
 augroup END
 
 augroup filetypedetect
