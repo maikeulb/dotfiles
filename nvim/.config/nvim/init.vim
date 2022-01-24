@@ -55,8 +55,6 @@ set wildignore+=*.swp,*~,._*
 set wildignore+=.DS_Store
 
 if has('nvim')
-  " let g:python_host_prog = expand('$HOME'). '/.pyenv/shims/python'
-  " let g:python3_host_prog = expand('$HOME'). '/.pyenv/shims/python3'
   let g:python_host_prog = '/usr/local/bin/python'
   let g:python3_host_prog = '/usr/local/bin/python3'
 endif
@@ -144,8 +142,6 @@ nnoremap <leader>ef  :edit $HOME/.config/fish/config.fish<CR>
 nnoremap <leader>eg  :edit $HOME/.gitconfig<CR>
 nnoremap <leader>sv  :source $MYVIMRC<CR>
 nnoremap <leader>en  :edit $MYVIMRC<CR>
-nnoremap <leader>etd :edit $HOME/Dropbox/todo/todo.txt<CR>
-nnoremap <leader>ea  :edit $APPLICATION_YML/application.yml<CR>
 
 nnoremap <leader>fc :FormatCode<CR>
 nnoremap <leader>dc :TrimComments<CR>
@@ -170,6 +166,7 @@ nnoremap <leader>p :set paste<CR>"+p:set nopaste<CR>
 nnoremap <leader>P :set paste<CR>"+P:set nopaste<CR>
 vnoremap <leader>p :set paste<CR>"+p:set nopaste<CR>
 vnoremap <leader>P :set paste<CR>"+P:set nopaste<CR>
+
 " }}}
 
 
@@ -222,10 +219,6 @@ let g:airline_right_sep = ' '
 
 " Dirvish
 nnoremap <silent>- :Dirvish<CR>
-
-" Vim-Notes
-let g:notes_directories = [expand('$HOME'). '/Dropbox/notes']
-let g:notes_suffix = '.txt'
 
 " Vim-Maximizer
 nnoremap <silent> <C-z> :MaximizerToggle<CR>
@@ -284,19 +277,11 @@ let g:autoformat_remove_trailing_spaces = 0
 let g:autoformat_verbosemode = 0
 " " format paragraph with gq
 
-" Vim-go
-let g:go_fmt_autosave=0
-
 " Ale
 nmap <c-n> <Plug>(ale_next_wrap)
 nmap <c-p> <Plug>(ale_previous_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-
-" Vim-virtualenv
-let g:virtualenv_auto_activate = 1
-let g:virtualenv_stl_format = '[%n]'
-let g:virtualenv_directory = $WORKON_HOME
 
 " Easy Align
 xmap ga <Plug>(EasyAlign)
@@ -326,16 +311,6 @@ nnoremap <leader>go  :Git checkout<Space>
 nnoremap <leader>gp  :Dispatch! git push<CR>
 nnoremap <leader>gu  :Dispatch! git pull<CR>
 
-" Committia
-let g:committia_hooks = {}
-function! g:committia_hooks.edit_open(info)
-  setlocal spell
-
-  if a:info.vcs ==# 'git' && getline(1) ==# ''
-      startinsert
-  endif
-endfunction
-
 " }}}
 
 
@@ -357,7 +332,7 @@ augroup General
   autocmd FocusLost,WinLeave * :silent! noautocmd w
 augroup END
 
-augroup Working_Directory
+augroup WorkingDirectory
   autocmd!
   autocmd BufLeave * let b:last_cwd = getcwd()
   autocmd BufEnter * if exists('b:last_cwd') |
