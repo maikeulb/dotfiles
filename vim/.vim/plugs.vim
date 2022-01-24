@@ -1,7 +1,11 @@
 call plug#begin('$HOME/.vim/plugins')
 
+" Basic
+Plug 'tpope/vim-sensible'
+
 " Presentation
 Plug 'dracula/vim',{'as':'dracula'}
+Plug 'nanotech/jellybeans.vim',{'as':'jellybeans'}
 Plug 'vim-airline/vim-airline'
 Plug 'blueyed/vim-diminactive'
 

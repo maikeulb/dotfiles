@@ -22,7 +22,6 @@ set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
 set iskeyword-=.,#,-,~
-" set synmaxcol=128
 set pumheight=15
 set fillchars+=vert:\
 set completeopt-=preview
@@ -229,9 +228,6 @@ let g:EasyClipShareYanksDirectory = expand('$HOME'). '/.config/nvim/easyclip'
 let g:EasyClipShareYanksFile = 'easyclip'
 let g:EasyClipUsePasteToggleDefaults = 0
 
-" UndoTree
-nnoremap <leader>u :UndotreeToggle<CR>
-
 " Vim-Grepper
 let g:grepper = {}
 let g:grepper.tools = ['rg']
@@ -282,10 +278,6 @@ nmap <c-n> <Plug>(ale_next_wrap)
 nmap <c-p> <Plug>(ale_previous_wrap)
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
-
-" Easy Align
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
 
 " Clever F
 let g:clever_f_across_no_line=1
@@ -364,6 +356,10 @@ endfun
 augroup AutoFormatFileExtensions
   autocmd!
   autocmd BufEnter *.fsproj | setlocal noAutoFormat=1
+augroup END
+
+augroup Skeleton
+  autocmd BufNewFile *.java 0r ~/.config/nvim/skeletons/skeletons/skeletons.java
 augroup END
 
 augroup filetypedetect

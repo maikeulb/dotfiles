@@ -22,7 +22,6 @@ set scrolloff=1
 set sidescrolloff=5
 set shortmess+=filmnrxoOtT
 set iskeyword-=.,#,-,~
-" set synmaxcol=128
 set pumheight=15
 set fillchars+=vert:\
 set completeopt-=preview
@@ -184,7 +183,7 @@ nnoremap <silent> <c-i> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
 source ~/.vim/plugs.vim
 
 " Color
-colorscheme dracula
+colorscheme jellybeans
 
 highlight Normal guibg=none
 highlight NonText guibg=none
