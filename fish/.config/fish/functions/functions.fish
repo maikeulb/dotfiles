@@ -179,11 +179,6 @@ function chpwd --on-variable PWD
   ls
 end
 
-# # cat
-# function cat
-#     bat $argv
-# end
-
 # tree
 function tree
   exa --group-directories-first --sort=extension -G --color always --git-ignore \

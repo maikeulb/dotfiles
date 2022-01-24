@@ -201,8 +201,8 @@ highlight NonText ctermbg=none
 " Vim-diminactive
 let g:diminactive_enable_focus = 1
 
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#completion_delay = 1
+" let g:mucomplete#enable_auto_at_startup = 1
+" let g:mucomplete#completion_delay = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1

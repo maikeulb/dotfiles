@@ -1,4 +1,4 @@
-call plug#begin('$HOME/.config/nvim/plugins')
+call plug#begin('$HOME/.vim/plugins')
 
 " Presentation
 Plug 'dracula/vim',{'as':'dracula'}
@@ -77,7 +77,7 @@ Plug 'avakhov/vim-yaml', { 'for': 'yaml' }
 
 " Completion / Tags
 Plug 'Raimondi/delimitMate'
-" Plug 'lifepillar/vim-mucomplete'
+Plug 'lifepillar/vim-mucomplete'
 Plug 'ludovicchabant/vim-gutentags'
 
 " Yank

@@ -234,38 +234,3 @@ function test_unsub
 end
 
 # }}}
-
-# {{{ Mage stuff
-
-function arrowToDot
-    sd '\->' '.' $argv
-    sd 'NULL' 'null' $argv
-end
-
-function stripComments
-    gsed -i 's://.*$::g' $argv
-end
-
-function snakeToCamel
-    gsed -r -i 's/_([a-z])/\U\1/gi' $argv                                         
-    gsed -r -i 's/^([A-Z])/\l\1/' $argv 
-    sd 'MAXVALUE' 'MAX_VALUE' $argv
-    sd 'MINVALUE' 'MIN_VALUE' $argv
-end
-
-function importJavaUtil
-    gsed -i '1s/^/import java.util.*;\n/' $argv
-    gsed -i '/import java.io.*;/d' $argv
-end
-
-function formatCode
-    nvim -c ":FormatCode" -c 'wqa!' $argv
-end
-
-function GFGToSolution
-    sd 'class GFG' 'class Solution' $argv
-    sd 'class gfg' 'class Solution' $argv
-    sd 'class GfG' 'class Solution' $argv
-end
-
-# }}}
