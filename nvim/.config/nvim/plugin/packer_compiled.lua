@@ -81,11 +81,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/SimpylFold",
     url = "https://github.com/tmhedberg/SimpylFold"
   },
-  ale = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/ale",
-    url = "https://github.com/w0rp/ale"
-  },
   ["any-jump.vim"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/any-jump.vim",
@@ -95,6 +90,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/braceless.vim",
     url = "https://github.com/tweekmonster/braceless.vim"
+  },
+  catppuccin = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/catppuccin",
+    url = "https://github.com/catppuccin/nvim"
   },
   ["clever-f.vim"] = {
     loaded = true,
@@ -132,6 +132,16 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/goyo.vim",
     url = "https://github.com/junegunn/goyo.vim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["nvim-jdtls"] = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
+    url = "https://github.com/mfussenegger/nvim-jdtls"
   },
   ["nvim-lsp-installer"] = {
     loaded = true,
@@ -182,11 +192,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-abolish",
     url = "https://github.com/tpope/vim-abolish"
-  },
-  ["vim-airline"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-airline",
-    url = "https://github.com/vim-airline/vim-airline"
   },
   ["vim-argumentative"] = {
     loaded = true,
@@ -259,11 +264,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-grepper",
     url = "https://github.com/mhinz/vim-grepper"
-  },
-  ["vim-gutentags"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-gutentags",
-    url = "https://github.com/ludovicchabant/vim-gutentags"
   },
   ["vim-indent-object"] = {
     loaded = true,
@@ -360,11 +360,11 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType charp ++once lua require("packer.load")({'vim-csharp'}, { ft = "charp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType py ++once lua require("packer.load")({'vim-virtualenv', 'SimpylFold'}, { ft = "py" }, _G.packer_plugins)]]
-vim.cmd [[au FileType yaml ++once lua require("packer.load")({'vim-yaml'}, { ft = "yaml" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'SimpylFold', 'vim-virtualenv'}, { ft = "python" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-pencil', 'goyo.vim'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType charp ++once lua require("packer.load")({'vim-csharp'}, { ft = "charp" }, _G.packer_plugins)]]
+vim.cmd [[au FileType yaml ++once lua require("packer.load")({'vim-yaml'}, { ft = "yaml" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'goyo.vim', 'vim-pencil'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

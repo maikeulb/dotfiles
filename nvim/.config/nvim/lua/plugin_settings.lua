@@ -21,21 +21,17 @@ end
 -- Map leader to space
 vim.g.mapleader = ' ' -- Map <Space> to leader
 
+-- Colorscheme
+vim.cmd[[colorscheme dracula]]
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+]]
+
 -- Vim-diminactive
 g.diminactive_enable_focus = 1
-
--- Airline
-g['airline#extensions#tabline#enabled'] = 1
-g['airline#extensions#tmuxline#enabled'] = 1
-g['airline#extensions#promptline#enabled'] = 1
-g['airline#extensions#ale#enabled'] = 1
-g['airline_inactive_collapse'] = 1
-g['airline_section_y'] = ''
-g['airline_section_z'] = "airline#section#create(['windowswap', 'obsession', '%3p%%'.g:airline_symbols.space, 'linenr', 'maxlinenr', g:airline_symbols.space.'%2.3c%-.3V'])"
-g['airline_detect_crypt'] = 0
-g['airline_theme'] = 'dark'
-g['airline_left_sep'] = ' '
-g['airline_right_sep'] = ' '
 
 -- Dirvish
 nmap("-", ":Dirvish")
@@ -45,7 +41,7 @@ nmap("<C-z>", ":MaximizerToggle")
 
 -- Vim-EasyClip
 g.EasyClipShareYanks = 1
-g.EasyClipShareYanksDirectory = "expand('$HOME'). '/.config/nvim/easyclip'"
+g.EasyClipShareYanksDirectory = "$HOME/.config/nvim/easyclip"
 g.EasyClipShareYanksFile = 'easyclip'
 g.EasyClipUsePasteToggleDefaults = 0
 
@@ -96,9 +92,3 @@ g.clever_f_smart_case = 1
 g.clever_f_fix_key_direction = 0
 nmap(";", "<Plug>(clever-f-repeat-forward)")
 nmap(",", "<Plug>(clever-f-repeat-back)")
-
--- Ale
-g.ale_lint_on_text_changed = 'never'
-g.ale_lint_on_enter = 0
-nmap("<c-n>", "<Plug>(ale_next_wrap)")
-nmap("<c-p>", "<Plug>(ale_previous_wrap)")

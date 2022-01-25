@@ -2,6 +2,7 @@ local set = vim.opt
 local g = vim.g
 local fn = vim.fn
 
+set.termguicolors = false
 set.swapfile = false
 
 -- Ignore the case when the search pattern is all lowercase
@@ -136,16 +137,6 @@ set.undodir = undo_dir
 set.undofile = true
 set.undolevels = 10000
 set.undoreload = 10000
-
--- Colorscheme
-vim.cmd [[
-  colorscheme dracula
-
-  highlight Normal guibg=none
-  highlight NonText guibg=none
-  highlight Normal ctermbg=none
-  highlight NonText ctermbg=none
-]]
 
 -- A pattern that is used to recognize a list header.  
 -- set.flp='^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*'

@@ -37,17 +37,22 @@ return packer.startup(function(use)
   use "nvim-lua/plenary.nvim"
 
   -- Treesitter
-  use 'nvim-treesitter/nvim-treesitter'
+  use {
+      'nvim-treesitter/nvim-treesitter',
+      run = ':TSUpdate'
+  }
 
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'nvim-lua/completion-nvim'
   use 'anott03/nvim-lspinstall'
+  use 'mfussenegger/nvim-jdtls'
 
   -- Presentation
+  use({ "catppuccin/nvim", as = "catppuccin" })
   use {'dracula/vim', as = 'dracula'}
-  use 'vim-airline/vim-airline'
+  use 'nvim-lualine/lualine.nvim'
   use 'blueyed/vim-diminactive'
 
   -- Command
@@ -102,28 +107,21 @@ return packer.startup(function(use)
   -- Command Runners
   use 'radenling/vim-dispatch-neovim'
 
-  -- Linters
-  use 'w0rp/ale'
-
   -- Language - Syntax
   use 'sheerun/vim-polyglot'
   use {'tmux-plugins/vim-tmux', ft = 'tmux'}
   use {'OrangeT/vim-csharp', ft = 'charp'}
 
   -- Language - Utilities
-  -- use {'jmcantrell/vim-virtualenv', ft = 'py'}
-  -- use {'tweekmonster/braceless.vim', ft = 'py'}
-  -- use {'tmhedberg/SimpylFold', ft = 'py'}
   use 'tweekmonster/braceless.vim'
-  use {'jmcantrell/vim-virtualenv', ft = 'py'}
-  use {'tmhedberg/SimpylFold', ft = 'py'}
+  use {'jmcantrell/vim-virtualenv', ft = 'python'}
+  use {'tmhedberg/SimpylFold', ft = 'python'}
   use {'junegunn/goyo.vim', ft = 'markdown'}
   use {'reedes/vim-pencil', ft = 'markdown'}
   use {'avakhov/vim-yaml', ft = 'yaml'}
 
   -- Completion - Tags
   use 'Raimondi/delimitMate'
-  -- use 'ludovicchabant/vim-gutentags'
 
   -- Yank
   use 'svermeulen/vim-easyclip'
