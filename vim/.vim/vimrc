@@ -1,6 +1,7 @@
 " Settings {{{
 
 " General
+
 set title
 set hidden
 set gdefault
@@ -40,6 +41,7 @@ set flp=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 if has('clipit')
   set clipboard=unnamed
 endif
+
 highlight ColorColumn ctermbg=233
 highlight ColorColumn ctermbg=0 guibg=#eee8d5
 
