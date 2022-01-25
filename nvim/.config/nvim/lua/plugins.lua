@@ -49,22 +49,22 @@ return packer.startup(function(use)
   use 'anott03/nvim-lspinstall'
   use 'mfussenegger/nvim-jdtls'
 
+  -- ColorScheme
+  use {'folke/tokyonight.nvim', as = 'tokyonight'}
+  use 'shaeinst/roshnivim-cs'
+  use 'norcalli/nvim-colorizer.lua'
+  
   -- Presentation
-  use({ "catppuccin/nvim", as = "catppuccin" })
-  use {'dracula/vim', as = 'dracula'}
   use 'nvim-lualine/lualine.nvim'
   use 'blueyed/vim-diminactive'
-
-  -- Command
-  use 'tpope/vim-rsi'
-  use 'tpope/vim-eunuch'
-
-  -- Folds
-  use 'Konfekt/FastFold'
 
   -- Windows
   use 'szw/vim-maximizer'
   use 'romainl/vim-qf'
+
+  -- Command
+  use 'tpope/vim-rsi'
+  use 'tpope/vim-eunuch'
 
   -- Navigation
   use 'justinmk/vim-dirvish'
@@ -98,33 +98,28 @@ return packer.startup(function(use)
   use 'romainl/vim-cool'
   use 'mhinz/vim-grepper'
 
-  -- Formatters
-  use 'Chiel92/vim-autoformat'
-  use 'google/vim-maktaba'
-  use 'google/vim-codefmt'
-  use 'google/vim-glaive'
-
-  -- Command Runners
-  use 'radenling/vim-dispatch-neovim'
-
-  -- Language - Syntax
-  use 'sheerun/vim-polyglot'
-  use {'tmux-plugins/vim-tmux', ft = 'tmux'}
-  use {'OrangeT/vim-csharp', ft = 'charp'}
-
-  -- Language - Utilities
-  use 'tweekmonster/braceless.vim'
-  use {'jmcantrell/vim-virtualenv', ft = 'python'}
-  use {'tmhedberg/SimpylFold', ft = 'python'}
-  use {'junegunn/goyo.vim', ft = 'markdown'}
-  use {'reedes/vim-pencil', ft = 'markdown'}
-  use {'avakhov/vim-yaml', ft = 'yaml'}
-
   -- Completion - Tags
   use 'Raimondi/delimitMate'
 
   -- Yank
   use 'svermeulen/vim-easyclip'
+
+  -- -- Folds
+  -- use 'Konfekt/FastFold'
+
+  -- -- Command Runners
+  -- use 'radenling/vim-dispatch-neovim'
+
+  -- -- Language - Syntax
+  -- use {'tmux-plugins/vim-tmux', ft = 'tmux'}
+
+  -- -- Language - Utilities
+  -- use 'tweekmonster/braceless.vim'
+  -- use {'jmcantrell/vim-virtualenv', ft = 'python'}
+  -- use {'tmhedberg/SimpylFold', ft = 'python'}
+  -- use {'junegunn/goyo.vim', ft = 'markdown'}
+  -- use {'reedes/vim-pencil', ft = 'markdown'}
+  -- use {'avakhov/vim-yaml', ft = 'yaml'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

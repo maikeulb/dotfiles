@@ -118,10 +118,6 @@ nmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
 vmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
 vmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
 
--- Indentation --
-vmap("<", "<gv")
-vmap(">", ">gv")
-
 -- -- LSP --
 -- nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
 -- nmap("<leader>gd", "<cmd>lua vim.lsp.buf.declaration()<cr>")

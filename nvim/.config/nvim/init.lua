@@ -1,8 +1,9 @@
 require("plugins")
+require("colorscheme")
+require("lsp")
+require("lline")
 require("plugin_settings")
 require("settings")
 require("mappings")
-require("lsp")
 require("autocommands")
-require("lualine_config")
 vim.cmd 'source ~/.config/nvim/functions.vim'

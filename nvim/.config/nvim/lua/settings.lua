@@ -2,7 +2,6 @@ local set = vim.opt
 local g = vim.g
 local fn = vim.fn
 
-set.termguicolors = false
 set.swapfile = false
 
 -- Ignore the case when the search pattern is all lowercase
@@ -140,12 +139,3 @@ set.undoreload = 10000
 
 -- A pattern that is used to recognize a list header.  
 -- set.flp='^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*'
-
--- Theme
--- pcall(vim.cmd, 'colorscheme rubber-enhanced')
--- Set grep default grep command with ripgrep
--- set.grepprg = 'rg --vimgrep --follow'
--- set.errorformat:append('%f:%l:%c%p%m')
---
--- Status line
--- set.statusline = '%=%r%m %l:%c %p%% %y '

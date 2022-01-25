@@ -74,27 +74,10 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/FastFold",
     url = "https://github.com/Konfekt/FastFold"
   },
-  SimpylFold = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/SimpylFold",
-    url = "https://github.com/tmhedberg/SimpylFold"
-  },
   ["any-jump.vim"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/any-jump.vim",
     url = "https://github.com/pechorin/any-jump.vim"
-  },
-  ["braceless.vim"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/braceless.vim",
-    url = "https://github.com/tweekmonster/braceless.vim"
-  },
-  catppuccin = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/catppuccin",
-    url = "https://github.com/catppuccin/nvim"
   },
   ["clever-f.vim"] = {
     loaded = true,
@@ -106,16 +89,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/completion-nvim",
     url = "https://github.com/nvim-lua/completion-nvim"
   },
-  delimitMate = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/delimitMate",
-    url = "https://github.com/Raimondi/delimitMate"
-  },
-  dracula = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/dracula",
-    url = "https://github.com/dracula/vim"
-  },
   fzf = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/fzf",
@@ -126,17 +99,15 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
-  ["goyo.vim"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/goyo.vim",
-    url = "https://github.com/junegunn/goyo.vim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["nvim-colorizer.lua"] = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
+    url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-jdtls"] = {
     loaded = true,
@@ -183,10 +154,20 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/quick-scope",
     url = "https://github.com/unblevable/quick-scope"
   },
+  ["roshnivim-cs"] = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/roshnivim-cs",
+    url = "https://github.com/shaeinst/roshnivim-cs"
+  },
   ["targets.vim"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/targets.vim",
     url = "https://github.com/wellle/targets.vim"
+  },
+  tokyonight = {
+    loaded = true,
+    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/tokyonight",
+    url = "https://github.com/folke/tokyonight.nvim"
   },
   ["vim-abolish"] = {
     loaded = true,
@@ -198,16 +179,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-argumentative",
     url = "https://github.com/PeterRincker/vim-argumentative"
   },
-  ["vim-autoformat"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-autoformat",
-    url = "https://github.com/Chiel92/vim-autoformat"
-  },
-  ["vim-codefmt"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-codefmt",
-    url = "https://github.com/google/vim-codefmt"
-  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-commentary",
@@ -218,13 +189,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-cool",
     url = "https://github.com/romainl/vim-cool"
   },
-  ["vim-csharp"] = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-csharp",
-    url = "https://github.com/OrangeT/vim-csharp"
-  },
   ["vim-diminactive"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-diminactive",
@@ -234,11 +198,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-dirvish",
     url = "https://github.com/justinmk/vim-dirvish"
-  },
-  ["vim-dispatch-neovim"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-dispatch-neovim",
-    url = "https://github.com/radenling/vim-dispatch-neovim"
   },
   ["vim-easyclip"] = {
     loaded = true,
@@ -255,11 +214,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
-  ["vim-glaive"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-glaive",
-    url = "https://github.com/google/vim-glaive"
-  },
   ["vim-grepper"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-grepper",
@@ -270,11 +224,6 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-indent-object",
     url = "https://github.com/michaeljsmith/vim-indent-object"
   },
-  ["vim-maktaba"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-maktaba",
-    url = "https://github.com/google/vim-maktaba"
-  },
   ["vim-matchup"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-matchup",
@@ -284,18 +233,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-maximizer",
     url = "https://github.com/szw/vim-maximizer"
-  },
-  ["vim-pencil"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-pencil",
-    url = "https://github.com/reedes/vim-pencil"
-  },
-  ["vim-polyglot"] = {
-    loaded = true,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-polyglot",
-    url = "https://github.com/sheerun/vim-polyglot"
   },
   ["vim-qf"] = {
     loaded = true,
@@ -322,59 +259,19 @@ _G.packer_plugins = {
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-surround",
     url = "https://github.com/tpope/vim-surround"
   },
-  ["vim-tmux"] = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-tmux",
-    url = "https://github.com/tmux-plugins/vim-tmux"
-  },
   ["vim-tmux-navigator"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
     url = "https://github.com/christoomey/vim-tmux-navigator"
   },
-  ["vim-virtualenv"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-virtualenv",
-    url = "https://github.com/jmcantrell/vim-virtualenv"
-  },
   ["vim-wordmotion"] = {
     loaded = true,
     path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/start/vim-wordmotion",
     url = "https://github.com/chaoren/vim-wordmotion"
-  },
-  ["vim-yaml"] = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-yaml",
-    url = "https://github.com/avakhov/vim-yaml"
   }
 }
 
 time([[Defining packer_plugins]], false)
-vim.cmd [[augroup packer_load_aucmds]]
-vim.cmd [[au!]]
-  -- Filetype lazy-loads
-time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType python ++once lua require("packer.load")({'SimpylFold', 'vim-virtualenv'}, { ft = "python" }, _G.packer_plugins)]]
-vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
-vim.cmd [[au FileType charp ++once lua require("packer.load")({'vim-csharp'}, { ft = "charp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType yaml ++once lua require("packer.load")({'vim-yaml'}, { ft = "yaml" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'goyo.vim', 'vim-pencil'}, { ft = "markdown" }, _G.packer_plugins)]]
-time([[Defining lazy-load filetype autocommands]], false)
-vim.cmd("augroup END")
-vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], true)
-vim.cmd [[source /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]]
-time([[Sourcing ftdetect script at: /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], false)
-time([[Sourcing ftdetect script at: /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-csharp/ftdetect/cs.vim]], true)
-vim.cmd [[source /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-csharp/ftdetect/cs.vim]]
-time([[Sourcing ftdetect script at: /Users/michaelbarnes/.local/share/nvim/site/pack/packer/opt/vim-csharp/ftdetect/cs.vim]], false)
-vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)
