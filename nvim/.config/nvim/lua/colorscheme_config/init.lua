@@ -1,5 +1,7 @@
+local set = vim.opt
+
 -- Colorscheme
-vim.opt.termguicolors = true
+set.termguicolors = true
 vim.cmd[[colorscheme tokyonight]]
 require'colorizer'.setup()
 

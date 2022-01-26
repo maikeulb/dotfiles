@@ -2,36 +2,34 @@ local set = vim.opt
 local g = vim.g
 local fn = vim.fn
 
-set.swapfile = false
+-- Display
+set.title = true -- title of the window will be set to the value of 'titlestring'
+set.showmatch = true -- When a bracket is inserted, briefly jump to the matching one. 
+set.showmode = false -- If in Insert, Replace or Visual mode put a message on the last line.
+set.scrolloff = 1 -- Keep lines below cursor when scrolling
+set.sidescrolloff = 5
+set.synmaxcol = 300 -- stop syntax highlight after x lines for performance
+set.foldenable = false -- Set fold level
+set.foldlevel = 20
+set.foldlevelstart = 20
+set.wrap = false -- Disable line wrapping
+set.cursorline = false -- Enable cursorline
 
--- Ignore the case when the search pattern is all lowercase
+-- Sidebar
+set.number = true
+set.relativenumber = true
+set.modeline = false
+
+-- Search
+set.incsearch = true
 set.ignorecase = true
 set.smartcase = true
-
--- Autosave when navigating between buffers
-set.autowrite = true
-
--- Disable line wrapping
-set.wrap = false
-
--- Keep lines below cursor when scrolling
-set.scrolloff = 1
-set.sidescrolloff = 5
-
--- Enable incremental search
-set.incsearch = true
-
--- Enable cursorline
-set.cursorline = false
 
 -- When opening a window put it right or below the current one
 set.splitright = true
 set.splitbelow = true
 
--- Preserve state (undo, marks, etc) in non visible buffers
-set.hidden = true
-
--- Tab set to two spaces
+-- Tab settings
 set.tabstop = 2
 set.shiftwidth = 2
 set.softtabstop = 2
@@ -40,33 +38,26 @@ set.expandtab = true
 -- Enable mouse support
 set.mouse = 'a'
 
+-- Preserve state (undo, marks, etc) in non visible buffers
+set.hidden = true
+
 -- Updating the window title is postponed.
 set.lazyredraw = true
 
--- Insert mode completion setting
-set.completeopt = {'menu', 'menuone', 'noselect'}
+-- Backups
+set.swapfile = false
+
+-- Autosave when navigating between buffers
+set.autowrite = true
 
 -- When on, the ":substitute" flag 'g' is default on.
 set.gdefault = true
 
--- title of the window will be set to the value of 'titlestring'
-set.title = true
-
--- When a bracket is inserted, briefly jump to the matching one. 
-set.showmatch = true
-
--- If in Insert, Replace or Visual mode put a message on the last line.
-set.showmode = false
-
--- Number of lines that is checked for set commands. 
-set.modeline = false
-set.number = true
-
--- Show the line number relative to the line with the cursor in front of each line.
-set.relativenumber = true
-
 -- Every wrapped line will continue visually indented (same amount of space as the beginning of that line),
 set.breakindent = true
+
+-- Insert mode completion setting
+set.completeopt = {'menu', 'menuone', 'noselect'}
 
 -- This option helps to avoid all the |hit-enter| prompts caused by file messages
 set.shortmess = set.shortmess + 'filmnrxoOtT'
@@ -79,9 +70,6 @@ set.iskeyword = set.iskeyword - '.,#,-,~'
 -- broken after white space to get this width.  
 set.textwidth = 79
 
--- 'colorcolumn' is a comma separated list of screen columns that are
--- set.colorcolumn = 80
-
 -- Maximum number of items to show in the popup menu
 set.pumheight = 15
 
@@ -93,11 +81,6 @@ set.whichwrap = 'b,s,h,l,<,>,[,]'
 set.clipboard = set.clipboard + 'unnamedplus'
 set.showbreak = '++'
 set.fillchars = set.fillchars + 'vert:|'
-
--- Set fold level
-set.foldenable = false
-set.foldlevel = 20
-set.foldlevelstart = 20
 
 -- Set wildignore
 set.wildmenu = true

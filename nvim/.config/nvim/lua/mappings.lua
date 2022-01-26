@@ -1,4 +1,5 @@
 vim.cmd("noremap <C-b> :noh<cr>:call clearmatches()<cr>") -- clear matches Ctrl+b
+local g = vim.g
 
 local options = { noremap = true, silent = true }
 
@@ -33,7 +34,7 @@ local function xmap(shortcut, command)
 end
 
 -- Map leader to space
-vim.g.mapleader = ' ' -- Map <Space> to leader
+g.mapleader = ' ' -- Map <Space> to leader
 
 -- Disable mappings
 map('', '<backspace>', "<nop>")
@@ -58,8 +59,8 @@ nmap("L", "$")
 
 nmap("oo", "o<Esc>k")
 nmap("OO", "O<Esc>")
-nmap("ss", "a<space><Esc>h")
-nmap("SS", "i<space><Esc>h")
+-- nmap("ss", "a<space><Esc>h")
+-- nmap("SS", "i<space><Esc>h")
 nmap("od", "0D")
 
 nmap("<leader>J", ":!java %")

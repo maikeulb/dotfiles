@@ -1,9 +1,11 @@
 require("plugins")
-require("colorscheme")
-require("lsp")
-require("lline")
-require("plugin_settings")
+require("colorscheme_config")
+-- require("functions")
+require("lsp_config")
+require("lualine_config")
 require("settings")
+require("plugins_settings")
 require("mappings")
 require("autocommands")
-vim.cmd 'source ~/.config/nvim/functions.vim'
+require("lightspeed_config")
+vim.cmd 'source ~/.config/nvim/vimscript/functions.vim'

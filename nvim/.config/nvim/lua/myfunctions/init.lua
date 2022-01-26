@@ -19,23 +19,21 @@ end
 
 local M = {}
 
-M.Rotate = function()
-    vim.api.nvim_exec(
-  [[
-  function! Rotate()
-    let l:initial = winnr()
-    execute 1 . 'wincmd w'
-    wincmd l
-    if winnr() != 1
-      wincmd J
-    else
-      wincmd H
-    endif
-    execute l:initial . 'wincmd w'
-  endfunction
-  ]])
-    end
-return M
+-- M.squeeze_blank_lines = function()
+--     -- references: https://vi.stackexchange.com/posts/26304/revisions
+--     if (vim.bo.filetype ~= 'binary') or (vim.bo.filetype ~= 'diff') then
+--         local old_query = vim.fn.getreg('/')    -- save search register
+--         M.preserve('sil! 1,.s/^\\n\\{2,}/\\r/gn') -- set current search count number
+--         local result = vim.fn.searchcount({maxcount = 1000, timeout = 500}).current
+--         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+--         M.preserve('sil! keepp keepj %s/^\\n\\{2,}/\\r/ge')
+--         M.preserve('sil! keepp keepj %s/\\v($\\n\\s*)+%$/\\r/e')
+--         if result > 0 then
+--             vim.api.nvim_win_set_cursor({0}, {(line - result), col})
+--         end
+--         vim.fn.setreg('/', old_query)           -- restore search register
+--     end
+-- end
 
 -- -- Change window layout
 -- vim.api.nvim_exec([[

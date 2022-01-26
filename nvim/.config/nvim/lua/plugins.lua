@@ -33,8 +33,8 @@ packer.init({
 
 return packer.startup(function(use)
   use 'wbthomason/packer.nvim' 
-  use "nvim-lua/popup.nvim" 
-  use "nvim-lua/plenary.nvim"
+  use 'nvim-lua/popup.nvim' 
+  use 'nvim-lua/plenary.nvim'
 
   -- Treesitter
   use {
@@ -45,22 +45,30 @@ return packer.startup(function(use)
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
-  use 'nvim-lua/completion-nvim'
   use 'anott03/nvim-lspinstall'
+  use 'tami5/lspsaga.nvim'
   use 'mfussenegger/nvim-jdtls'
+  
+  -- completions
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/vim-vsnip'
 
   -- ColorScheme
   use {'folke/tokyonight.nvim', as = 'tokyonight'}
-  use 'shaeinst/roshnivim-cs'
   use 'norcalli/nvim-colorizer.lua'
-  
+
   -- Presentation
   use 'nvim-lualine/lualine.nvim'
   use 'blueyed/vim-diminactive'
 
   -- Windows
-  use 'szw/vim-maximizer'
-  use 'romainl/vim-qf'
+  use {"beauwilliams/focus.nvim", config = function() require("focus").setup() end }
 
   -- Command
   use 'tpope/vim-rsi'
@@ -69,7 +77,6 @@ return packer.startup(function(use)
   -- Navigation
   use 'justinmk/vim-dirvish'
   use 'rhysd/clever-f.vim'
-  use 'pechorin/any-jump.vim'
 
   -- Textobj
   use 'tpope/vim-commentary'
@@ -83,9 +90,13 @@ return packer.startup(function(use)
   use 'andymass/vim-matchup'
   use 'christoomey/vim-tmux-navigator'
   use 'unblevable/quick-scope'
+  use 'ggandor/lightspeed.nvim'
 
   -- Repeat
   use 'tpope/vim-repeat'
+
+  -- Better QF
+  use {'kevinhwang91/nvim-bqf', ft = 'qf'}
 
   -- Git
   use 'tpope/vim-fugitive'
@@ -93,33 +104,34 @@ return packer.startup(function(use)
 
   -- Search and Replace
   use 'tpope/vim-abolish'
-  use 'junegunn/fzf'
+  use {'junegunn/fzf', run = function()
+      vim.fn['fzf#install']()
+      end 
+  }
   use 'junegunn/fzf.vim'
-  use 'romainl/vim-cool'
-  use 'mhinz/vim-grepper'
+  -- use 'mhinz/vim-grepper'
 
-  -- Completion - Tags
+  -- Completion 
   use 'Raimondi/delimitMate'
 
   -- Yank
   use 'svermeulen/vim-easyclip'
 
-  -- -- Folds
-  -- use 'Konfekt/FastFold'
+  -- Folds
+  use 'Konfekt/FastFold'
+  use{
+    "gbprod/cutlass.nvim",
+    config = function()
+      require("cutlass").setup({
+          cut_key = "m"
+      })
+    end
+  }
 
-  -- -- Command Runners
-  -- use 'radenling/vim-dispatch-neovim'
-
-  -- -- Language - Syntax
-  -- use {'tmux-plugins/vim-tmux', ft = 'tmux'}
-
-  -- -- Language - Utilities
-  -- use 'tweekmonster/braceless.vim'
-  -- use {'jmcantrell/vim-virtualenv', ft = 'python'}
-  -- use {'tmhedberg/SimpylFold', ft = 'python'}
-  -- use {'junegunn/goyo.vim', ft = 'markdown'}
-  -- use {'reedes/vim-pencil', ft = 'markdown'}
-  -- use {'avakhov/vim-yaml', ft = 'yaml'}
+  -- Language - Syntax
+  use {'tmux-plugins/vim-tmux', ft = 'tmux'}
+  use {'tmhedberg/SimpylFold', ft = 'python'}
+  use {'avakhov/vim-yaml', ft = 'yaml'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

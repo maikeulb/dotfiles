@@ -1,10 +1,6 @@
-local set = vim.opt
 local g = vim.g
-local fn = vim.fn
 
 local options = { noremap = true, silent = true }
-
-local remap = vim.api.nvim_set_keymap
 
 local function map(mode, shortcut, command)
   vim.api.nvim_set_keymap(mode, shortcut, command, options)
@@ -19,7 +15,7 @@ local function xmap(shortcut, command)
 end
 
 -- Map leader to space
-vim.g.mapleader = ' ' -- Map <Space> to leader
+g.mapleader = ' ' -- Map <Space> to leader
 
 -- Vim-diminactive
 g.diminactive_enable_focus = 1
@@ -83,3 +79,6 @@ g.clever_f_smart_case = 1
 g.clever_f_fix_key_direction = 0
 nmap(";", "<Plug>(clever-f-repeat-forward)")
 nmap(",", "<Plug>(clever-f-repeat-back)")
+
+nmap("gh", "<Cmd>Lspsaga lsp_finder<CR>")
+
