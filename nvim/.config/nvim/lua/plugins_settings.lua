@@ -14,6 +14,15 @@ local function xmap(shortcut, command)
   map("x", shortcut, command)
 end
 
+local options2 = { noremap = false, silent = true }
+local function map2(mode, shortcut, command)
+  vim.api.nvim_set_keymap(mode, shortcut, command, options2)
+end
+
+local function nmap2(shortcut, command)
+  map2("n", shortcut, command)
+end
+
 -- Map leader to space
 g.mapleader = ' ' -- Map <Space> to leader
 
@@ -26,11 +35,6 @@ nmap("-", ":Dirvish")
 -- Vim-Maximizer
 nmap("<C-z>", ":MaximizerToggle")
 
--- FloatTerm
-g.floaterm_opener = 'edit'
-g.floaterm_keymap_new = '<Leader>ft'
-nmap("<c-t>", ":FloatermNew fff<CR>")
-
 -- Cmake
 g.cmake_link_compile_commands = 1
 nmap("<leader>cg", ":CMakeGenerate<cr>")
@@ -42,43 +46,6 @@ g.EasyClipShareYanks = 1
 g.EasyClipShareYanksDirectory = "$HOME/.config/nvim/easyclip"
 g.EasyClipShareYanksFile = 'easyclip'
 g.EasyClipUsePasteToggleDefaults = 0
-
--- Barber
-g.bufferline = {
-  animation = false,
-  auto_hide = false,
-  tabpages = true,
-  closable = false,
-  clickable = false,
-  icons = false,
-  icon_custom_colors = false,
-  -- Configure icons on the bufferline.
-  icon_separator_active = '▎',
-  icon_separator_inactive = '▎',
-  icon_close_tab = 'x',
-  icon_close_tab_modified = '●',
-  icon_pinned = '車',
-  -- If true, new buffers will be inserted at the start/end of the list.
-  -- Default is to insert after current buffer.
-  insert_at_end = false,
-  insert_at_start = false,
-  -- Sets the maximum padding width with which to surround each tab
-  maximum_padding = 1,
-  -- Sets the maximum buffer name length.
-  maximum_length = 30,
-  -- If set, the letters for each buffer in buffer-pick mode will be
-  -- assigned based on their name. Otherwise or in case all letters are
-  -- already assigned, the behavior is to assign letters in order of
-  -- usability (see order below)
-  semantic_letters = true,
-  -- New buffer letters are assigned in this order. This order is
-  -- optimal for the qwerty keyboard layout but might need adjustement
-  -- for other layouts.
-  letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
-  -- Sets the name of unnamed buffers. By default format is "[Buffer X]"
-  -- where X is the buffer number. But only a static string is accepted here.
-  no_name_title = nil,
-}
 
 -- Vim-Grepper
 g['grepper'] = { tools = { 'rg', 'git' }}
@@ -119,6 +86,72 @@ nmap("<leader>go", ":Git checkout<Space>")
 nmap("<leader>gp", ":Dispatch! git push<CR>")
 nmap("<leader>gu", ":Dispatch! git pull<CR>")
 
+-- FSwitch
+nmap("<leader>sw", ":FSHere<CR>")
+
+-- -- VIMFoldC
+vim.cmd([[ 
+let g:fold_options = { 
+  \ 'fold_blank': 0, 
+  \ 'fold_includes': 0, 
+  \ 'merge_comments' : 0, 
+  \ 'show_if_and_else': 0, 
+  \ 'strip_namespaces': 1, 
+  \ 'strip_template_arguments': 1 }
+]])
+
+-- Clever F
+g.clever_f_across_no_line = 1
+g.clever_f_smart_case = 1
+g.clever_f_fix_key_direction = 0
+nmap2(";", "<Plug>(clever-f-repeat-forward)")
+nmap2(",", "<Plug>(clever-f-repeat-back)")
+
+-- Barber
+g.bufferline = {
+  animation = false,
+  auto_hide = false,
+  tabpages = true,
+  closable = false,
+  clickable = false,
+  icons = false,
+  icon_custom_colors = false,
+  -- Configure icons on the bufferline.
+  icon_separator_active = '▎',
+  icon_separator_inactive = '▎',
+  icon_close_tab = 'x',
+  icon_close_tab_modified = '●',
+  icon_pinned = '車',
+  -- If true, new buffers will be inserted at the start/end of the list.
+  -- Default is to insert after current buffer.
+  insert_at_end = false,
+  insert_at_start = false,
+  -- Sets the maximum padding width with which to surround each tab
+  maximum_padding = 1,
+  -- Sets the maximum buffer name length.
+  maximum_length = 30,
+  -- If set, the letters for each buffer in buffer-pick mode will be
+  -- assigned based on their name. Otherwise or in case all letters are
+  -- already assigned, the behavior is to assign letters in order of
+  -- usability (see order below)
+  semantic_letters = true,
+  -- New buffer letters are assigned in this order. This order is
+  -- optimal for the qwerty keyboard layout but might need adjustement
+  -- for other layouts.
+  letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
+  -- Sets the name of unnamed buffers. By default format is "[Buffer X]"
+  -- where X is the buffer number. But only a static string is accepted here.
+  no_name_title = nil,
+}
+
+--vim-vsnip
+local home = os.getenv("HOME")
+local data_dir = string.format('%s/site/',vim.fn.stdpath('data'))
+vim.g.vsnip_snippet_dir = home .. '/.config/nvim/snippets'
+vim.g.vsnip_snippet_dirs = {
+  data_dir..'/pack/packer/opt/friendly-snippets/snippets',
+}
+
 -- LSP
 nmap("<c-]>","<cmd>lua vim.lsp.buf.definition()<CR>")
 nmap("K", "<cmd>lua vim.lsp.buf.hover()<CR>")
@@ -135,9 +168,8 @@ nmap("g]", "<cmd>lua vim.diagnostic.goto_next()<CR>")
 nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 nmap("gh", "<Cmd>Lspsaga lsp_finder<CR>")
 
--- Clever F
-g.clever_f_across_no_line = 1
-g.clever_f_smart_case = 1
-g.clever_f_fix_key_direction = 0
-nmap(";", "<Plug>(clever-f-repeat-forward)")
-nmap(",", "<Plug>(clever-f-repeat-back)")
+-- FloatTerm
+g.floaterm_opener = 'edit'
+g.floaterm_keymap_new = '<Leader>ft'
+nmap("<c-t>", ":FloatermNew fff<CR>")
+

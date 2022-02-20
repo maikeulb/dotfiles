@@ -50,7 +50,7 @@ return packer.startup(function(use)
   use 'mfussenegger/nvim-jdtls'
   use 'simrat39/rust-tools.nvim'
 
-  -- completions
+  -- Completions
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -85,7 +85,7 @@ return packer.startup(function(use)
   use 'rhysd/clever-f.vim'
 
   -- Textobj
-  use 'tpope/vim-commentary'
+  use 'b3nj5m1n/kommentary'
   use 'tpope/vim-surround'
   use 'wellle/targets.vim'
   use 'chaoren/vim-wordmotion'
@@ -134,13 +134,12 @@ return packer.startup(function(use)
     end
   }
 
-  -- Language - Syntax
+  -- Language
   use {'tmux-plugins/vim-tmux', ft = 'tmux'}
   use {'tmhedberg/SimpylFold', ft = 'python'}
   use {'avakhov/vim-yaml', ft = 'yaml'}
-
-  -- Language - Build
   use {'cdelledonne/vim-cmake', ft = 'cpp'}
+  use {'derekwyatt/vim-fswitch', ft = {'c', 'cpp'}}
 
   -- Remote editing
   use {

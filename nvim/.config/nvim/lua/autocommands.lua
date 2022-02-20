@@ -5,7 +5,6 @@ vim.cmd([[
     autocmd VimResized * wincmd =
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     autocmd BufWinEnter quickfix nnoremap <silent> <buffer>q :cclose<CR>:lclose<CR>
-    " autocmd BufWritePre * call AutoFormatFiles()
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd BufReadPost * if &filetype != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
           \   execute "normal! g`\"" |
@@ -43,22 +42,6 @@ vim.cmd([[
 ]])
 
 vim.cmd([[
-  fun! AutoFormatFiles()
-    if exists('b:noAutoFormat')
-      return
-    endif
-    undojoin | :Autoformat
-  endfun
-]])
-
-vim.cmd([[
-  augroup AutoFormatFileExtensions
-    autocmd!
-    autocmd BufEnter *.fsproj | setlocal noAutoFormat=1
-  augroup END
-]])
-
-vim.cmd([[
   augroup Skeleton
     autocmd!
     autocmd BufNewFile *.java 0r ~/.config/nvim/skeletons/skeleton.java
@@ -67,13 +50,31 @@ vim.cmd([[
 
 
 vim.cmd([[
+  augroup FSwitch
+    autocmd BufEnter *.h  let b:fswitchdst = "c,cpp,cc,m"
+    autocmd BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc' | let b:fswitchlocs = 'reg:|include.*|src/**|'
+    autocmd BufEnter *.cc let b:fswitchdst = "h,hpp"
+    autocmd BufEnter *.cpp let b:fswitchdst = "h,hpp"
+  augroup END
+]])
+
+vim.cmd([[
+  augroup FixFold
+    autocmd!
+    autocmd BufEnter *.cc | setlocal syntax=cpp
+    autocmd BufEnter *.cpp | setlocal syntax=cpp
+    autocmd BufEnter *.h | setlocal syntax=cpp
+  augroup END
+]])
+
+vim.cmd([[
   autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200)
 ]])
 
 vim.cmd([[
   augroup filetypedetect
-    au! BufNewFile,BufRead *.csx setf cs
-    au! BufNewFile,BufRead *.env setf sh
-    au! BufNewFile,BufRead *.envrc setf sh
+    autocmd! BufNewFile,BufRead *.csx setf cs
+    autocmd! BufNewFile,BufRead *.env setf sh
+    autocmd! BufNewFile,BufRead *.envrc setf sh
   augroup END
 ]])

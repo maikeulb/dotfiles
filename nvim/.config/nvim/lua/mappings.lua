@@ -92,8 +92,6 @@ nmap("<leader>eg", ":edit $HOME/.gitconfig<CR>")
 nmap("<leader>sv", ":source $MYVIMRC<CR>")
 nmap("<leader>en", ":edit $MYVIMRC<CR>")
 
-nmap("<leader>fc", ":FormatCode<CR>")
-nmap("<leader>dc", ":TrimComments<CR>")
 nmap("<leader>ab", "ysii}")
 
 imap("jj", "<Esc>")

@@ -99,7 +99,11 @@ require'lspconfig'.rust_analyzer.setup{
 }
 
 require'lspconfig'.ccls.setup{
-  capabilities = capabilities
+  init_options = {
+    compilationDatabaseDirectory = "./build/";
+  },
+  capabilities = capabilities,
+  on_attach = on_attach
 }
 
 require'nvim-treesitter.configs'.setup {
