@@ -51,7 +51,7 @@ Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'romainl/vim-cool'
-Plug 'mhinz/vim-grepper'
+" Plug 'mhinz/vim-grepper'
 
 " Formatters
 Plug 'Chiel92/vim-autoformat'
