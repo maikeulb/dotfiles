@@ -82,9 +82,21 @@ function mage-forward
     ssh -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST
 end
 
+# function redshift-forward 
+#     ssh -NL 5440:127.0.0.1:5439 bb-redshift-prod.ctru1bqr81bl.us-east-1.redshift.amazonaws.com */
+# end 
+
+# function redshift-forward
+#     ssh -NL 5440:127.0.0.1:5439 production-0-cluster.csme2xvziial.us-east-1.redshift.amazonaws.com
+# end
+
 function redshift-forward
-    ssh -NL 5440:127.0.0.1:5439 bb-redshift-prod.ctru1bqr81bl.us-east-1.redshift.amazonaws.com
+    ssh -L 5440:127.0.0.1:5439 michaelbarnes@54.163.167.214
 end
+
+# function redshift-forward
+#     ssh -NL 5440:127.0.0.1:5439 michaelbarnes@54.163.167.214
+# end
 
 function box-forward
     ssh -NL $LOCAL_BOX_PORT:$REMOTE_BOX_HOST:$REMOTE_BOX_PORT $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST

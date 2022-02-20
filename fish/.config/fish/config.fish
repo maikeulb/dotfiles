@@ -101,13 +101,12 @@ end
 # {{{ Aliases
 
 # alias tmux='tmux new-session -A -s main'
-alias todo '$HOME/.src/todo.txt_cli-2.9/todo.sh'
+alias ft='floaterm'
 
 alias nvimdiff='nvim -d'
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
 alias etd='nvim $TODO/todo.txt'
-alias ei3='nvim $HOME/.config/i3/config'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/functions/functions.fish $HOME/.config/fish/functions/bb_functions.fish'
 alias ev='vim $HOME/.vim/vimrc'
 alias et='nvim $HOME/.tmux.conf'
@@ -115,7 +114,6 @@ alias tmux='tmux attach'
 alias en='nvim $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/*lua'
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
-alias getdate='date "+%Y%m%d%H%M%S"'
 
 alias cdg='cd (git rev-parse --show-toplevel)'
 

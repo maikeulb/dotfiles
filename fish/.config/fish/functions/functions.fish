@@ -36,21 +36,21 @@ end
 
 # {{{  FZF
 
-function z --description 'z with fzf'
-    set dir (fasd -Rdl $argv \
-  | sed "s:$HOME:~:" \
-  | fzf -1 -0 --no-sort +m \
-  | sed "s:~:$HOME:")
-    cd $dir;
-end
+#function z --description 'z with fzf'
+#    set dir (fasd -Rdl $argv \
+#  | sed "s:$HOME:~:" \
+#  | fzf -1 -0 --no-sort +m \
+#  | sed "s:~:$HOME:")
+#    cd $dir;
+#end
 
-function n --description 'n with fzf'
-    set file (fasd -Rfl $argv \
-  | sed "s:$HOME:~:" \
-  | fzf -1 -0 --no-sort +m \
-  | sed "s:~:$HOME:")
-    nvim $file
-end
+#/* function n --description 'n with fzf' */
+#/*     set file (fasd -Rfl $argv \ */
+#/*   | sed "s:$HOME:~:" \ */
+#/*   | fzf -1 -0 --no-sort +m \ */
+#/*   | sed "s:~:$HOME:") */
+#/*     nvim $file */
+#/* end */
 
 function falias --description 'FZF fish aliases'
     if count $argv > /dev/null
@@ -97,6 +97,13 @@ bind \ct '__fzf_cd'
 # function __fzf_cd
 #   fd --type f | fzf | read -l result; and pushd (dirname $result)
 # end
+
+# fff
+function f
+    fff $argv
+    set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME $HOME/.cache
+    cd (cat $XDG_CACHE_HOME/fff/.fff_d)
+end
 
 # }}}
 
