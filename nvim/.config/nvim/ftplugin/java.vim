@@ -16,8 +16,8 @@ nnoremap <leader>L aList<Integer> list = new ArrayList<>();<esc>
 nmap<leader>s ysiWfSystem.out.println<CR>
 nmap<leader>vs VSfSystem.out.println<CR>
 
-" autocmd BufWritePost *.java :call BuildMavenProject()
-" nnoremap <buffer> <silent> <F8> :call BuildMavenProject()<CR>
+set makeprg=java\ %
+" nmap("<leader>J", ":!java %\")
 
 if !exists(":NewSrcEntry")
   command -nargs=1 -complete=customlist,eclim#project#util#CommandCompleteProjectRelative -buffer

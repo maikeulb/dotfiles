@@ -48,14 +48,14 @@ return packer.startup(function(use)
   use 'anott03/nvim-lspinstall'
   use 'tami5/lspsaga.nvim'
   use 'mfussenegger/nvim-jdtls'
-  
+  use 'simrat39/rust-tools.nvim'
+
   -- completions
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
 
@@ -69,6 +69,12 @@ return packer.startup(function(use)
 
   -- Windows
   use {"beauwilliams/focus.nvim", config = function() require("focus").setup() end }
+  use 'voldikss/vim-floaterm'
+  use {
+    'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
+  }
+  use "numToStr/FTerm.nvim"
 
   -- Command
   use 'tpope/vim-rsi'
@@ -132,6 +138,23 @@ return packer.startup(function(use)
   use {'tmux-plugins/vim-tmux', ft = 'tmux'}
   use {'tmhedberg/SimpylFold', ft = 'python'}
   use {'avakhov/vim-yaml', ft = 'yaml'}
+
+  -- Language - Build
+  use {'cdelledonne/vim-cmake', ft = 'cpp'}
+
+  -- Remote editing
+  use {
+    'chipsenkbeil/distant.nvim',
+    config = function()
+      require('distant').setup {
+        -- Applies Chip's personal settings to every machine you connect to
+        -- 1. Ensures that distant servers terminate with no connections
+        -- 2. Provides navigation bindings for remote directories
+        -- 3. Provides keybinding to jump into a remote file's parent directory
+        ['*'] = require('distant.settings').chip_default()
+      }
+    end
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

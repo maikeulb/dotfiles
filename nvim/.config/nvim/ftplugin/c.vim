@@ -1,7 +1,7 @@
 setlocal autoindent
-setlocal tabstop=8
-setlocal softtabstop=8
-setlocal shiftwidth=8
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
 setlocal noexpandtab
 
 setlocal foldmethod=syntax

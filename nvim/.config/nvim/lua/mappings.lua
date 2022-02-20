@@ -51,24 +51,21 @@ nmap("g,", "g,zz")
 nmap("n", "nzz")
 nmap("N", "Nzz")
 
-nmap("Y;", "y$")
-nmap("D,", "d$")
+nmap("Y", "y$")
 nmap("C", "m$")
 nmap("H", "0")
 nmap("L", "$")
 
 nmap("oo", "o<Esc>k")
 nmap("OO", "O<Esc>")
--- nmap("ss", "a<space><Esc>h")
--- nmap("SS", "i<space><Esc>h")
-nmap("od", "0D")
+nmap("D", '"_d$')
+nmap("od", '0"_D')
 
-nmap("<leader>J", ":!java %")
+nmap("<leader>m", ":make<cr>")
 nmap("<leader>*", "*``cgn")
 nmap("<leader>#", "#``cgN")
 nmap("<leader>r", ":%sh<<C-r>=expand('<cword>')<CR>>//gc<Left><Left><Left>")
 -- nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
-
 nmap("<leader>wr", "<C-W>r")
 nmap("<leader>bd", ":bp<bar>sp<bar>bn<bar>bd<CR>.")
 

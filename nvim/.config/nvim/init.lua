@@ -1,6 +1,6 @@
 require("plugins")
 require("colorscheme_config")
--- require("functions")
+require("functions")
 require("lsp_config")
 require("lualine_config")
 require("settings")
