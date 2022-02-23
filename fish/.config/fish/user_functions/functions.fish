@@ -36,74 +36,47 @@ end
 
 # {{{  FZF
 
-#function z --description 'z with fzf'
-#    set dir (fasd -Rdl $argv \
-#  | sed "s:$HOME:~:" \
-#  | fzf -1 -0 --no-sort +m \
-#  | sed "s:~:$HOME:")
-#    cd $dir;
-#end
-
-#/* function n --description 'n with fzf' */
-#/*     set file (fasd -Rfl $argv \ */
-#/*   | sed "s:$HOME:~:" \ */
-#/*   | fzf -1 -0 --no-sort +m \ */
-#/*   | sed "s:~:$HOME:") */
-#/*     nvim $file */
-#/* end */
-
 function falias --description 'FZF fish aliases'
-    if count $argv > /dev/null
-        alias | rg $argv | fzf
-    else
-        alias | fzf
-    end
+  if count $argv > /dev/null
+    alias | rg $argv | fzf
+  else
+    alias | fzf
+  end
 end
 
 function fbind --description 'FZF fish bindings'
-    if count $argv > /dev/null
-        bind | rg $argv | fzf
-    else
-        bind | fzf
-    end
+  if count $argv > /dev/null
+    bind | rg $argv | fzf
+  else
+    bind | fzf
+  end
 end
 
 function fgit --description 'FZF git aliases'
-    if count $argv > /dev/null
-        git config --get-regexp alias | rg $argv | fzf
-    else
-        git config --get-regexp alias | fzf
-    end
+  if count $argv > /dev/null
+    git config --get-regexp alias | rg $argv | fzf
+  else
+    git config --get-regexp alias | fzf
+  end
 end
 
 function ftkeys --description 'FZF Tmux keys'
-    if count $argv > /dev/null
-        command tmux list-keys | rg $argv | fzf
-    else
-        command tmux list-keys | fzf
-    end
-end
-
-# FZF find file by name and open with nvim
-bind \cf '__fzf_find_file'
-
-function __fzf_find_file
-  fd --type f | fzf | read -l result; and nvim $result
+  if count $argv > /dev/null
+    command tmux list-keys | rg $argv | fzf
+  else
+    command tmux list-keys | fzf
+  end
 end
 
 # FZF find file by name and pushd into directory
-bind \ct '__fzf_cd'
-
-# function __fzf_cd
-#   fd --type f | fzf | read -l result; and pushd (dirname $result)
-# end
+# bind \ct '__fzf_cd'
 
 # fff
-function f
-    fff $argv
-    set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME $HOME/.cache
-    cd (cat $XDG_CACHE_HOME/fff/.fff_d)
-end
+# function f
+#    fff $argv
+#     set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME $HOME/.cache
+#     cd (cat $XDG_CACHE_HOME/fff/.fff_d)
+# end
 
 # }}}
 
@@ -159,9 +132,9 @@ function tmpdir --description "cd into a fresh, one-time temporary directory"
   if test (count $argv) -eq 1
     switch "$argv[1]"
       case -s --spawn
-        _tmpdir_spawn
-        _tmpdir_clean
-        return
+      _tmpdir_spawn
+      _tmpdir_clean
+      return
     end
   end
 
@@ -180,43 +153,29 @@ end
 
 # {{{  Utility Wrappers
 
-# ls after changing directories
-function chpwd --on-variable PWD
+function chpwd --on-variable PWD --description "ls after changing directories"
   status --is-command-substitution; and return
   ls
 end
 
-# tree
-function tree
+function tree --description "tree"
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
   --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -T
 end
 
-# Use exa instead of ls
-function ls
+function ls --description "use exa instead of ls"
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
   --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" $argv
 end
 
-# Use exa instead of lsa
-function la
+function la --description "use exa instead of lsa"
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
   --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -a
 end
 
-# Use exa instead of ls1
-function l1
+function l1 --description "use exa instead of ls1"
   exa --group-directories-first --sort=extension -G --color always --git-ignore \
   --ignore-glob="obj|node_modules|dotfiles|Pictures|Videos|Music|__pycache__|venv" -1
-end
-
-# }}}
-
-# {{{  Servers
-
-function fmarkdown
-    chromium-browser http://localhost:6419/
-    grip
 end
 
 # }}}
@@ -233,27 +192,20 @@ end
 
 # {{{  Misc
 
-function reload
-    source $HOME/.config/fish/config.fish
+function reload --description "reload fish config"
+  source $HOME/.config/fish/config.fish
 end
 
-function yank
-    greadlink -f $argv > ~/.buffer &
+function yank --description "yank files to buffer"
+  greadlink -f $argv > ~/.buffer &
 end
 
-function put
-    cp (cat ~/.buffer) ./
+function put --description "copy yanked files to current directory"
+  cp (cat ~/.buffer) ./
 end
 
-function mput
+function mput --description "move yanked files to current directory"
     mv (cat ~/.buffer) ./
-end
-
-function tag
-    set -x TAG_SEARCH_PROG ag  # replace with rg for ripgrep
-    set -q TAG_ALIAS_FILE; or set -l TAG_ALIAS_FILE /tmp/tag_aliases
-    command tag $argv; and source $TAG_ALIAS_FILE ^/dev/null
-    alias ag tag  # replace with rg for ripgrep
 end
 
 # }}}
