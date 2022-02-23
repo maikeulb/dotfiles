@@ -32,6 +32,7 @@ packer.init({
 )
 
 return packer.startup(function(use)
+  -- Packer
   use 'wbthomason/packer.nvim'
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
@@ -65,9 +66,10 @@ return packer.startup(function(use)
 
   -- Presentation
   use 'nvim-lualine/lualine.nvim'
-  use 'blueyed/vim-diminactive'
 
   -- Windows
+  use "vim-scripts/winpos.vim"
+  use 'blueyed/vim-diminactive'
   use {"beauwilliams/focus.nvim", config = function() require("focus").setup() end }
   use 'voldikss/vim-floaterm'
   use {
@@ -75,7 +77,6 @@ return packer.startup(function(use)
     requires = {'kyazdani42/nvim-web-devicons'}
   }
   use "numToStr/FTerm.nvim"
-  use "vim-scripts/winpos.vim"
 
   -- Command
   use 'tpope/vim-rsi'
@@ -109,14 +110,15 @@ return packer.startup(function(use)
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
 
-  -- Search and Replace
+  -- Navigation
   use 'tpope/vim-abolish'
   use {'junegunn/fzf', run = function()
       vim.fn['fzf#install']()
       end
   }
   use 'junegunn/fzf.vim'
-  -- use 'mhinz/vim-grepper'
+  use 'nanotee/zoxide.vim'
+  use 'mhinz/vim-grepper'
 
   -- Completion
   use 'Raimondi/delimitMate'

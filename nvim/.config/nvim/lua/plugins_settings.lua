@@ -78,19 +78,12 @@ nmap("<leader>C", ":Commands<CR>")
 
 -- Fugitive
 nmap("<leader>ga", ":Git add %:p<CR><CR>")
-nmap("<leader>gs", ":Gstatus<CR>")
-nmap("<leader>gc", ":Gcommit -v -q<CR>")
+nmap("<leader>gs", ":Git<CR>")
 nmap("<leader>gd", ":Gdiff<CR>")
 nmap("<leader>ge", ":Gedit<CR>")
 nmap("<leader>gr", ":Gread<CR>")
 nmap("<leader>gw", ":Gwrite<CR><CR>")
-nmap("<leader>gl", ":silent! Glog<CR>:bot copen<CR>")
 nmap("<leader>gg", ":Ggrep<Space>")
-nmap("<leader>gm", ":Gmove<Space>")
-nmap("<leader>gb", ":Git branch<Space>")
-nmap("<leader>go", ":Git checkout<Space>")
-nmap("<leader>gp", ":Dispatch! git push<CR>")
-nmap("<leader>gu", ":Dispatch! git pull<CR>")
 
 -- FSwitch
 nmap("<leader>sw", ":FSHere<CR>")

@@ -65,7 +65,6 @@ nmap("<leader>m", ":make<cr>")
 nmap("<leader>*", "*``cgn")
 nmap("<leader>#", "#``cgN")
 nmap("<leader>r", ":%sh<<C-r>=expand('<cword>')<CR>>//gc<Left><Left><Left>")
--- nnoremap <leader>r :%sh\<<C-r>=expand('<cword>')<CR>\>//gc<Left><Left><Left>
 nmap("<leader>wr", "<C-W>r")
 nmap("<leader>bd", ":bp<bar>sp<bar>bn<bar>bd<CR>.")
 
@@ -89,7 +88,6 @@ nmap("<leader>wa", ":wa<CR>")
 
 nmap("<leader>ef", ":edit $HOME/.config/fish/config.fish<CR>")
 nmap("<leader>eg", ":edit $HOME/.gitconfig<CR>")
-nmap("<leader>sv", ":source $MYVIMRC<CR>")
 nmap("<leader>en", ":edit $MYVIMRC<CR>")
 
 nmap("<leader>ab", "ysii}")
@@ -115,9 +113,9 @@ vmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
 vmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
 
 -- -- LSP --
--- nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
--- nmap("<leader>gd", "<cmd>lua vim.lsp.buf.declaration()<cr>")
--- nmap("<leader>jd", "<cmd>lua vim.lsp.buf.definition()<cr>")
--- nmap("<leader>td", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
--- nmap("<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
--- nmap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>")
+nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>") -- format code
+nmap("<leader>gd", "<cmd>lua vim.lsp.buf.declaration()<cr>")
+nmap("<leader>jd", "<cmd>lua vim.lsp.buf.definition()<cr>") -- go to type definition
+nmap("<leader>td", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
+nmap("<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
+nmap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>")
