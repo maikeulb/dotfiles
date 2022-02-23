@@ -47,6 +47,12 @@ g.EasyClipShareYanksDirectory = "$HOME/.config/nvim/easyclip"
 g.EasyClipShareYanksFile = 'easyclip'
 g.EasyClipUsePasteToggleDefaults = 0
 
+-- vim-better-whitespace
+g.strip_whitespace_on_save = 1
+g.strip_whitespace_confirm = 0
+g.strip_only_modified_lines = 0
+g.strip_whitelines_at_eof = 1
+
 -- Vim-Grepper
 g['grepper'] = { tools = { 'rg', 'git' }}
 g.grepper.simple_prompt = 1
@@ -89,14 +95,14 @@ nmap("<leader>gu", ":Dispatch! git pull<CR>")
 -- FSwitch
 nmap("<leader>sw", ":FSHere<CR>")
 
--- -- VIMFoldC
-vim.cmd([[ 
-let g:fold_options = { 
-  \ 'fold_blank': 0, 
-  \ 'fold_includes': 0, 
-  \ 'merge_comments' : 0, 
-  \ 'show_if_and_else': 0, 
-  \ 'strip_namespaces': 1, 
+-- VIMFoldC
+vim.cmd([[
+let g:fold_options = {
+  \ 'fold_blank': 0,
+  \ 'fold_includes': 0,
+  \ 'merge_comments' : 0,
+  \ 'show_if_and_else': 0,
+  \ 'strip_namespaces': 1,
   \ 'strip_template_arguments': 1 }
 ]])
 
@@ -172,4 +178,3 @@ nmap("gh", "<Cmd>Lspsaga lsp_finder<CR>")
 g.floaterm_opener = 'edit'
 g.floaterm_keymap_new = '<Leader>ft'
 nmap("<c-t>", ":FloatermNew fff<CR>")
-

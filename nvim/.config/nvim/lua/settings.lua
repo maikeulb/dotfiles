@@ -4,7 +4,7 @@ local fn = vim.fn
 
 -- Display
 set.title = true -- title of the window will be set to the value of 'titlestring'
-set.showmatch = true -- When a bracket is inserted, briefly jump to the matching one. 
+set.showmatch = true -- When a bracket is inserted, briefly jump to the matching one.
 set.showmode = false -- If in Insert, Replace or Visual mode put a message on the last line.
 set.scrolloff = 1 -- Keep lines below cursor when scrolling
 set.sidescrolloff = 5
@@ -67,7 +67,7 @@ set.shortmess = set.shortmess + 'filmnrxoOtT'
 set.iskeyword = set.iskeyword - '.,#,-,~'
 
 -- Maximum width of text that is being inserted.  A longer line will be
--- broken after white space to get this width.  
+-- broken after white space to get this width.
 set.textwidth = 79
 
 -- Maximum number of items to show in the popup menu
@@ -120,5 +120,5 @@ set.undofile = true
 set.undolevels = 10000
 set.undoreload = 10000
 
--- A pattern that is used to recognize a list header.  
+-- A pattern that is used to recognize a list header.
 -- set.flp='^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*'

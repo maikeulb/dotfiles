@@ -32,8 +32,8 @@ packer.init({
 )
 
 return packer.startup(function(use)
-  use 'wbthomason/packer.nvim' 
-  use 'nvim-lua/popup.nvim' 
+  use 'wbthomason/packer.nvim'
+  use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
 
   -- Treesitter
@@ -75,6 +75,7 @@ return packer.startup(function(use)
     requires = {'kyazdani42/nvim-web-devicons'}
   }
   use "numToStr/FTerm.nvim"
+  use "vim-scripts/winpos.vim"
 
   -- Command
   use 'tpope/vim-rsi'
@@ -112,12 +113,12 @@ return packer.startup(function(use)
   use 'tpope/vim-abolish'
   use {'junegunn/fzf', run = function()
       vim.fn['fzf#install']()
-      end 
+      end
   }
   use 'junegunn/fzf.vim'
   -- use 'mhinz/vim-grepper'
 
-  -- Completion 
+  -- Completion
   use 'Raimondi/delimitMate'
 
   -- Yank
@@ -133,6 +134,9 @@ return packer.startup(function(use)
       })
     end
   }
+
+  -- Formatting
+  use {'ntpeters/vim-better-whitespace'}
 
   -- Language
   use {'tmux-plugins/vim-tmux', ft = 'tmux'}
