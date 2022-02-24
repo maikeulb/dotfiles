@@ -14,13 +14,26 @@ local function xmap(shortcut, command)
   map("x", shortcut, command)
 end
 
-local options2 = { noremap = false, silent = true }
-local function map2(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, options2)
+local expr_options = { expr = true }
+local function expr_map(mode, shortcut, command)
+  vim.api.nvim_set_keymap(mode, shortcut, command, expr_options)
 end
 
-local function nmap2(shortcut, command)
-  map2("n", shortcut, command)
+local function expr_imap(shortcut, command)
+  expr_map("i", shortcut, command)
+end
+
+local function expr_smap(shortcut, command)
+  expr_map("s", shortcut, command)
+end
+
+local noremap_options = { noremap = false, silent = true }
+local function noremap_map(mode, shortcut, command)
+  vim.api.nvim_set_keymap(mode, shortcut, command, noremap_options)
+end
+
+local function noremap_nmap(shortcut, command)
+  noremap_map("n", shortcut, command)
 end
 
 -- Map leader to space
@@ -103,8 +116,8 @@ let g:fold_options = {
 g.clever_f_across_no_line = 1
 g.clever_f_smart_case = 1
 g.clever_f_fix_key_direction = 0
-nmap2(";", "<Plug>(clever-f-repeat-forward)")
-nmap2(",", "<Plug>(clever-f-repeat-back)")
+noremap_nmap(";", "<Plug>(clever-f-repeat-forward)")
+noremap_nmap(",", "<Plug>(clever-f-repeat-back)")
 
 -- Barber
 g.bufferline = {
@@ -146,10 +159,14 @@ g.bufferline = {
 --vim-vsnip
 local home = os.getenv("HOME")
 local data_dir = string.format('%s/site/',vim.fn.stdpath('data'))
-vim.g.vsnip_snippet_dir = home .. '/.config/nvim/snippets'
-vim.g.vsnip_snippet_dirs = {
+g.vsnip_snippet_dir = home .. '/.config/nvim/snippets'
+g.vsnip_snippet_dirs = {
   data_dir..'/pack/packer/opt/friendly-snippets/snippets',
 }
+expr_imap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
+expr_imap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
+expr_smap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
+expr_smap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
 
 -- LSP
 nmap("<c-]>","<cmd>lua vim.lsp.buf.definition()<CR>")
