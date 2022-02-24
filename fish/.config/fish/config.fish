@@ -12,8 +12,8 @@ set -x LESS_TERMCAP_se (printf "\e[0m")
 set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
 set -x LESS_TERMCAP_ue (printf "\e[0m")
 
-set -x TODO $HOME/Dropbox/todo/
 set -x REVIEW_BASE master
+set -x TODO_DIR $HOME/.todo
 
 # user functions
 source $HOME/.config/fish/user_functions/functions.fish
@@ -81,11 +81,11 @@ end
 
 alias ft='floaterm'
 alias cat='bat --paging=never'
-
+alias t='todo.sh'
 alias nvimdiff='nvim -d'
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
-alias etd='nvim $TODO/todo.txt'
+alias etd='nvim $TODO_DIR/todo.txt'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/user_functions/functions.fish $HOME/.config/fish/bb_functions/functions.fish'
 alias ev='vim $HOME/.vim/vimrc'
 alias et='nvim $HOME/.tmux.conf'

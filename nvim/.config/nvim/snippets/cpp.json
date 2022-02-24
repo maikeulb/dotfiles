@@ -1,0 +1,9 @@
+{
+  "Class": {
+    "prefix": ["czz"],
+    "body": [
+      "class $1 ${2:extends ${3:Parent} }{",
+    ],
+    "description": "Class definition template."
+  }
+}
