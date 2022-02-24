@@ -15,3 +15,4 @@ vim/.vim/syntax/
 .DS_Store
 tags
 easyclip
+packer_compiled.lua
