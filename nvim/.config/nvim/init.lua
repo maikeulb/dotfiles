@@ -10,5 +10,3 @@ require("plugins_settings")
 require("autocommands")
 require("lightspeed_config")
 vim.cmd 'source ~/.config/nvim/vimscript/functions.vim'
-
-
