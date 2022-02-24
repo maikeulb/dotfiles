@@ -1,6 +1,0 @@
-#!/bin/bash
-
-TZ=UTC+0 date +'%j %T.%N' --date=@$(for i in *.mp4; do LC_ALL=C \
-		avconv -i "$i" 2>&1 | awk -F: '/Duration:/{print $2*3600+$3*60+$4}'; done \
-		| paste -sd+ | bc) | awk '{print $1-1 "d",$2}' | sed 's/[.0]*$//'
-
