@@ -3,8 +3,6 @@ local g = vim.g
 
 local options = { noremap = true, silent = true }
 
-local remap = vim.api.nvim_set_keymap
-
 local function map(mode, shortcut, command)
   vim.api.nvim_set_keymap(mode, shortcut, command, options)
 end
@@ -23,10 +21,6 @@ end
 
 local function cmap(shortcut, command)
   map("c", shortcut, command)
-end
-
-local function tmap(shortcut, command)
-  map("t", shortcut, command)
 end
 
 local function xmap(shortcut, command)
