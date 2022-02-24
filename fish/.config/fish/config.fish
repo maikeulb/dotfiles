@@ -1,18 +1,18 @@
-# {{{ Variables
+# {{{ Settings
 
-set -g fish_greeting
+set -x fish_greeting
 set -x XDG_CONFIG_HOME $HOME/.config
 set -x TERM screen-256color
 set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
+set -x EDITOR /usr/local/bin/nvim
 
 set -x LESS_TERMCAP_me (printf "\e[0m")
 set -x LESS_TERMCAP_se (printf "\e[0m")
 set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
 set -x LESS_TERMCAP_ue (printf "\e[0m")
-set -x TODO $HOME/Dropbox/todo/
-set -x BBHOME $HOME/Birchbox
 
+set -x TODO $HOME/Dropbox/todo/
 set -x REVIEW_BASE master
 
 # user functions
@@ -31,53 +31,29 @@ if not set -q LS_COLORS
   end
 end
 
-# source develoment credentials (BIRCHBOX)
-if test -e $HOME/.dev.env.fish
-  source $HOME/.dev.env.fish
-  load_dev_env_variables
-end
-
 # }}}
 
-# {{{ Set Path
+# {{{ Path
 
-set -x PATH /Users/michael.barnes/Library/Python/3.7/bin $PATH
-set -g fish_user_paths "/usr/local/opt/mysql@5.6/bin" $fish_user_paths
+set -x RIPGREP_CONFIG_PATH "$HOME/.rgrc"
+fish_add_path $HOME/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/usr/local/bin
+fish_add_path $HOME/usr/local/sbin
+fish_add_path /usr/local/opt/mysql@5.6/bin
+fish_add_path /Library/Frameworks/Mono.framework/Versions/Current/bin
+fish_add_path /Users/michael.barnes/Library/Python/3.7/bin
 
-# Add bin, .local/bin, /usr/local/bin, and /usr/local/sbin to Path
-if test -d $HOME/bin
-  set -x PATH $HOME/bin $PATH
-end
-if test -d $HOME/.local/bin
-  set -x PATH $HOME/.local/bin $PATH
-end
-if test -d /usr/local/bin
-  set -x PATH /usr/local/bin $PATH
-end
-if test -s /usr/local/sbin
-  set -x PATH /usr/local/sbin $PATH
-end
-if test -s /Library/Frameworks/Mono.framework/Versions/Current/bin
-  set -x PATH /Library/Frameworks/Mono.framework/Versions/Current/bin $PATH
-end
-
-# Add RVM to Path
+# source RVM to Path
 if test -d $HOME/.rvm
   bash -c 'source $HOME/.rvm/scripts/rvm'
-  set -x PATH $HOME/.rvm/bin $PATH
-  #  rvm default
-end
-
-# Add Cargo to Path
-if test -d $HOME/.rvm
-  set -x PATH $HOME/.cargo/bin $PATH
+  fish_add_path $HOME/.rvm/bin
 end
 
 # Add Cargo to Path
 if test -d $HOME/.cargo
   set -x CARGO_HOME $HOME/.cargo
-  set -x CARGO_HOME $CARGO_HOME
-  set -x PATH $CARGO_HOME/bin $PATH
+  fish_add_path $HOME/.cargo/bin
 end
 
 # Add Local PIP to Path
@@ -88,19 +64,18 @@ end
 # Add NPM to Path
 if test -d $HOME/.npm-packages/bin
   set -x NPM_PACKAGES $HOME/.npm-packages
-  set -x PATH $NPM_PACKAGES/bin $PATH
   set -x NODE_PATH $NPM_PACKAGES/lib/node_modules $NODE_PATH
+  fish_add_path $NPM_PACKAGES/bin
 end
 
 # Add GOPATH to Path
 if test -d $HOME/.go
   set -x GOROOT /usr/lib/go-1.9
   set -x GOPATH $HOME/Projects-Go
-  set -x PATH $GOROOT/bin $PATH
+  fish_add_path $PATH/bin
 end
 
 # }}}
-
 
 # {{{ Aliases
 
@@ -114,7 +89,6 @@ alias etd='nvim $TODO/todo.txt'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/user_functions/functions.fish $HOME/.config/fish/bb_functions/functions.fish'
 alias ev='vim $HOME/.vim/vimrc'
 alias et='nvim $HOME/.tmux.conf'
-# alias tmux='tmux attach'
 alias en='nvim $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/*lua'
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
@@ -130,28 +104,21 @@ alias listen='netstat -anp tcp | rg listen'
 
 # }}}
 
-# {{{ System Utilities
+# {{{ Configure utilties and plugins
 
-set -x RIPGREP_CONFIG_PATH "$HOME/.rgrc"
-
-# }}}
-
-# {{{ Packages
+# fzf.fish
+# execute nvim
+set --export fzf_dir_opts --bind "ctrl-f:execute(nvim {} &> /dev/tty)"
 
 # pure prompt
 set -x pure_enable_single_line_prompt true
 set -x pure_enable_git true
 
-# init zoxide
+# zoxide
 set -x _ZO_FZF_OPTS "--no-sort" "--keep-right" "--height=40%" "--info=inline" "--layout=reverse" "--exit-0" "--select-1" "--bind=ctrl-z:ignore" "--preview='ls {2..}'"
 zoxide init fish | source
 
-# }}}
-
-# {{{ Loadings
-
-# Load direnv
+# direnv
 eval (direnv hook fish)
-# eval (fish_user_key_binding)
 
 # }}}

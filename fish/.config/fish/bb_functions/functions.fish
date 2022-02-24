@@ -1,3 +1,15 @@
+# {{{ Variables
+
+set -x BBHOME $HOME/Birchbox
+
+# source develoment credentials (BIRCHBOX)
+if test -e $HOME/.dev.env.fish
+  source $HOME/.dev.env.fish
+  load_dev_env_variables
+end
+
+# }}}
+
 # {{{ Mage stuff
 
 function mage-sync
@@ -59,14 +71,14 @@ function shapi-forward-stage
 end
 
 function bbop-forward
-    ssh michaelbarnes@sys0.nyc2.birchbox.com -NL 3306:dbrw-c2-stg.int.nyc2.birchbox.com:3306 
+    ssh michaelbarnes@sys0.nyc2.birchbox.com -NL 3306:dbrw-c2-stg.int.nyc2.birchbox.com:3306
 end
 
 # function bbop-forward
-#     ssh michaelbarnes@sys0.nyc2.birchbox.com -NL 3306:dbrw-bbop-shipments-stg.int:3306 
+#     ssh michaelbarnes@sys0.nyc2.birchbox.com -NL 3306:dbrw-bbop-shipments-stg.int:3306
 # end
 
-    # host2: dbrw-bbop-shipments-stg.int                                                                                                                         
+    # host2: dbrw-bbop-shipments-stg.int
 # function forward
 #     # ssh michaelbarnes@michaelbarnes.dev.birchbox.com -NL 3306:dbrw-mage:3306
 #     ssh michaelbarnes@michaelbarnes.dev.birchbox.com -NL 3306:dbrw-mage:3306 3311:dbro-product:3306 11211:memc-session:11211 8888:solr:8080
@@ -82,9 +94,9 @@ function mage-forward
     ssh -NL $LOCAL_MAGE_PORT:$REMOTE_MAGE_HOST:$REMOTE_MAGE_PORT $REMOTE_MACHINE_USER@$REMOTE_MACHINE_HOST
 end
 
-# function redshift-forward 
+# function redshift-forward
 #     ssh -NL 5440:127.0.0.1:5439 bb-redshift-prod.ctru1bqr81bl.us-east-1.redshift.amazonaws.com */
-# end 
+# end
 
 # function redshift-forward
 #     ssh -NL 5440:127.0.0.1:5439 production-0-cluster.csme2xvziial.us-east-1.redshift.amazonaws.com
