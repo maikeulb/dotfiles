@@ -413,7 +413,6 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vim-cmake', 'vim-fswitch'}, { ft = "cpp" }, _G.packer_plugins)]]
 vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-fswitch'}, { ft = "c" }, _G.packer_plugins)]]
 vim.cmd [[au FileType python ++once lua require("packer.load")({'SimpylFold'}, { ft = "python" }, _G.packer_plugins)]]
 vim.cmd [[au FileType yaml ++once lua require("packer.load")({'vim-yaml'}, { ft = "yaml" }, _G.packer_plugins)]]
