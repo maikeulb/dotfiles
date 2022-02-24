@@ -44,4 +44,4 @@ nnoremap <buffer> <silent> <localleader>tt :! 2to3 -w -n --no-diffs %<cr>:e<cr>
 nnoremap <buffer> <silent> <localleader>d oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <buffer> <localleader>r :!python3 %<cr>
 
-BracelessEnable +indent +fold
+" BracelessEnable +indent +fold
