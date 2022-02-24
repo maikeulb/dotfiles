@@ -61,6 +61,7 @@ return packer.startup(function(use)
   -- Snippets
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
+  use 'rafamadriz/friendly-snippets'
 
   -- ColorScheme
   use {'folke/tokyonight.nvim', as = 'tokyonight'}
