@@ -32,10 +32,10 @@ packer.init({
 )
 
 return packer.startup(function(use)
-  -- Packer
-  use 'wbthomason/packer.nvim'
+  -- PluginManager
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
+  use 'wbthomason/packer.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -44,55 +44,77 @@ return packer.startup(function(use)
   use {'tami5/lspsaga.nvim',
     config = function() require("lspsaga").init_lsp_saga() end
   }
-  use "jose-elias-alvarez/null-ls.nvim"
+  -- use "jose-elias-alvarez/null-ls.nvim"
   use "mfussenegger/nvim-lint"
-  use {'mfussenegger/nvim-jdtls', ft = 'java'}
+  use 'mfussenegger/nvim-jdtls'
   use {'simrat39/rust-tools.nvim', ft = 'rust'}
   use {'jackguo380/vim-lsp-cxx-highlight', ft = 'cpp'}
   use {'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
     config = function() require'toggle_lsp_diagnostics'.init() end
   }
 
-  -- Treesitter
+  -- Syntax
   use {'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
 
-  -- Completions
+  -- Completion
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
 
-  -- Snippets
+  -- Keybinding
+  use {'folke/which-key.nvim',
+    config = function()
+      require("which-key").setup {
+         triggers = "auto",
+         presets = {
+            motions = true, -- adds help for motions
+            text_objects = true, -- help for text objects triggered after entering an operator
+            z = true, -- bindings for folds, spelling and others prefixed with z
+            g = true, -- bindings for prefixed with g
+         },
+      }
+    end
+  }
+  -- Snippet
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
   use 'rafamadriz/friendly-snippets'
 
-  -- ColorScheme
-  use {'folke/tokyonight.nvim', as = 'tokyonight'}
+  -- Fuzzy Finder
+  use {'junegunn/fzf',
+    run = function() vim.fn['fzf#install']() end
+  }
+  use 'junegunn/fzf.vim'
+
+  -- Color
   use 'norcalli/nvim-colorizer.lua'
 
-  -- Presentation
+  -- ColorScheme
+  use {'folke/tokyonight.nvim', as = 'tokyonight'}
+
+  -- Statusline and Tabline
   use 'nvim-lualine/lualine.nvim'
+  use {'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
+  }
 
-  -- Git
-  use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim'}}
-
-  -- Windows
+  -- Split and Window
   use "vim-scripts/winpos.vim"
   use 'blueyed/vim-diminactive'
   use {'beauwilliams/focus.nvim',
     config = function() require("focus").setup() end
   }
-  use 'voldikss/vim-floaterm'
-  use {'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
-  use "numToStr/FTerm.nvim"
 
-  -- Command
+  -- Terminal Integration
+  use "numToStr/FTerm.nvim"
+  use 'voldikss/vim-floaterm'
+
+  -- Commandline
   use 'tpope/vim-rsi'
   use 'tpope/vim-eunuch'
 
@@ -108,54 +130,46 @@ return packer.startup(function(use)
   use 'michaeljsmith/vim-indent-object'
   use 'PeterRincker/vim-argumentative'
 
-  -- Movement
+  -- Motion
+  use 'ggandor/lightspeed.nvim'
   use 'andymass/vim-matchup'
   use 'christoomey/vim-tmux-navigator'
   use 'unblevable/quick-scope'
-  use 'ggandor/lightspeed.nvim'
 
-  -- Repeat
-  use 'tpope/vim-repeat'
-
-  -- Better QF
+  -- Quickfix
   use {'kevinhwang91/nvim-bqf', ft = 'qf'}
 
   -- Git
+  use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
 
   -- Navigation
   use 'tpope/vim-abolish'
-  use {'junegunn/fzf',
-    run = function() vim.fn['fzf#install']() end
-  }
-  use 'junegunn/fzf.vim'
   use 'nanotee/zoxide.vim'
-  use 'mhinz/vim-grepper'
+  use 'liuchengxu/vista.vim'
 
-  -- Completion
-  use 'Raimondi/delimitMate'
-
-  -- Yank
+  -- Editing Support
+  use 'ntpeters/vim-better-whitespace'
   use 'svermeulen/vim-easyclip'
+  use 'Raimondi/delimitMate'
+  use 'tpope/vim-repeat'
 
   -- Folds
   use 'Konfekt/FastFold'
-  use{'gbprod/cutlass.nvim',
+  use {'gbprod/cutlass.nvim',
     config = function() require("cutlass").setup({ cut_key = "m" }) end
   }
 
-  -- Formatting
-  use {'ntpeters/vim-better-whitespace'}
-
-  -- Language
+  -- Programming Language Support
   use {'tmux-plugins/vim-tmux', ft = 'tmux'}
   use {'tmhedberg/SimpylFold', ft = 'python'}
   use {'avakhov/vim-yaml', ft = 'yaml'}
-  use {'cdelledonne/vim-cmake', ft = 'cpp'}
   use {'derekwyatt/vim-fswitch', ft = {'c', 'cpp'}}
+  use {'dense-analysis/ale', ft = {'hack'}}
+  use {'hhvm/vim-hack', ft = {'hack'}}
 
-  -- Remote editing
+  -- Remote Development
   use {'chipsenkbeil/distant.nvim',
     config = function()
       require('distant').setup {
@@ -166,6 +180,14 @@ return packer.startup(function(use)
         ['*'] = require('distant.settings').chip_default()
       }
     end
+  }
+  -- Debugging
+  use 'mfussenegger/nvim-dap'
+  -- use {'mfussenegger/nvim-dap-python',
+    -- config = function () require('dap-python').setup('/Users/michaelbarnes/src/debugpy/venv/bin/python') end
+  -- }
+  use {'theHamsta/nvim-dap-virtual-text',
+    config = function() require("nvim-dap-virtual-text").setup() end
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

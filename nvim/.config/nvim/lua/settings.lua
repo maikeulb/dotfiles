@@ -33,8 +33,8 @@ set.shiftwidth = 2
 set.softtabstop = 2
 set.expandtab = true
 
--- Enable mouse support
-set.mouse = 'a'
+-- Enable mouse support in visual mode
+set.mouse = 'v'
 
 -- Preserve state (undo, marks, etc) in non visible buffers
 set.hidden = true
@@ -57,6 +57,9 @@ set.breakindent = true
 -- Insert mode completion setting
 set.completeopt = {'menu', 'menuone', 'noselect'}
 
+-- Time out on mapping - shorter for which-key plugin
+set.timeoutlen = 500
+
 -- This option helps to avoid all the |hit-enter| prompts caused by file messages
 set.shortmess = set.shortmess + 'filmnrxoOtT'
 
@@ -77,6 +80,7 @@ set.pumheight = 15
 set.whichwrap = 'b,s,h,l,<,>,[,]'
 
 set.clipboard = set.clipboard + 'unnamedplus'
+
 set.showbreak = '++'
 set.fillchars = set.fillchars + 'vert:|'
 

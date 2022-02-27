@@ -15,6 +15,8 @@ set -x LESS_TERMCAP_ue (printf "\e[0m")
 set -x REVIEW_BASE master
 set -x TODO_DIR $HOME/.todo
 
+set -x LLVM_ROOT $HOME/src/llvm-project
+
 # user functions
 source $HOME/.config/fish/user_functions/functions.fish
 source $HOME/.config/fish/bb_functions/functions.fish
@@ -80,7 +82,7 @@ end
 # {{{ Aliases
 
 alias ft='floaterm'
-alias cat='bat --paging=never'
+alias cat='bat -p --paging=never'
 alias t='todo.sh'
 alias nvimdiff='nvim -d'
 alias lss='exa --group-directories-first -G --color always --git-ignore'
@@ -89,7 +91,7 @@ alias etd='nvim $HOME/.todo/todo.txt'
 alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/user_functions/functions.fish $HOME/.config/fish/bb_functions/functions.fish'
 alias ev='vim $HOME/.vim/vimrc'
 alias et='nvim $HOME/.tmux.conf'
-alias en='nvim $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/*lua'
+alias en='nvim $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/**/*lua'
 alias eg='nvim $HOME/.gitconfig'
 alias ee='nvim $PROJECT_HOME/.envrc'
 

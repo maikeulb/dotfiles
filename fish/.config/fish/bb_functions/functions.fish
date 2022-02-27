@@ -103,7 +103,7 @@ end
 # end
 
 function redshift-forward
-    ssh -L 5440:127.0.0.1:5439 michaelbarnes@54.163.167.214
+    ssh -L 5439:127.0.0.1:5439 michaelbarnes@54.163.167.214
 end
 
 # function redshift-forward

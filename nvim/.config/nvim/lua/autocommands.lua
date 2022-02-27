@@ -58,14 +58,14 @@ vim.cmd([[
   augroup END
 ]])
 
-vim.cmd([[
-  augroup FixFold
-    autocmd!
-    autocmd BufEnter *.cc | setlocal syntax=cpp
-    autocmd BufEnter *.cpp | setlocal syntax=cpp
-    autocmd BufEnter *.h | setlocal syntax=cpp
-  augroup END
-]])
+-- vim.cmd([[
+--   augroup FixFold
+--     autocmd!
+--     autocmd BufEnter *.cc | setlocal syntax=cpp
+--     autocmd BufEnter *.cpp | setlocal syntax=cpp
+--     autocmd BufEnter *.h | setlocal syntax=cpp
+--   augroup END
+-- ]])
 
 vim.cmd([[
   autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200)

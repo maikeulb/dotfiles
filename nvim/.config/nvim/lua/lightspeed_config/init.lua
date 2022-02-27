@@ -1,29 +1,12 @@
-local set = vim.opt
-local g = vim.g
-local fn = vim.fn
+local mp = require("./utils/map_utils")
 
-local options = { noremap = false, silent = true }
-local remap = vim.api.nvim_set_keymap
+mp.nmap('s', '<Plug>Lightspeed_s')
+mp.nmap('S', '<Plug>Lightspeed_S')
 
-local function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, options)
-end
+mp.omap('s', '<Plug>Lightspeed_s')
+mp.omap('S', '<Plug>Lightspeed_S')
 
-local function nmap(shortcut, command)
-  map("n", shortcut, command)
-end
-
-local function omap(shortcut, command)
-  map("o", shortcut, command)
-end
-
-nmap('s', '<Plug>Lightspeed_s')
-nmap('S', '<Plug>Lightspeed_S')
-
-omap('s', '<Plug>Lightspeed_s')
-omap('S', '<Plug>Lightspeed_S')
-
-nmap('f', '<Plug>Lightspeed_f')
-nmap('F', '<Plug>Lightspeed_F')
-nmap('t', '<Plug>Lightspeed_t')
-nmap('T', '<Plug>Lightspeed_T')
+mp.nmap('f', '<Plug>Lightspeed_f')
+mp.nmap('F', '<Plug>Lightspeed_F')
+mp.nmap('t', '<Plug>Lightspeed_t')
+mp.nmap('T', '<Plug>Lightspeed_T')

@@ -1,115 +1,88 @@
-vim.cmd("noremap <C-b> :noh<cr>:call clearmatches()<cr>") -- clear matches Ctrl+b
 local g = vim.g
-
-local options = { noremap = true, silent = true }
-
-local function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, options)
-end
-
-local function nmap(shortcut, command)
-  map("n", shortcut, command)
-end
-
-local function imap(shortcut, command)
-  map("i", shortcut, command)
-end
-
-local function vmap(shortcut, command)
-  map("v", shortcut, command)
-end
-
-local function cmap(shortcut, command)
-  map("c", shortcut, command)
-end
-
-local function xmap(shortcut, command)
-  map("x", shortcut, command)
-end
+local mp = require("./utils/map_utils")
 
 -- Map leader to space
 g.mapleader = ' ' -- Map <Space> to leader
+-- vim.cmd("noremap <C-b> :noh<cr>:call clearmatches()<cr>") -- clear matches Ctrl+b
 
 -- Disable mappings
-map('', '<backspace>', "<nop>")
-map('', '<S>', "<nop>")
+mp.map('', '<backspace>', "<nop>")
+mp.map('', '<S>', "<nop>")
 
-nmap("&", ":&&<CR>")
-xmap("&", ":&&<CR>")
+mp.nmap("&", ":&&<CR>")
+mp.xmap("&", ":&&<CR>")
 
 -- Marks
-nmap("gm", "m")
+mp.nmap("gm", "m")
 
-nmap("g;", "g;zz")
-nmap("g,", "g,zz")
-nmap("n", "nzz")
-nmap("N", "Nzz")
+mp.nmap("g;", "g;zz")
+mp.nmap("g,", "g,zz")
+mp.nmap("n", "nzz")
+mp.nmap("N", "Nzz")
 
-nmap("Y", "y$")
-nmap("C", "m$")
-nmap("H", "0")
-nmap("L", "$")
+mp.nmap("Y", "y$")
+mp.nmap("C", "m$")
+mp.nmap("H", "0")
+mp.nmap("L", "$")
 
-nmap("oo", "o<Esc>k")
-nmap("OO", "O<Esc>")
-nmap("D", '"_d$')
-nmap("od", '0"_D')
+mp.nmap("oo", "o<Esc>k")
+mp.nmap("OO", "O<Esc>")
+mp.nmap("D", '"_d$')
+mp.nmap("od", '0"_D')
 
-nmap("<leader>m", ":make<cr>")
-nmap("<leader>*", "*``cgn")
-nmap("<leader>#", "#``cgN")
-nmap("<leader>r", ":%sh<<C-r>=expand('<cword>')<CR>>//gc<Left><Left><Left>")
-nmap("<leader>wr", "<C-W>r")
-nmap("<leader>bd", ":bp<bar>sp<bar>bn<bar>bd<CR>.")
+mp.nmap("<leader>m", ":make<cr>")
+mp.nmap("<leader>*", "*``cgn")
+mp.nmap("<leader>#", "#``cgN")
+mp.nmap("<leader>r", ":%sh<<C-r>=expand('<cword>')<CR>>//gc<Left><Left><Left>")
+mp.nmap("<leader>wr", "<C-W>r")
+mp.nmap("<leader>bd", ":bp<bar>sp<bar>bn<bar>bd<CR>.")
 
-nmap('<leader>"', ":split<CR>")
-nmap("<leader>%", ":vsplit<CR>")
-nmap("<leader>c", ":enew<CR>")
+mp.nmap('<leader>"', ":split<CR>")
+mp.nmap("<leader>%", ":vsplit<CR>")
+mp.nmap("<leader>c", ":enew<CR>")
 
-nmap("<leader>cn", ":cprevious<CR>")
-nmap("<leader>cp", ":cnext<CR>")
-nmap("<leader>lp", ":lprevious<CR>")
-nmap("<leader>ln", ":lnext<CR>")
-nmap("<leader>jj", ":bprevious<CR>")
-nmap("<leader>kk", ":bnext<CR>")
+mp.nmap("<leader>cn", ":cprevious<CR>")
+mp.nmap("<leader>cp", ":cnext<CR>")
+mp.nmap("<leader>lp", ":lprevious<CR>")
+mp.nmap("<leader>ln", ":lnext<CR>")
+mp.nmap("<leader>jj", ":bprevious<CR>")
+mp.nmap("<leader>kk", ":bnext<CR>")
 
-nmap("<leader>q", ":qa!<CR>")
-nmap("<leader>wa", ":w<CR>")
-nmap("<leader>wqa", ":wqa<CR>")
-nmap("<leader>qw", ":qw<CR>")
-nmap("<leader>w", ":w<CR>")
-nmap("<leader>wa", ":wa<CR>")
+mp.nmap("<leader>q", ":qa!<CR>")
+mp.nmap("<leader>wa", ":w<CR>")
+mp.nmap("<leader>wqa", ":wqa<CR>")
+mp.nmap("<leader>qw", ":qw<CR>")
+mp.nmap("<leader>w", ":w<CR>")
+mp.nmap("<leader>wa", ":wa<CR>")
 
-nmap("<leader>ef", ":edit $HOME/.config/fish/config.fish<CR>")
-nmap("<leader>eg", ":edit $HOME/.gitconfig<CR>")
-nmap("<leader>en", ":edit $MYVIMRC<CR>")
+mp.nmap("<leader>ef", ":edit $HOME/.config/fish/config.fish<CR>")
+mp.nmap("<leader>eg", ":edit $HOME/.gitconfig<CR>")
+mp.nmap("<leader>en", ":n $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/**/*lua<CR>")
 
-nmap("<leader>ab", "ysii}")
+mp.imap("jj", "<Esc>")
+mp.imap("<C-w>", "<C-g>u<C-w>")
+mp.imap("<C-u>", "<C-g>u<C-u>")
+mp.imap("<C-y>", '<C-r>"')
 
-imap("jj", "<Esc>")
-imap("<C-w>", "<C-g>u<C-w>")
-imap("<C-u>", "<C-g>u<C-u>")
-imap("<C-y>", '<C-r>"')
+mp.cmap("%%", "<C-R>=fnameescape(expand('%:h')).'/'<CR>")
+mp.cmap("<C-n>", "<Down>")
+mp.cmap("<C-p>", "<Up>")
+mp.cmap("<C-y>", '<C-r>"')
 
-cmap("%%", "<C-R>=fnameescape(expand('%:h')).'/'<CR>")
-cmap("<C-n>", "<Down>")
-cmap("<C-p>", "<Up>")
-cmap("<C-y>", '<C-r>"')
+mp.nmap("<leader>y", '"+y')
+mp.nmap("<leader>d", '"+d')
+mp.vmap("<leader>y", '"+y')
+mp.vmap("<leader>d", '"+d')
 
-nmap("<leader>y", '"+y')
-nmap("<leader>d", '"+d')
-vmap("<leader>y", '"+y')
-vmap("<leader>d", '"+d')
-
-nmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
-nmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
-vmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
-vmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
+mp.nmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
+mp.nmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
+mp.vmap("<leader>p", ':set paste<CR>"+p:set nopaste<CR>')
+mp.vmap("<leader>P", ':set paste<CR>"+P:set nopaste<CR>')
 
 -- -- LSP --
-nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>") -- format code
-nmap("<leader>gd", "<cmd>lua vim.lsp.buf.declaration()<cr>")
-nmap("<leader>jd", "<cmd>lua vim.lsp.buf.definition()<cr>") -- go to type definition
-nmap("<leader>td", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
-nmap("<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
-nmap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>")
+mp.nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>") -- format code
+mp.nmap("<leader>gd", "<cmd>lua vim.lsp.buf.declaration()<cr>")
+mp.nmap("<leader>jd", "<cmd>lua vim.lsp.buf.definition()<cr>") -- go to type definition
+mp.nmap("<leader>td", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
+mp.nmap("<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>")
+mp.nmap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>")

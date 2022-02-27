@@ -1,70 +1,17 @@
 local g = vim.g
-
-local options = { noremap = true, silent = true }
-
-local function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, options)
-end
-
-local function nmap(shortcut, command)
-  map("n", shortcut, command)
-end
-
-local function vmap(shortcut, command)
-  map("v", shortcut, command)
-end
-
-local function omap(shortcut, command)
-  map("v", shortcut, command)
-end
-
-local function xmap(shortcut, command)
-  map("x", shortcut, command)
-end
-
-local expr_options = { expr = true }
-local function expr_map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, expr_options)
-end
-
-local function expr_nmap(shortcut, command)
-  expr_map("n", shortcut, command)
-end
-
-local function expr_imap(shortcut, command)
-  expr_map("i", shortcut, command)
-end
-
-local function expr_smap(shortcut, command)
-  expr_map("s", shortcut, command)
-end
-
-local noremap_options = { noremap = false, silent = true }
-local function noremap_map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, noremap_options)
-end
-
-local function noremap_nmap(shortcut, command)
-  noremap_map("n", shortcut, command)
-end
+local mp = require("./utils/map_utils")
 
 -- Map leader to space
 g.mapleader = ' ' -- Map <Space> to leader
 
--- Vim-diminactive
+-- Vim-Diminactive
 g.diminactive_enable_focus = 1
 
 -- Dirvish
-nmap("-", ":Dirvish")
+mp.nmap("-", ":Dirvish")
 
 -- Vim-Maximizer
-nmap("<C-z>", ":MaximizerToggle")
-
--- Cmake
-g.cmake_link_compile_commands = 1
-nmap("<leader>cg", ":CMakeGenerate<cr>")
-nmap("<leader>cb", ":CMakeBuild<cr>")
-nmap("<leader>gt", ":GTestRunUnderCursor<cr>")
+mp.nmap("<C-z>", ":MaximizerToggle")
 
 -- Vim-EasyClip
 g.EasyClipShareYanks = 1
@@ -78,58 +25,38 @@ g.strip_whitespace_confirm = 0
 g.strip_only_modified_lines = 0
 g.strip_whitelines_at_eof = 1
 
--- Vim-Grepper
-g['grepper'] = { tools = { 'rg', 'git' }}
-g.grepper.simple_prompt = 1
-g.grepper.quickfix = 1
-g.grepper.highlight = 1
-nmap("<leader>G", ":Grepper -tool rg<CR>")
-nmap("gs", "<plug>(GrepperOperator)")
-xmap("gs", "<plug>(GrepperOperator)")
-
 -- fzf.vim
 vim.cmd([[set runtimepath+=$HOME/.fzf]])
 g.fzf_layout = { window = 'enew' }
 g.fzf_layout = { down = '~40%' }
 g.fzf_history_dir = '$HOME/.fzf-history'
 vim.cmd([[command! -bang -complete=file -nargs=* Rg :lua _G.firvish_run_rg({<f-args>}, "<bang>" == "!")]])
-nmap("<C-f>", ":GFiles<CR>")
-nmap("<C-_>", ":BLines<CR>")
--- nmap("<C-t>", ":Tags<CR>")
-nmap("<C-b>", ":Buffers<CR>")
-nmap("<C-g>", ":Ag<CR>")
-nmap("<leader>M", ":Maps<CR>")
-nmap("<leader>C", ":Commands<CR>")
+mp.nmap("<C-f>", ":GFiles<CR>")
+mp.nmap("<C-_>", ":BLines<CR>")
+-- mp.nmap("<C-t>", ":Tags<CR>")
+mp.nmap("<C-b>", ":Buffers<CR>")
+mp.nmap("<C-g>", ":Ag<CR>")
+mp.nmap("<leader>M", ":Maps<CR>")
+mp.nmap("<leader>C", ":Commands<CR>")
 
--- Fugitive
-nmap("<leader>ga", ":Git add %:p<CR><CR>")
-nmap("<leader>gs", ":Git<CR>")
-nmap("<leader>gd", ":Gdiff<CR>")
-nmap("<leader>ge", ":Gedit<CR>")
-nmap("<leader>gr", ":Gread<CR>")
-nmap("<leader>gw", ":Gwrite<CR><CR>")
-nmap("<leader>gg", ":Ggrep<Space>")
+-- fugitive
+mp.nmap("<leader>ga", ":Git add %:p<CR><CR>")
+mp.nmap("<leader>gs", ":Git<CR>")
+mp.nmap("<leader>gd", ":Gdiff<CR>")
+mp.nmap("<leader>ge", ":Gedit<CR>")
+mp.nmap("<leader>gr", ":Gread<CR>")
+mp.nmap("<leader>gw", ":Gwrite<CR><CR>")
+mp.nmap("<leader>gg", ":Ggrep<Space>")
 
 -- FSwitch
-nmap("<leader>sw", ":FSHere<CR>")
-
--- VIMFoldC
-vim.cmd([[
-let g:fold_options = {
-  \ 'fold_blank': 0,
-  \ 'fold_includes': 0,
-  \ 'merge_comments' : 0,
-  \ 'show_if_and_else': 0,
-  \ 'strip_namespaces': 1,
-  \ 'strip_template_arguments': 1 }
-]])
+mp.nmap("<leader>sw", ":FSHere<CR>")
 
 -- Clever F
 g.clever_f_across_no_line = 1
 g.clever_f_smart_case = 1
 g.clever_f_fix_key_direction = 0
-noremap_nmap(";", "<Plug>(clever-f-repeat-forward)")
-noremap_nmap(",", "<Plug>(clever-f-repeat-back)")
+mp.noremap_nmap(";", "<Plug>(clever-f-repeat-forward)")
+mp.noremap_nmap(",", "<Plug>(clever-f-repeat-back)")
 
 -- Barber
 g.bufferline = {
@@ -175,10 +102,10 @@ g.vsnip_snippet_dir = home .. '/.config/nvim/snippets'
 g.vsnip_snippet_dirs = {
   data_dir..'/pack/packer/opt/friendly-snippets/snippets',
 }
-expr_imap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
-expr_imap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
-expr_smap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
-expr_smap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
+mp.expr_imap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
+mp.expr_imap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
+mp.expr_smap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
+mp.expr_smap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
 
 -- LSP
 vim.cmd("command! LspDec lua vim.lsp.buf.declaration()")
@@ -198,52 +125,67 @@ vim.cmd("command! LspDiagPrev lua vim.diagnostic.goto_prev()")
 vim.cmd("command! LspDiagNext lua vim.diagnostic.goto_next()")
 vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
 
-nmap("gD",        ":LspDec<Cr>")
-nmap("gd",        ":LspDef<Cr>")
-nmap("gi",        ":LspImplementation<Cr>")
-nmap("<leader>D", ":LspTypeDef<Cr>")
-nmap("gr",        ":LspRefs<Cr>")
+mp.nmap("gD",        ":LspDec<Cr>")
+mp.nmap("gd",        ":LspDef<Cr>")
+mp.nmap("gi",        ":LspImplementation<Cr>")
+mp.nmap("<leader>D", ":LspTypeDef<Cr>")
+mp.nmap("gr",        ":LspRefs<Cr>")
 
-nmap("K",         ":LspHover<Cr>")
-nmap("gk",        ":LspSigHelp<Cr>")
+mp.nmap("K",         ":LspHover<Cr>")
+mp.nmap("gk",        ":LspSigHelp<Cr>")
 
-nmap("<leader>rn",":LspRename<Cr>")
-nmap("ga",        ":LspCodeAction<Cr>")
-nmap("<leader>f", ":LspFormatting<Cr>")
+mp.nmap("<leader>rn",":LspRename<Cr>")
+mp.nmap("ga",        ":LspCodeAction<Cr>")
+mp.nmap("<leader>f", ":LspFormatting<Cr>")
 
-nmap("g[",        ":LspDiagnPrev<Cr>")
-nmap("g]",        ":LspDiagNext<Cr>")
-nmap("gl",        ":LspDiagLine<Cr>")
-nmap("gh",        "<cmd>Lspsaga lsp_finder<CR>")
+mp.nmap("g[",        ":LspDiagnPrev<Cr>")
+mp.nmap("g]",        ":LspDiagNext<Cr>")
+mp.nmap("gl",        ":LspDiagLine<Cr>")
+mp.nmap("gh",        "<cmd>Lspsaga lsp_finder<CR>")
 
 -- Toggle Diagnostics
-nmap("tt",  "<Plug>(toggle-lsp-diag)")
-nmap("ttv", "<Plug>(toggle-lsp-diag-vtext)")
+mp.nmap("tt",  "<Plug>(toggle-lsp-diag)")
+mp.nmap("ttv", "<Plug>(toggle-lsp-diag-vtext)")
 
 -- FloatTerm
 g.floaterm_opener = 'edit'
 g.floaterm_keymap_new = '<Leader>ft'
-nmap("<c-t>", ":FloatermNew fff<CR>")
+mp.nmap("<c-t>", ":FloatermNew fff<CR>")
 
--- -- Navigation
-expr_nmap(']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'")
-expr_nmap('[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'")
+-- GitSigns
+mp.expr_nmap(']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'")
+mp.expr_nmap('[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'")
 
--- Actions
-nmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
-vmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
-nmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
-vmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
-nmap('<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-nmap('<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-nmap('<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-nmap('<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-nmap('<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
-nmap('<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-nmap('<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-nmap('<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-nmap('<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+mp.nmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
+mp.vmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
+mp.nmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
+mp.vmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
+mp.nmap('<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+mp.nmap('<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+mp.nmap('<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+mp.nmap('<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+mp.nmap('<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+mp.nmap('<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+mp.nmap('<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+mp.nmap('<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+mp.nmap('<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
 
--- Text object
-omap('ih', ':<C-U>Gitsigns select_hunk<CR>')
-xmap('ih', ':<C-U>Gitsigns select_hunk<CR>')
+mp.omap('ih', ':<C-U>Gitsigns select_hunk<CR>')
+mp.xmap('ih', ':<C-U>Gitsigns select_hunk<CR>')
+
+-- Vista
+g.vista_default_executive = 'nvim_lsp'
+g.vista_fzf_preview = {'right:20%'}
+mp.nmap('<leader>vv', ':Vista!!<Cr>')
+mp.nmap('<leader>vf', ':Vista finder!<Cr>')
+
+-- Ale
+g.ale_linters_explicit = 1
+
+-- nvim-dap
+mp.nmap("<leader>dS", ":lua require'dap'.stop()<CR>")
+mp.nmap("<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>")
+mp.nmap("<leader>dc", ":lua require'dap'.continue()<CR>")
+mp.nmap("<leader>dso", ":lua require'dap'.step_over()<CR>")
+mp.nmap("<leader>dsi", ":lua require'dap'.step_into()<CR>")
+mp.nmap("<leader>dr", ":lua require'dap'.repl.open()<CR>")

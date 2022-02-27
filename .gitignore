@@ -16,3 +16,4 @@ vim/.vim/syntax/
 tags
 easyclip
 packer_compiled.lua
+**/.virtualenvs
