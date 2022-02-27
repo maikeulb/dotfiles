@@ -77,6 +77,9 @@ return packer.startup(function(use)
   -- Presentation
   use 'nvim-lualine/lualine.nvim'
 
+  -- Git
+  use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim'}}
+
   -- Windows
   use "vim-scripts/winpos.vim"
   use 'blueyed/vim-diminactive'

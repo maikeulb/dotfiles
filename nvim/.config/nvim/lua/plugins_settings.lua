@@ -10,6 +10,14 @@ local function nmap(shortcut, command)
   map("n", shortcut, command)
 end
 
+local function vmap(shortcut, command)
+  map("v", shortcut, command)
+end
+
+local function omap(shortcut, command)
+  map("v", shortcut, command)
+end
+
 local function xmap(shortcut, command)
   map("x", shortcut, command)
 end
@@ -17,6 +25,10 @@ end
 local expr_options = { expr = true }
 local function expr_map(mode, shortcut, command)
   vim.api.nvim_set_keymap(mode, shortcut, command, expr_options)
+end
+
+local function expr_nmap(shortcut, command)
+  expr_map("n", shortcut, command)
 end
 
 local function expr_imap(shortcut, command)
@@ -212,3 +224,26 @@ nmap("ttv", "<Plug>(toggle-lsp-diag-vtext)")
 g.floaterm_opener = 'edit'
 g.floaterm_keymap_new = '<Leader>ft'
 nmap("<c-t>", ":FloatermNew fff<CR>")
+
+-- -- Navigation
+expr_nmap(']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'")
+expr_nmap('[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'")
+
+-- Actions
+nmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
+vmap('<leader>hs', ':Gitsigns stage_hunk<CR>')
+nmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
+vmap('<leader>hr', ':Gitsigns reset_hunk<CR>')
+nmap('<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+nmap('<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+nmap('<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+nmap('<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+nmap('<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+nmap('<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+nmap('<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+nmap('<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+nmap('<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+
+-- Text object
+omap('ih', ':<C-U>Gitsigns select_hunk<CR>')
+xmap('ih', ':<C-U>Gitsigns select_hunk<CR>')
