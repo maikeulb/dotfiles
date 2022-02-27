@@ -1,6 +1,7 @@
 require("plugins")
 require("colorscheme_config")
 require("lsp_config")
+require("treesitter_config")
 require("lualine_config")
 require("kommentary_config")
 require("functions")

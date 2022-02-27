@@ -72,6 +72,12 @@ vim.cmd([[
 ]])
 
 vim.cmd([[
+  augroup NvimLint
+    autocmd BufWritePost <buffer> lua require('lint').try_lint()
+  augroup END
+]])
+
+vim.cmd([[
   augroup filetypedetect
     autocmd! BufNewFile,BufRead *.csx setf cs
     autocmd! BufNewFile,BufRead *.env setf sh

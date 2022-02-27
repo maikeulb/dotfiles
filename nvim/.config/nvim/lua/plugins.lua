@@ -37,19 +37,26 @@ return packer.startup(function(use)
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
 
-  -- Treesitter
-  use {'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'anott03/nvim-lspinstall'
-  use 'tami5/lspsaga.nvim'
-  use 'mfussenegger/nvim-jdtls'
-  use 'simrat39/rust-tools.nvim'
-  use 'jackguo380/vim-lsp-cxx-highlight'
+  use {'tami5/lspsaga.nvim',
+    config = function() require("lspsaga").init_lsp_saga() end
+  }
+  use "jose-elias-alvarez/null-ls.nvim"
+  use "mfussenegger/nvim-lint"
+  use {'mfussenegger/nvim-jdtls', ft = 'java'}
+  use {'simrat39/rust-tools.nvim', ft = 'rust'}
+  use {'jackguo380/vim-lsp-cxx-highlight', ft = 'cpp'}
+  use {'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
+    config = function() require'toggle_lsp_diagnostics'.init() end
+  }
+
+  -- Treesitter
+  use {'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+  }
 
   -- Completions
   use 'hrsh7th/nvim-cmp'

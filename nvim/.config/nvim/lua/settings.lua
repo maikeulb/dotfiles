@@ -10,8 +10,6 @@ set.scrolloff = 1 -- Keep lines below cursor when scrolling
 set.sidescrolloff = 5
 set.synmaxcol = 300 -- stop syntax highlight after x lines for performance
 set.foldenable = false -- Set fold level
-set.foldlevel = 20
-set.foldlevelstart = 20
 set.wrap = false -- Disable line wrapping
 set.cursorline = false -- Enable cursorline
 

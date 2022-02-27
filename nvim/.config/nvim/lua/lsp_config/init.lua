@@ -3,10 +3,7 @@ if not status_ok then
   return
 end
 
-local nvim_lsp = require('lspconfig')
-
 local cmp = require'cmp'
-
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -58,6 +55,18 @@ require'lspconfig'.pyright.setup{
   capabilities = capabilities
 }
 
+require'lspconfig'.bashls.setup{
+  capabilities = capabilities
+}
+
+require'lspconfig'.cmake.setup{
+  capabilities = capabilities
+}
+
+require'lspconfig'.dockerls.setup{
+  capabilities = capabilities
+}
+
 require'lspconfig'.jdtls.setup{
   capabilities = capabilities,
   cmd = { 'jdtls' },
@@ -76,6 +85,7 @@ require'lspconfig'.omnisharp.setup {
 
 -- https://sharksforarms.dev/posts/neovim-rust/
 require'lspconfig'.rust_analyzer.setup{
+  capabilities = capabilities,
   tools = { -- rust-tools options
     autoSetHints = true,
     hover_with_actions = true,
@@ -85,7 +95,6 @@ require'lspconfig'.rust_analyzer.setup{
       other_hints_prefix = "",
     },
   },
-
   server = {
     settings = {
       ["rust-analyzer"] = {
@@ -95,15 +104,14 @@ require'lspconfig'.rust_analyzer.setup{
       }
     }
   },
-  capabilities = capabilities
 }
 
 require'lspconfig'.ccls.setup{
+  capabilities = capabilities,
   init_options = {
     compilationDatabaseDirectory = "./build/";
     highlight = { lsRanges = true;}
   },
-  capabilities = capabilities,
   on_attach = on_attach
 }
 
@@ -112,23 +120,19 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 require'lspconfig'.sumneko_lua.setup {
+  capabilities = capabilities,
   settings = {
     Lua = {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
-        -- Setup your lua path
         path = runtime_path,
       },
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
         globals = {'vim'},
       },
       workspace = {
-        -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
       },
-      -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {
         enable = false,
       },
@@ -136,8 +140,36 @@ require'lspconfig'.sumneko_lua.setup {
   },
 }
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  highlight = { enable = true },
-  indent = { enable = true }
+
+local null_ls = require'null-ls'
+require("null-ls").setup({
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.clang_format,
+    null_ls.builtins.formatting.codespell,
+    null_ls.builtins.formatting.fish_indent,
+    null_ls.builtins.formatting.fixjson,
+    null_ls.builtins.formatting.google_java_format,
+    null_ls.builtins.formatting.lua_format,
+    null_ls.builtins.formatting.markdownlint,
+    null_ls.builtins.formatting.pg_format,
+    null_ls.builtins.formatting.rustfmt,
+    null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.completion.spell,
+    null_ls.builtins.diagnostics.cppcheck,
+    null_ls.builtins.diagnostics.hadolint,
+    null_ls.builtins.diagnostics.luacheck,
+    null_ls.builtins.diagnostics.markdownlint,
+    null_ls.builtins.diagnostics.misspell,
+    null_ls.builtins.diagnostics.proselint,
+    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.write_good,
+    null_ls.builtins.code_actions.gitsigns,
+    null_ls.builtins.code_actions.gitrebase,
+    null_ls.builtins.code_actions.proselint
+  },
+})
+
+require('lint').linters_by_ft = {
+  cpp = {'cpplint', 'clangtidy'}
 }

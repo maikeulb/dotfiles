@@ -169,20 +169,44 @@ expr_smap("<Tab>", [[vsnip#expandable() ? '<Plug>(vsnip-expand)'    : '<Tab>']])
 expr_smap("<C-j>", [[vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>']])
 
 -- LSP
-nmap("<c-]>","<cmd>lua vim.lsp.buf.definition()<CR>")
-nmap("K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-nmap("gD", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-nmap("<c-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-nmap("1gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
-nmap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-nmap("g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
-nmap("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")
-nmap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-nmap("ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-nmap("g[", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-nmap("g]", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-nmap("<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
-nmap("gh", "<Cmd>Lspsaga lsp_finder<CR>")
+vim.cmd("command! LspDec lua vim.lsp.buf.declaration()")
+vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+
+vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+vim.cmd("command! LspSigHelp lua vim.lsp.buf.signature_help()")
+
+vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+
+vim.cmd("command! LspDiagPrev lua vim.diagnostic.goto_prev()")
+vim.cmd("command! LspDiagNext lua vim.diagnostic.goto_next()")
+vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
+
+nmap("gD",        ":LspDec<Cr>")
+nmap("gd",        ":LspDef<Cr>")
+nmap("gi",        ":LspImplementation<Cr>")
+nmap("<leader>D", ":LspTypeDef<Cr>")
+nmap("gr",        ":LspRefs<Cr>")
+
+nmap("K",         ":LspHover<Cr>")
+nmap("gk",        ":LspSigHelp<Cr>")
+
+nmap("<leader>rn",":LspRename<Cr>")
+nmap("ga",        ":LspCodeAction<Cr>")
+nmap("<leader>f", ":LspFormatting<Cr>")
+
+nmap("g[",        ":LspDiagnPrev<Cr>")
+nmap("g]",        ":LspDiagNext<Cr>")
+nmap("gl",        ":LspDiagLine<Cr>")
+nmap("gh",        "<cmd>Lspsaga lsp_finder<CR>")
+
+-- Toggle Diagnostics
+nmap("tt",  "<Plug>(toggle-lsp-diag)")
+nmap("ttv", "<Plug>(toggle-lsp-diag-vtext)")
 
 -- FloatTerm
 g.floaterm_opener = 'edit'

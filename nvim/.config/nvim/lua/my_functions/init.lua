@@ -1,10 +1,4 @@
-local cmd = vim.api.nvim_exec
-local set = vim.opt
-
 local options = { noremap = true, silent = true }
-
-local remap = vim.api.nvim_set_keymap
-
 local function map(mode, shortcut, command)
   vim.api.nvim_set_keymap(mode, shortcut, command, options)
 end
@@ -12,12 +6,6 @@ end
 local function nmap(shortcut, command)
   map("n", shortcut, command)
 end
-
-local function imap(shortcut, command)
-  map("i", shortcut, command)
-end
-
-local M = {}
 
 -- M.squeeze_blank_lines = function()
 --     -- references: https://vi.stackexchange.com/posts/26304/revisions
