@@ -19,7 +19,6 @@ set -x LLVM_ROOT $HOME/src/llvm-project
 
 # user functions
 source $HOME/.config/fish/user_functions/functions.fish
-source $HOME/.config/fish/bb_functions/functions.fish
 
 # Ensure LS colors are set
 if not set -q LS_COLORS
@@ -88,7 +87,7 @@ alias nvimdiff='nvim -d'
 alias lss='exa --group-directories-first -G --color always --git-ignore'
 alias lsa='exa --group-directories-first -G --color always --git-ignore -a'
 alias etd='nvim $HOME/.todo/todo.txt'
-alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/user_functions/functions.fish $HOME/.config/fish/bb_functions/functions.fish'
+alias ef='nvim $HOME/.config/fish/config.fish $HOME/.config/fish/user_functions/functions.fish'
 alias ev='vim $HOME/.vim/vimrc'
 alias et='nvim $HOME/.tmux.conf'
 alias en='nvim $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua/**/*lua'

@@ -13,13 +13,12 @@ function package-update
     gem cleanup
     npm update -g
     npm cache clean
-    nvim +"PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate | qa"
     fisher up
 end
 
 function package-freeze
-    pip freeze --local >$HOME/dotfiles/packages/piplist.txt
-    echo 'finished pip'
+    # pip freeze --local >$HOME/dotfiles/packages/piplist.txt
+    # echo 'finished pip'
     gem list --local --no-versions --no-details -q >$HOME/dotfiles/packages/gemlist.txt
     echo 'finished gem'
     npm -g list -depth 0 | sed '1d' | cut -d ' ' -f 2 | cut -d '@' -f 1 | grep -vE 'npm|install' >$HOME/dotfiles/packages/npmlist.txt
