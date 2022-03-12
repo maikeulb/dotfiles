@@ -1,0 +1,15 @@
+show-summary: true
+show-tags: false
+show-fundamentals: true
+show-separator: true
+show-holdings: false
+interval: 5
+currency: USD
+currency-summary-only: false
+watchlist:
+  - FB
+  - SQ
+  - GOOG
+  - MSFT
+  - AAPL
+  - BTC-USD

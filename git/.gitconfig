@@ -1,7 +1,7 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore-global
-	pager = diff-so-fancy | less --tabs=4 -RFX
+    pager = delta
 
 [user]
 	name = maikeulb
@@ -43,6 +43,7 @@
 [diff]
 	compactionHeuristic = true
 	tool = vimdiff
+    colorMoved = default
 
 [rerere]
 	enabled = true
@@ -154,9 +155,6 @@
 [sequence]
 	editor = interactive-rebase-tool
 
-[hub]
-	protocol = https
-
 [merge]
     tool = vimdiff
 	conflictstyle = diff3
@@ -166,3 +164,17 @@
 
 [mergetool "vimdiff"]
     cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+
+
+[absorb]
+	maxStack = 50
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
